@@ -19,11 +19,18 @@ module.exports = catchAsync(async (request, response, next) => {
     return next(new AppError("Token provided does not match the token given to the owner.", 400));
   }
 
+  const dateFilteredAppointments = owner.appointments.filter((appointment, index) => {
+    if (DateTime.now().day === DateTime.fromISO(appointment.appointmentStart).day || DateTime.now().day === DateTime.fromISO(appointment.appointmentEnd).day) {
+      return appointment;
+    }
+  });
+
   tokenVerified = true;
   response.status(200).json({
     status: "Success",
     data: {
       owner: owner,
+      currentAppointments: dateFilteredAppointments,
       token: token,
       tokenVerified: tokenVerified,
       message: "Token Verified",

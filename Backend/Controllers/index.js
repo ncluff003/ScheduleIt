@@ -1,17 +1,41 @@
 ///////////////////////////////
 // Individual Controllers
+// Application
 const getReady = require("./getReady");
+
+// Owners
 const getAllOwners = require("./getAllOwners");
 const findOwner = require("./findOwner");
+
+// Clients
 const getClientFilteredAppointments = require("./getClientFilteredAppointments");
+
+// Appointments
 const getDateFilteredAppointments = require("./getDateFilteredAppointments");
+const requestAppointment = require("./requestAppointment");
+const denyAppointment = require("./denyAppointment");
+const addAppointment = require("./addAppointment");
+const updateAppointment = require("./updateAppointment");
+
+// Token
 const verifyToken = require("./verifyToken");
 
 module.exports = {
-  getReady: getReady,
-  getAllOwners: getAllOwners,
-  findOwner: findOwner,
-  verifyToken: verifyToken,
-  getClientFilteredAppointments: getClientFilteredAppointments,
-  getDateFilteredAppointments: getDateFilteredAppointments,
+  app: {
+    getReady: getReady,
+  },
+  owners: {
+    getAllOwners: getAllOwners,
+    findOwner: findOwner,
+  },
+  clients: {
+    getClientFilteredAppointments: getClientFilteredAppointments,
+  },
+  appointments: {
+    getDateFilteredAppointments: getDateFilteredAppointments,
+    requestAppointment: requestAppointment,
+  },
+  token: {
+    verifyToken: verifyToken,
+  },
 };

@@ -8,20 +8,41 @@ const AppError = require(`../Utilities/appError`);
 const Owner = require("../Models/ownerModel");
 
 module.exports = catchAsync(async (request, response) => {
-  console.log(request.params);
-  const email = request.params.email;
-  const owner = await Owner.findOne({ email });
+  console.log(request.body);
+  const userType = request.body.userType;
+  const ownerEmail = request.body.ownerEmail;
+  const clientEmail = request.body.clientEmail;
+  const selectedDate = request.body.selectedDate;
 
-  /*
-   * First is checking for the client's email for the client router.
-   */
+  const owner = await Owner.findOne({ ownerEmail });
 
-  // Check for 'clientEmail'.  If found, return the owner's appointments along with a filtered version of the appointments that the client is a part of.  The appointments themselves should have enough info to be able to control whether the client can update or delete them or not.
+  const dateFilteredAppointments = owner.appointments.filter((appointment) => {
+    if (DateTime.fromISO(selectedDate).day === DateTime.fromISO(appointment.appointmentStart).day || DateTime.fromISO(selectedDate).day === DateTime.fromISO(appointment.appointmentEnd).day) {
+      return appointment;
+    }
+  });
 
-  // If 'clientEmail' not found, just return the Owners appointments and an empty array for the other ones.
+  let data = {
+    userType: userType,
+    currentAppointments: dateFilteredAppointments,
+  };
+
+  let clientAppointments;
+  if (userType === "Client") {
+    clientAppointments = dateFilteredAppointments.filter((appointment) => {
+      let attendees = appointment.attendees;
+      attendees.forEach((attendee) => {
+        if (attendee.email === clientEmail) {
+          return appointment;
+        }
+      });
+    });
+
+    data.clientAppointments = clientAppointments;
+  }
 
   response.status(200).json({
     status: "Success",
-    data: owner,
+    data: data,
   });
 });

@@ -23,9 +23,9 @@ const controllers = require("../Controllers");
 ////////////////////////////////////////////
 //  Routing Middleware
 
-router.route("/").post(controllers.getReady);
-router.route(routes.scheduleIt.appointments.dateFiltered, controllers.getDateFilteredAppointments);
-router.route(routes.scheduleIt.appointments.appointment).post(controllers.getReady);
+router.route("/").post(controllers.appointments.requestAppointment);
+router.route(routes.scheduleIt.appointments.dateFiltered).get(controllers.appointments.getDateFilteredAppointments);
+router.route(routes.scheduleIt.appointments.appointment).post(controllers.app.getReady);
 
 ////////////////////////////////////////////
 //  Exported Router

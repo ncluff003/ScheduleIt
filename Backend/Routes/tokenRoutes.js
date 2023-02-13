@@ -24,7 +24,7 @@ const controllers = require("../Controllers");
 const routes = require("./routes");
 const appointmentRouter = require("./appointmentRoutes");
 
-router.route("/").post(controllers.verifyToken);
+router.route("/").post(controllers.token.verifyToken);
 
 ////////////////////////////////////////////
 //  Exported Router

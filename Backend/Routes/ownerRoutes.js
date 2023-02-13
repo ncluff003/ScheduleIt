@@ -24,8 +24,8 @@ const controllers = require("../Controllers");
 const routes = require("./routes");
 const appointmentRouter = require("./appointmentRoutes");
 
-router.route("/").get(controllers.getAllOwners).post(controllers.getReady);
-router.route(routes.scheduleIt.owners.owner).post(controllers.findOwner);
+router.route("/").get(controllers.owners.getAllOwners).post(controllers.app.getReady);
+router.route(routes.scheduleIt.owners.owner).post(controllers.owners.findOwner);
 router.use(`${routes.scheduleIt.owners.all}/${routes.scheduleIt.owners.owner}/${routes.scheduleIt.appointments.all}`, appointmentRouter);
 
 ////////////////////////////////////////////
