@@ -23,6 +23,8 @@ App.use(express.json());
 const routes = require("./Routes/routes");
 const scheduleItRouter = require(`./Routes/scheduleItRoutes`);
 
+console.log(routes);
+
 ////////////////////////////////////////////
 //  My Middleware
 App.use(routes.scheduleIt.app, scheduleItRouter); // CONFIGURATION IN DOCUMENTATION NEEDS TO LET USERS KNOW ABOUT THIS.

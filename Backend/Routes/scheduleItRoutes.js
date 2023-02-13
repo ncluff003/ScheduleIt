@@ -23,9 +23,11 @@ const controllers = require("../Controllers");
 //  Routing Middleware
 const routes = require("./routes");
 const ownerRouter = require("./ownerRoutes");
+const clientRouter = require("./clientRoutes");
 
 router.route("/").post(controllers.getReady);
 router.use(routes.scheduleIt.owners.all, ownerRouter);
+router.use(routes.scheduleIt.client.base, clientRouter);
 
 ////////////////////////////////////////////
 //  Exported Router

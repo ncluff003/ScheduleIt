@@ -22,10 +22,11 @@ const controllers = require("../Controllers");
 ////////////////////////////////////////////
 //  Routing Middleware
 const routes = require("./routes");
-const appointmentRouter = require("./apointmentRoutes");
+const appointmentRouter = require("./appointmentRoutes");
 
 router.route("/").get(controllers.getAllOwners).post(controllers.getReady);
-router.use(routes.scheduleIt.appointments.all, appointmentRouter);
+router.route(routes.scheduleIt.owners.owner).post(controllers.findOwner);
+router.use(`${routes.scheduleIt.owners.all}/${routes.scheduleIt.owners.owner}/${routes.scheduleIt.appointments.all}`, appointmentRouter);
 
 ////////////////////////////////////////////
 //  Exported Router

@@ -17,14 +17,17 @@ const router = express.Router();
 
 ////////////////////////////////////////////
 //  My Middleware
-const routes = require("./routes");
 const controllers = require("../Controllers");
 
 ////////////////////////////////////////////
 //  Routing Middleware
+const routes = require("./routes");
+const appointmentRouter = require("./appointmentRoutes");
 
-router.route("/").post(controllers.getReady);
-router.route(routes.scheduleIt.appointments.appointment).post(controllers.getReady);
+router.route("/").get(controllers.getAllOwners).post(controllers.getReady);
+router.route(routes.scheduleIt.client.appointments).post(controllers.findOwner);
+router.route(routes.scheduleIt.owners.owner).post(controllers.findOwner);
+router.use(`${routes.scheduleIt.owners.all}/${routes.scheduleIt.owners.owner}/${routes.scheduleIt.appointments.all}`, appointmentRouter);
 
 ////////////////////////////////////////////
 //  Exported Router

@@ -28,19 +28,23 @@ const App = require("./App");
 
 module.exports = {
   // EVENTUALLY, THIS WILL NEED TO BE REPLACED WITH MORE FLEXIBILITY FOR CONNECTING TO MORE THAN A MONGODB DATABASE.
-  dbConnect: (connectionString) => {
-    const DB = connectionString;
-    mongoose
-      .connect(DB, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
-      .then(() => console.log(`DB Connection Successful`));
+  connectToDB: {
+    mongo: (connectionString) => {
+      const DB = connectionString;
+      mongoose
+        .connect(DB, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+        })
+        .then(() => console.log(`DB Connection Successful`));
+    },
   },
   startServer: (PORT) => {
     // THIS GIVES THE USERS MORE FLEXBILITY OVER THE PORT THEY USE.
-    App.listen(process.env.PORT || PORT, () => {
-      console.log(`App listening at port ${proces.env.PORT || PORT}`);
+    // App.listen(process.env.PORT || PORT, () => {
+    App.listen(PORT, () => {
+      // console.log(`App listening at port ${process.env.PORT || PORT}`);
+      console.log(`App listening at port ${PORT}`);
     });
   },
 };
