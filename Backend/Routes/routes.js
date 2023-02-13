@@ -7,6 +7,7 @@ module.exports = {
     },
     appointments: {
       all: "/Appointments", // /ScheduleIt/Owners/:email/Appointments
+      dateFiltered: "/Date",
       appointment: "/:appointmentId", // /ScheduleIt/Owners/:email/Appointments/:appointmentId
     },
     client: {
