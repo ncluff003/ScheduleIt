@@ -22,14 +22,10 @@ const ownerSchema = new mongoose.Schema({
     validate: [validator.isEmail, `Please provide a valid email.`],
   },
   scheduleStart: {
-    type: Number,
-    min: 0,
-    max: 24,
+    type: Date,
   },
   scheduleEnd: {
-    type: Number,
-    min: 0,
-    max: 24,
+    type: Date,
   },
   appointments: [
     {
@@ -51,11 +47,11 @@ const ownerSchema = new mongoose.Schema({
       },
       attendees: [
         {
-          firstname: {
+          attendeeFirstname: {
             type: String,
             trim: true,
           },
-          lastname: {
+          attendeeLastname: {
             type: String,
             trim: true,
           },
@@ -63,17 +59,21 @@ const ownerSchema = new mongoose.Schema({
             type: String,
             trim: true,
           },
-          email: {
+          attendeeEmail: {
             type: String,
             trim: true,
             lowercase: true,
-            unique: [true, `Your email must be unique`],
+            // unique: [true, `Your email must be unique`],
             validate: [validator.isEmail, `Please provide a valid email.`],
           },
         },
       ],
     },
   ],
+  token: {
+    type: String,
+    select: false,
+  },
 });
 
 const Owner = new mongoose.model("Owner", ownerSchema);

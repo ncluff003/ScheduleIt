@@ -1,0 +1,15 @@
+extends baseEmail
+
+block content
+  table(style="position: relative; display: block; max-width: 600px; width: 600px; margin: 0 auto; padding: 0; border: 3px groove #BBBBBB77; border-top: none; border-bottom: none; background-color: #CCCCCC33; color: #333333;") 
+    tbody
+      tr.table-row
+        td.table-data(style="position: relative; display: block; width: 89%; margin: 0 auto;")  
+          blockquote.salutations(style="position: relative; border: none; margin: 0 auto 30px; text-indent: 20px; font-size: 16px; color: #333333;")= `${calendar.getGreeting()} ${firstName} ${lastName},`
+      tr.table-row 
+        td.table-data(style="position: relative; display: block; width: 87%; margin: 0 auto;") 
+          blockquote.salutations(style="position: relative; border: none; text-indent: 20px; font-size: 16px; color: #333333;") Please confirm that you had requested to login by using this token to confirm your identity.
+        td.table-data(style="position: relative; display: flex; justify-content: center; width: 87%; margin: 0 auto;") 
+          blockquote.token(style="position: relative; border: none; font-size: 40px; color: #f0f0f0; padding: 2rem; background-color: #333333AA; width: max-content; border-radius: 10px;") #{token}
+      tr.disclaimer(style="postion: relative; margin: 0 auto; padding: 20px 0 0; display: block; width: 87%; font-size: 16px;" colspan="2")
+        td.disclaimer-text(style="position: relative; text-align: center; padding: 0 20px;") If you had not requested this token, please disregard this email. 😄 👍

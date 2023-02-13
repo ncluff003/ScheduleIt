@@ -8,15 +8,14 @@ const AppError = require(`../Utilities/appError`);
 const Owner = require("../Models/ownerModel");
 
 module.exports = catchAsync(async (request, response, next) => {
-  const clientEmail = request.body.email;
-  const ownerEmail = request.body.ownerEmail;
+  const email = request.body.email;
+  const ownerEmail = request.body.token;
   const owner = await Owner.findOne({ ownerEmail });
-  const userType = "Client";
 
   const clientAppointments = owner.appointments.filter((appointment, index) => {
     let attendees = appointment.attendees;
     attendees.forEach((attendee) => {
-      if (attendee.email === clientEmail) {
+      if (attendee.email === email) {
         return appointment;
       }
     });
@@ -28,7 +27,6 @@ module.exports = catchAsync(async (request, response, next) => {
   response.status(200).json({
     status: "Success",
     data: {
-      userType: userType,
       appointments: owner.appointments,
       clientAppointments: clientAppointments,
     },

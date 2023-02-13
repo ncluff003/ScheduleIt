@@ -17,6 +17,7 @@ App.set(`view engine`, `pug`);
 App.set(`views`, path.join(__dirname, `Views`));
 App.use(bodyParser.json({ limit: `300kb` }));
 App.use(express.json());
+App.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
 ////////////////////////////////////////////
 //  Routing Middleware

@@ -5,6 +5,9 @@ module.exports = {
       all: "/Owners", // /ScheduleIt/Owners
       owner: "/:email", // It will be where we find an owner by their email, as it is one of those unique identifiers. -- /ScheduleIt/Owners/:email
     },
+    token: {
+      base: "/Token",
+    },
     appointments: {
       all: "/Appointments", // /ScheduleIt/Owners/:email/Appointments
       dateFiltered: "/Date",

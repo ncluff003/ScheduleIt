@@ -1,7 +1,12 @@
 ////////////////////////////////////////////
+//  Third Party Modules
+const randomToken = require("random-token");
+
+////////////////////////////////////////////
 //  My Middleware
 const catchAsync = require(`../Utilities/catchAsync`);
 const AppError = require(`../Utilities/appError`);
+const Email = require("../Utilities/email");
 
 ////////////////////////////////////////////
 //  My Models
@@ -9,25 +14,49 @@ const Owner = require("../Models/ownerModel");
 
 module.exports = catchAsync(async (request, response) => {
   console.log(request.params);
+  console.log(request.body);
   const email = request.params.email;
   const owner = await Owner.findOne({ email });
+  const token = randomToken(8);
+  let newOwner;
+  let firstTime = false;
 
-  /*
-   * First, is handling the initialization of the Owner's document and flow culminating with a random token.
-   */
-
-  // If Owner is not found, use email to send an invite to be part of the application.
-
-  // If accepted, return to the personal website after putting a new document into the database. -- An object will need to be part of the request.
+  // If Owner is not found, create one using the request.body.
   if (owner === null) {
     console.log(`Owner with the email: ${email} NOT found.`);
+    newOwner = await Owner.create({
+      firstname: request.body.firstname,
+      lastname: request.body.lastname,
+      company: request.body.company,
+      email: request.body.email,
+      scheduleStart: request.body.scheduleStart,
+      scheduleEnd: request.body.scheduleEnd,
+      appointments: request.body.appointments,
+      token: token,
+    });
+    firstTime = true;
+    await new Email("ownerLogin", newOwner, {}).sendToken();
   }
+
+  // If Owner is found, update it with the created token.
+  if (owner !== null && owner !== undefined) {
+    await Owner.findOneAndUpdate({ email }, { token: token });
+    owner.token = token;
+    await new Email("ownerLogin", owner, {}).sendToken();
+  }
+
+  // After setting the token, next is sending an email with the token inside of it.
+
   console.log(owner);
 
-  // If Owner is found, add a random token to that owner's document.  Then, send the same token in an email for the Owner to put into the form to compare it to the newly added one in the document.  If it matches, move forward to the scheduling application and add the Owner's document to the response.
-
+  const userType = "Owner";
   response.status(200).json({
     status: "Success",
-    data: owner,
+    data: {
+      userType: userType,
+      owner: owner,
+      token: token,
+      firstTime: firstTime, // If it is the first time, a message stating that the owner is now created and the button needs to be clicked again to start the login process.  Also, re-assure them that the double click is not going to be needed again.
+    },
   });
 });
