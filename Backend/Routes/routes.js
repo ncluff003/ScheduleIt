@@ -12,7 +12,8 @@ module.exports = {
       all: "/Appointments", // /ScheduleIt/Owners/:email/Appointments
       dateFiltered: "/Date",
       appointment: "/:appointmentId", // /ScheduleIt/Owners/:email/Appointments/:appointmentId
-      acceptAppointment: `/:ownerEmail/:communicationPreference/:requestDate/:scheduledDate/:scheduledStart/:scheduledEnd/:clientFirstName/:clientLastName/:clientEmail/:clientPhone`, // `${url}/${ownerEmail}/${communicationPreference}/${requestDate}/${scheduledStart.split(' ').join('-')}/${scheduledEnd.split(' ').join('-')}/${clientEmail}/${clientPhone.split(' ').join('_')}`
+      acceptAppointment: `/:ownerEmail/:communicationPreference/:requestDate/:scheduledDate/:scheduledStart/:scheduledEnd/:clientFirstName/:clientLastName/:clientEmail/:clientPhone`,
+      declineAppointment: `/Decline/:ownerEmail/:clientFirstName/:clientLastName/:clientEmail`,
     },
     client: {
       base: "/Client",

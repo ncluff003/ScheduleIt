@@ -25,7 +25,8 @@ const controllers = require("../Controllers");
 
 router.route("/").get(controllers.appointments.addAppointment).post(controllers.appointments.requestAppointment);
 router.route(routes.scheduleIt.appointments.dateFiltered).get(controllers.appointments.getDateFilteredAppointments);
-router.route(routes.scheduleIt.appointments.acceptAppointment).get(controllers.appointments.addAppointment).patch(controllers.appointments.addAppointment);
+router.route(routes.scheduleIt.appointments.acceptAppointment).get(controllers.appointments.addAppointment);
+router.route(routes.scheduleIt.appointments.declineAppointment).get(controllers.appointments.denyAppointment);
 router.route(routes.scheduleIt.appointments.appointment).post(controllers.app.getReady);
 
 ////////////////////////////////////////////

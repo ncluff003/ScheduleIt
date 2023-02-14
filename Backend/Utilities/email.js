@@ -36,7 +36,6 @@ module.exports = class Email {
       this.to = ownerOptions.email;
       this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
       this.owner = ownerOptions;
-      // FROM email will need to be set by having a business email made for this application under the domain of purenspiration.com.  The correct owner's name will be attached to it, along with adding the owner's email into the message so they can be contacted directly.  The initial email will ALWAYS say something to the effect that the client should NOT reply to the email as it is not attended, nor will it get a reply.
     } else if (emailType === "appointmentRequest") {
       this.to = ownerOptions.email;
       this.from = clientOptions.client.clientEmail;
@@ -51,6 +50,11 @@ module.exports = class Email {
         this.protocol = clientOptions.protocol;
         this.host = clientOptions.host;
       }
+    } else if (emailType === "appointmentDeclined") {
+      this.to = clientOptions.email;
+      this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
+      this.owner = ownerOptions;
+      this.client = clientOptions;
     }
   }
 
