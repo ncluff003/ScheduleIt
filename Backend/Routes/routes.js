@@ -17,6 +17,7 @@ module.exports = {
     },
     client: {
       base: "/Client",
+      owner: "/:email", // This is to be used as a way to get to the Owner's appointments.  Requesting, Updating, and Deleting.
       appointments: "/Appointments", // This is for getting the appointments that the client has with the freelancer. | -- Body -- freelancer email, and the client's email.  /ScheduleIt/Owners/Client/Appointments
       appointment: "/:appointmentId", // This is for updating and deleting the appointments that the client has with the freelancer. | -- Body -- appointment id.  /ScheduleIt/Owners/Client/Appointments/appointmentId
     },

@@ -6,6 +6,7 @@ const { DateTime } = require("luxon");
 //  My Middleware
 const catchAsync = require(`../Utilities/catchAsync`);
 const AppError = require(`../Utilities/appError`);
+const Email = require("../Utilities/email");
 
 ////////////////////////////////////////////
 //  My Models
@@ -19,6 +20,8 @@ module.exports = catchAsync(async (request, response) => {
   const clientEmail = info.clientEmail;
 
   const owner = await Owner.findOne({ ownerEmail });
+
+  await new Email("appointmentDeclined", owner, { client: { firstname: clientFirstName, lastname: clientLastName, clientEmail: clientEmail } }).declineAppointment();
 
   response.status(200).json({
     status: "Success",

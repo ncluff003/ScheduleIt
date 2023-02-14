@@ -12,7 +12,11 @@ const Email = require("../Utilities/email");
 //  My Models
 const Owner = require("../Models/ownerModel");
 
-module.exports = catchAsync(async (request, response) => {
+module.exports = catchAsync(async (request, response, next) => {
+  const userType = request.originalUrl.split("/")[2];
+  if (userType === "Owners") {
+    return next(new AppError("Owners Do Not Request Appointments.", 400));
+  }
   const info = request.body;
   const ownerEmail = info.ownerEmail;
 

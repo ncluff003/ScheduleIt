@@ -37,6 +37,7 @@ module.exports = class Email {
       this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
       this.owner = ownerOptions;
     } else if (emailType === "appointmentRequest") {
+      console.log("Request");
       this.to = ownerOptions.email;
       this.from = clientOptions.client.clientEmail;
       this.owner = ownerOptions;
@@ -51,10 +52,12 @@ module.exports = class Email {
         this.host = clientOptions.host;
       }
     } else if (emailType === "appointmentDeclined") {
-      this.to = clientOptions.email;
+      console.log("Decline");
+      this.to = clientOptions.client.clientEmail;
       this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
       this.owner = ownerOptions;
-      this.client = clientOptions;
+      this.client = clientOptions.client;
+      this.appointment = { appointmentType: undefined };
     }
   }
 
@@ -115,7 +118,7 @@ module.exports = class Email {
         DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_SIMPLE) ||
         `${DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromISO(this.appointment.appointmentEnd).hour > 11 ? "PM" : "AM"}`,
       message: this.message,
-      url: `${this.protocol}://${this.host}/ScheduleIt/Appointments`,
+      url: `${this.protocol}://${this.host}/ScheduleIt/Owners/${this.owner.email}/Appointments`,
       ownerEmail: this.owner.email,
       // user: this.user,
       // username: this.username,
@@ -156,6 +159,10 @@ module.exports = class Email {
 
   async requestAppointment() {
     await this.send("requestAppointment", "Appointment Request");
+  }
+
+  async declineAppointment() {
+    await this.send("declineAppointment", "Appointment Declined");
   }
 
   /*

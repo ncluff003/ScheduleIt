@@ -31,7 +31,7 @@ router.route("/").post(controllers.app.getReady);
 router.use(routes.scheduleIt.owners.all, ownerRouter);
 router.use(routes.scheduleIt.client.base, clientRouter);
 router.use(routes.scheduleIt.token.base, tokenRouter);
-router.use(routes.scheduleIt.appointments.all, appointmentRouter);
+// router.use(routes.scheduleIt.appointments.all, appointmentRouter);
 
 ////////////////////////////////////////////
 //  Exported Router

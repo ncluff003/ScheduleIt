@@ -27,7 +27,7 @@ const appointmentRouter = require("./appointmentRoutes");
 router.route("/").get(controllers.owners.getAllOwners).post(controllers.app.getReady);
 router.route(routes.scheduleIt.client.appointments).post(controllers.clients.getClientFilteredAppointments);
 // router.route(routes.scheduleIt.owners.owner).post(controllers.findOwner);
-router.use(`${routes.scheduleIt.client.base}/${routes.scheduleIt.client.appointments}`, appointmentRouter);
+router.use(`${routes.scheduleIt.client.owner}${routes.scheduleIt.client.appointments}`, appointmentRouter);
 
 ////////////////////////////////////////////
 //  Exported Router
