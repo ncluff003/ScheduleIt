@@ -14,7 +14,9 @@ const getClientFilteredAppointments = require("./getClientFilteredAppointments")
 const getDateFilteredAppointments = require("./getDateFilteredAppointments");
 const requestAppointment = require("./requestAppointment");
 const denyAppointment = require("./denyAppointment");
+const denyAppointmentUpdate = require("./denyAppointmentUpdate");
 const addAppointment = require("./addAppointment");
+const requestAppointmentUpdate = require("./requestAppointmentUpdate");
 const updateAppointment = require("./updateAppointment");
 
 // Token
@@ -36,6 +38,9 @@ module.exports = {
     requestAppointment: requestAppointment,
     addAppointment: addAppointment,
     denyAppointment: denyAppointment,
+    requestAppointmentUpdate: requestAppointmentUpdate,
+    updateAppointment: updateAppointment,
+    denyAppointmentUpdate: denyAppointmentUpdate,
   },
   token: {
     verifyToken: verifyToken,
