@@ -34,6 +34,7 @@ module.exports = {
   appointments: {
     getDateFilteredAppointments: getDateFilteredAppointments,
     requestAppointment: requestAppointment,
+    addAppointment: addAppointment,
   },
   token: {
     verifyToken: verifyToken,

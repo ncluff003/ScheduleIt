@@ -40,6 +40,8 @@ module.exports = catchAsync(async (request, response) => {
   // MESSAGE
   const message = info.message;
 
+  await new Email("appointmentRequest", owner, { host: request.header("host"), protocol: request.protocol, client: client, appointment: appointment, message: message }).requestAppointment();
+
   response.status(200).json({
     status: "Success",
     data: {
@@ -47,8 +49,6 @@ module.exports = catchAsync(async (request, response) => {
       client: client,
       appointment: appointment,
       message: message,
-      start: DateTime.fromISO(request.body.appointment.appointmentStart).hour,
-      end: DateTime.fromISO(request.body.appointment.appointmentEnd).hour,
     },
   });
 });

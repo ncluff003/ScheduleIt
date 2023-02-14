@@ -21,6 +21,10 @@ const ownerSchema = new mongoose.Schema({
     unique: [true, `Your email must be unique`],
     validate: [validator.isEmail, `Please provide a valid email.`],
   },
+  phone: {
+    type: String,
+    trim: true,
+  },
   scheduleStart: {
     type: Date,
   },
@@ -55,7 +59,7 @@ const ownerSchema = new mongoose.Schema({
             type: String,
             trim: true,
           },
-          phoneNumber: {
+          attendeePhone: {
             type: String,
             trim: true,
           },

@@ -15,6 +15,7 @@ const htmlToText = require(`html-to-text`);
 
 ////////////////////////////////////////////
 //  Third Party Middleware
+const { DateTime } = require("luxon");
 
 ////////////////////////////////////////////
 //  My Middleware
@@ -36,6 +37,20 @@ module.exports = class Email {
       this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
       this.owner = ownerOptions;
       // FROM email will need to be set by having a business email made for this application under the domain of purenspiration.com.  The correct owner's name will be attached to it, along with adding the owner's email into the message so they can be contacted directly.  The initial email will ALWAYS say something to the effect that the client should NOT reply to the email as it is not attended, nor will it get a reply.
+    } else if (emailType === "appointmentRequest") {
+      this.to = ownerOptions.email;
+      this.from = clientOptions.client.clientEmail;
+      this.owner = ownerOptions;
+      this.client = clientOptions.client;
+      this.appointment = clientOptions.appointment;
+      this.message = clientOptions.message;
+      if (process.env.NODE_ENV === "production") {
+        this.protocol = clientOptions.protocol;
+        this.host = clientOptions.host;
+      } else if (process.env.NODE_ENV === "development") {
+        this.protocol = clientOptions.protocol;
+        this.host = clientOptions.host;
+      }
     }
   }
 
@@ -71,7 +86,33 @@ module.exports = class Email {
       calendar: new Calendar(),
       firstName: this.owner.firstname,
       lastName: this.owner.lastname,
+      clientFirstName: this.client.firstname,
+      clientLastName: this.client.lastname,
       token: this.owner.token,
+      communicationPreference: this.appointment.appointmentType,
+      clientEmail: this.client.clientEmail,
+      clientPhone: this.client.clientPhone,
+      requestDate: this.appointment.dateRequested,
+      scheduledDate: DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.DATE_HUGE),
+      scheduledDateISO: DateTime.local(
+        DateTime.fromISO(this.appointment.appointmentStart).year,
+        DateTime.fromISO(this.appointment.appointmentStart).month,
+        DateTime.fromISO(this.appointment.appointmentStart).day,
+        0,
+        0,
+        0
+      ),
+      scheduledStart: this.appointment.appointmentStart,
+      scheduledEnd: this.appointment.appointmentEnd,
+      humanScheduledStart:
+        DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_SIMPLE) ||
+        `${DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromISO(this.appointment.appointmentStart).hour > 11 ? "PM" : "AM"}`,
+      humanScheduledEnd:
+        DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_SIMPLE) ||
+        `${DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromISO(this.appointment.appointmentEnd).hour > 11 ? "PM" : "AM"}`,
+      message: this.message,
+      url: `${this.protocol}://${this.host}/ScheduleIt/Appointments`,
+      ownerEmail: this.owner.email,
       // user: this.user,
       // username: this.username,
       // subject: subject,
@@ -107,6 +148,10 @@ module.exports = class Email {
 
   async sendToken() {
     await this.send("sendToken", "Confirm Login With Token");
+  }
+
+  async requestAppointment() {
+    await this.send("requestAppointment", "Appointment Request");
   }
 
   /*

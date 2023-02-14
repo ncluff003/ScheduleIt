@@ -43,6 +43,8 @@ module.exports = {
     // THIS GIVES THE USERS MORE FLEXBILITY OVER THE PORT THEY USE.
     // App.listen(process.env.PORT || PORT, () => {
     App.listen(PORT, () => {
+      // First thing is to set the hosts.  This is essential to the application's use.
+
       // console.log(`App listening at port ${process.env.PORT || PORT}`);
       console.log(`App listening at port ${PORT}`);
     });
