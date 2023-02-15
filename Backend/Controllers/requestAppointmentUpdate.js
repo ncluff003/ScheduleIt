@@ -1,8 +1,4 @@
 ////////////////////////////////////////////
-//  Third Party Modules
-const { DateTime } = require("luxon");
-
-////////////////////////////////////////////
 //  My Middleware
 const catchAsync = require(`../Utilities/catchAsync`);
 const AppError = require(`../Utilities/appError`);
@@ -21,11 +17,9 @@ module.exports = catchAsync(async (request, response, next) => {
   const ownerEmail = info.ownerEmail;
   const appointmentId = request.params.appointmentId;
 
-  // Start by getting the owner's information.
   // OWNER
   const owner = await Owner.findOne({ ownerEmail });
 
-  // Gather the info given by the client.
   // CLIENT
   const client = {
     firstname: info.firstname,

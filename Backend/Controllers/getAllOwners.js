@@ -9,7 +9,6 @@ const Owner = require("../Models/ownerModel");
 
 module.exports = catchAsync(async (request, response) => {
   const owners = await Owner.find();
-  console.log(owners);
 
   response.status(200).json({
     status: "Success",

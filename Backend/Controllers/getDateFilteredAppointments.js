@@ -8,7 +8,6 @@ const AppError = require(`../Utilities/appError`);
 const Owner = require("../Models/ownerModel");
 
 module.exports = catchAsync(async (request, response) => {
-  console.log(request.body);
   const userType = request.body.userType;
   const ownerEmail = request.body.ownerEmail;
   const clientEmail = request.body.clientEmail;

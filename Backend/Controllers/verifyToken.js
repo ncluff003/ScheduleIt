@@ -12,9 +12,7 @@ module.exports = catchAsync(async (request, response, next) => {
   const token = request.body.token;
   const owner = await Owner.findOne({ email }).select("+token");
   let tokenVerified = false;
-  console.log(request.body);
 
-  console.log(owner, token);
   if (token !== owner.token) {
     return next(new AppError("Token provided does not match the token given to the owner.", 400));
   }

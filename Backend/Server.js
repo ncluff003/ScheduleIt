@@ -16,16 +16,6 @@ dotenv.config({
 //  My Modules
 const App = require("./App");
 
-////////////////////////////////////////////
-//  Initialize Port Number
-// const PORT = process.env.PORT || 3333;
-
-/*
-   TODO
-  @ 1. Connect to the database.
-  @ 2. Start the server.
-*/
-
 module.exports = {
   // EVENTUALLY, THIS WILL NEED TO BE REPLACED WITH MORE FLEXIBILITY FOR CONNECTING TO MORE THAN A MONGODB DATABASE.
   connectToDB: {
@@ -41,11 +31,7 @@ module.exports = {
   },
   startServer: (PORT) => {
     // THIS GIVES THE USERS MORE FLEXBILITY OVER THE PORT THEY USE.
-    // App.listen(process.env.PORT || PORT, () => {
     App.listen(PORT, () => {
-      // First thing is to set the hosts.  This is essential to the application's use.
-
-      // console.log(`App listening at port ${process.env.PORT || PORT}`);
       console.log(`App listening at port ${PORT}`);
     });
   },

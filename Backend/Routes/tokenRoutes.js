@@ -21,9 +21,6 @@ const controllers = require("../Controllers");
 
 ////////////////////////////////////////////
 //  Routing Middleware
-const routes = require("./routes");
-const appointmentRouter = require("./appointmentRoutes");
-
 router.route("/").post(controllers.token.verifyToken);
 
 ////////////////////////////////////////////

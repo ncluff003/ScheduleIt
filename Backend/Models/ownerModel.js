@@ -67,7 +67,6 @@ const ownerSchema = new mongoose.Schema({
             type: String,
             trim: true,
             lowercase: true,
-            // unique: [true, `Your email must be unique`],
             validate: [validator.isEmail, `Please provide a valid email.`],
           },
         },

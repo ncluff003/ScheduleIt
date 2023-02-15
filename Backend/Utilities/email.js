@@ -34,7 +34,6 @@ module.exports = class Email {
   constructor(emailType, ownerOptions, clientOptions) {
     if (emailType === "ownerLogin") {
       this.to = ownerOptions.email;
-      // this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
       this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
       this.owner = ownerOptions;
     } else if (emailType === "appointmentRequest" || emailType === "appointmentUpdateRequest") {
@@ -53,7 +52,6 @@ module.exports = class Email {
       }
     } else if (emailType === "appointmentDeclined" || emailType === "appointmentUpdateDeclined") {
       this.to = clientOptions.client.clientEmail;
-      // this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
       this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
       this.owner = ownerOptions;
       this.client = clientOptions.client;
@@ -63,7 +61,6 @@ module.exports = class Email {
       }
     } else if (emailType === "appointmentDeleted") {
       this.to = [ownerOptions.email, clientOptions.client.clientEmail];
-      // this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
       this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
       this.owner = ownerOptions;
       this.client = clientOptions.client;
@@ -79,7 +76,6 @@ module.exports = class Email {
         port: process.env.SECURE_PORT,
         secure: true,
         auth: {
-          // user: process.env.NAMECHEAP_EMAIL,
           user: process.env.SCHEDULE_IT_EMAIL,
           pass: process.env.NAMECHEAP_PASSWORD,
         },
@@ -97,9 +93,7 @@ module.exports = class Email {
   }
 
   async send(template, subject) {
-    // This will take the template from the pug file and create an email from it.
     const html = pug.renderFile(`${__dirname}/../Views/Emails/${template}.pug`, {
-      // from: this.from,
       to: this.to,
       calendar: new Calendar(),
       firstName: this.owner.firstname,
@@ -139,18 +133,6 @@ module.exports = class Email {
       url: `${this.protocol}://${this.host}/ScheduleIt/Owners/${this.owner.email}/Appointments`,
       ownerEmail: this.owner.email,
       appointmentId: this.appointment.appointmentId,
-      // user: this.user,
-      // username: this.username,
-      // subject: subject,
-      // url: this.url,
-      // greeting: Calendar.getGreeting(),
-      // hour: Calendar.getHour(),
-      // minutes: Calendar.getMinutes(),
-      // timeOfDay: Calendar.getTimeOfDay(),
-      // day: Calendar.getDay(),
-      // weekday: Calendar.getWeekday(),
-      // month: Calendar.getMonth(),
-      // year: Calendar.getYear(),
     });
 
     const mailOptions = {
@@ -195,11 +177,4 @@ module.exports = class Email {
   async deleteAppointment() {
     await this.send("deleteAppointment", "Appointment Deleted");
   }
-
-  /*
-    Generally speaking, if an Owner or a Freelancer creates using this application, it means they are wanting to be a part of the Owner database.  So..., the first step is knowing that the Owner is emailed a random token to enter into the input to login.
-
-    Client logins will only necessitate their email to check appointments.
-  
-  */
 };

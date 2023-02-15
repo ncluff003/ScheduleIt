@@ -32,10 +32,6 @@ module.exports = catchAsync(async (request, response, next) => {
     });
   });
 
-  console.log(request.body);
-  console.log(owner.appointments, clientAppointments);
-  console.log(DateTime.local(2023, 12, 25).toISO());
-
   response.status(200).json({
     status: "Success",
     data: {
