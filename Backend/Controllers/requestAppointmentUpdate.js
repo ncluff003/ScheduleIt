@@ -2,16 +2,16 @@
 //  My Middleware
 const catchAsync = require(`../Utilities/catchAsync`);
 const AppError = require(`../Utilities/appError`);
-const Email = require("../Utilities/email");
+const Email = require('../Utilities/email');
 
 ////////////////////////////////////////////
 //  My Models
-const Owner = require("../Models/ownerModel");
+const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
-  const userType = request.originalUrl.split("/")[2];
-  if (userType === "Owners") {
-    return next(new AppError("Owners Cannot Update Appointments. Please Consider Emailing The Client About Re-Scheduling If Necessary.", 400));
+  const userType = request.originalUrl.split('/')[2];
+  if (userType === 'Owners') {
+    return next(new AppError('Owners Cannot Update Appointments. Please Consider Emailing The Client About Re-Scheduling If Necessary.', 400));
   }
   const info = request.body;
   const email = info.ownerEmail;
@@ -40,8 +40,8 @@ module.exports = catchAsync(async (request, response, next) => {
   // MESSAGE
   const message = info.message;
 
-  await new Email("appointmentUpdateRequest", owner, {
-    host: request.header("host"),
+  await new Email('appointmentUpdateRequest', owner, {
+    host: request.header('host'),
     protocol: request.protocol,
     client: client,
     appointment: appointment,
@@ -49,7 +49,7 @@ module.exports = catchAsync(async (request, response, next) => {
   }).requestAppointmentUpdate();
 
   response.status(200).json({
-    status: "Success",
+    status: 'Success',
     data: {
       owner: owner,
       client: client,

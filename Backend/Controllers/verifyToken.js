@@ -5,16 +5,16 @@ const AppError = require(`../Utilities/appError`);
 
 ////////////////////////////////////////////
 //  My Models
-const Owner = require("../Models/ownerModel");
+const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
   const email = request.body.email;
   const token = request.body.token;
-  const owner = await Owner.findOne({ email }).select("+token");
+  const owner = await Owner.findOne({ email }).select('+token');
   let tokenVerified = false;
 
   if (token !== owner.token) {
-    return next(new AppError("Token provided does not match the token given to the owner.", 400));
+    return next(new AppError('Token provided does not match the token given to the owner.', 400));
   }
 
   const dateFilteredAppointments = owner.appointments.filter((appointment, index) => {
@@ -25,13 +25,13 @@ module.exports = catchAsync(async (request, response, next) => {
 
   tokenVerified = true;
   response.status(200).json({
-    status: "Success",
+    status: 'Success',
     data: {
       owner: owner,
       currentAppointments: dateFilteredAppointments,
       token: token,
       tokenVerified: tokenVerified,
-      message: "Token Verified",
+      message: 'Token Verified',
     },
   });
 });

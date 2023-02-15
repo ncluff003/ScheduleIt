@@ -5,7 +5,7 @@ const AppError = require(`../Utilities/appError`);
 
 ////////////////////////////////////////////
 //  My Models
-const Owner = require("../Models/ownerModel");
+const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response) => {
   const userType = request.body.userType;
@@ -16,7 +16,10 @@ module.exports = catchAsync(async (request, response) => {
   const owner = await Owner.findOne({ email });
 
   const dateFilteredAppointments = owner.appointments.filter((appointment) => {
-    if (DateTime.fromISO(selectedDate).day === DateTime.fromISO(appointment.appointmentStart).day || DateTime.fromISO(selectedDate).day === DateTime.fromISO(appointment.appointmentEnd).day) {
+    if (
+      DateTime.fromISO(selectedDate).day === DateTime.fromISO(appointment.appointmentStart).day ||
+      DateTime.fromISO(selectedDate).day === DateTime.fromISO(appointment.appointmentEnd).day
+    ) {
       return appointment;
     }
   });
@@ -27,7 +30,7 @@ module.exports = catchAsync(async (request, response) => {
   };
 
   let clientAppointments;
-  if (userType === "Client") {
+  if (userType === 'Client') {
     clientAppointments = dateFilteredAppointments.filter((appointment) => {
       let attendees = appointment.attendees;
       attendees.forEach((attendee) => {
@@ -41,7 +44,7 @@ module.exports = catchAsync(async (request, response) => {
   }
 
   response.status(200).json({
-    status: "Success",
+    status: 'Success',
     data: data,
   });
 });

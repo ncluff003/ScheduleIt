@@ -3,7 +3,7 @@
 
 ////////////////////////////////////////////
 //  Third Party Modules
-const express = require("express");
+const express = require('express');
 
 ////////////////////////////////////////////
 //  Third Party Module Instances
@@ -17,11 +17,11 @@ const router = express.Router();
 
 ////////////////////////////////////////////
 //  My Middleware
-const controllers = require("../Controllers");
+const controllers = require('../Controllers');
 
 ////////////////////////////////////////////
 //  Routing Middleware
-router.route("/").post(controllers.token.verifyToken);
+router.route('/').post(controllers.token.verifyToken);
 
 ////////////////////////////////////////////
 //  Exported Router

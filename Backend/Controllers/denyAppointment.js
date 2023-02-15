@@ -2,11 +2,11 @@
 //  My Middleware
 const catchAsync = require(`../Utilities/catchAsync`);
 const AppError = require(`../Utilities/appError`);
-const Email = require("../Utilities/email");
+const Email = require('../Utilities/email');
 
 ////////////////////////////////////////////
 //  My Models
-const Owner = require("../Models/ownerModel");
+const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response) => {
   const info = request.params;
@@ -17,10 +17,12 @@ module.exports = catchAsync(async (request, response) => {
 
   const owner = await Owner.findOne({ email });
 
-  await new Email("appointmentDeclined", owner, { client: { firstname: clientFirstName, lastname: clientLastName, clientEmail: clientEmail } }).declineAppointment();
+  await new Email('appointmentDeclined', owner, {
+    client: { firstname: clientFirstName, lastname: clientLastName, clientEmail: clientEmail },
+  }).declineAppointment();
 
   response.status(200).json({
-    status: "Success",
+    status: 'Success',
     data: {
       owner: owner,
       params: info,

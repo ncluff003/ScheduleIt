@@ -3,7 +3,7 @@
 
 ////////////////////////////////////////////
 //  Third Party Modules
-const { DateTime, Info } = require("luxon");
+const { DateTime, Info } = require('luxon');
 
 ////////////////////////////////////////////
 //  Third Party Module Instances
@@ -28,8 +28,8 @@ const { DateTime, Info } = require("luxon");
 module.exports = class Calendar {
   constructor() {
     this.date = DateTime.now();
-    this.days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    this.months = Info.months("long");
+    this.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    this.months = Info.months('long');
     this.monthIndex = this.months.indexOf(this.date.monthLong);
     this.hours = this.date.hour;
     this.day = this.date.day;

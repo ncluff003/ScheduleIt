@@ -5,8 +5,7 @@ const AppError = require(`../Utilities/appError`);
 
 ////////////////////////////////////////////
 //  My Models
-const Owner = require("../Models/ownerModel");
-
+const Owner = require('../Models/ownerModel');
 module.exports = catchAsync(async (request, response) => {
   const info = request.params;
   const email = info.ownerEmail;
@@ -41,12 +40,12 @@ module.exports = catchAsync(async (request, response) => {
   await owner.save();
 
   response.status(200).json({
-    status: "Success",
+    status: 'Success',
     data: {
       owner: owner,
       appointment: appointment,
       params: request.params,
-      message: "Successful Added Appointment",
+      message: 'Successful Added Appointment',
     },
   });
 });

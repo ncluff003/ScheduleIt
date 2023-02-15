@@ -3,7 +3,7 @@
 
 ////////////////////////////////////////////
 //  Third Party Modules
-const express = require("express");
+const express = require('express');
 
 ////////////////////////////////////////////
 //  Third Party Module Instances
@@ -17,14 +17,14 @@ const router = express.Router();
 
 ////////////////////////////////////////////
 //  My Middleware
-const controllers = require("../Controllers");
+const routes = require('./routes.js');
+const controllers = require('../Controllers');
 
 ////////////////////////////////////////////
 //  Routing Middleware
-const routes = require("./routes");
-const appointmentRouter = require("./appointmentRoutes");
+import appointmentRouter from './appointmentRoutes';
 
-router.route("/").get(controllers.owners.getAllOwners).post(controllers.app.getReady);
+router.route('/').get(controllers.owners.getAllOwners).post(controllers.app.getReady);
 router.route(routes.scheduleIt.client.appointments).post(controllers.clients.getClientFilteredAppointments);
 router.use(`${routes.scheduleIt.client.owner}${routes.scheduleIt.client.appointments}`, appointmentRouter);
 

@@ -5,7 +5,7 @@ const AppError = require(`../Utilities/appError`);
 
 ////////////////////////////////////////////
 //  My Models
-const Owner = require("../Models/ownerModel");
+const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
   const info = request.params;
@@ -60,7 +60,7 @@ module.exports = catchAsync(async (request, response, next) => {
   const message = info.message;
 
   response.status(200).json({
-    status: "Success",
+    status: 'Success',
     data: {
       owner: owner,
       client: client,

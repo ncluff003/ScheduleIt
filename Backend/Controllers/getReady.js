@@ -9,7 +9,7 @@ module.exports = catchAsync(async (request, response) => {
   console.log(message);
 
   response.status(200).json({
-    status: "Success",
+    status: 'Success',
     message: message,
   });
 });

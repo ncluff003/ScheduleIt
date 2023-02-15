@@ -1,6 +1,6 @@
 ////////////////////////////////////////////
 //  Third Party Modules
-const { DateTime } = require("luxon");
+import { DateTime } from 'luxon';
 
 ////////////////////////////////////////////
 //  My Middleware
@@ -9,13 +9,13 @@ const AppError = require(`../Utilities/appError`);
 
 ////////////////////////////////////////////
 //  My Models
-const Owner = require("../Models/ownerModel");
+const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
   const clientEmail = request.body.email;
   const email = request.body.ownerEmail;
   const owner = await Owner.findOne({ email });
-  const userType = "Client";
+  const userType = 'Client';
 
   const dateFilteredAppointments = owner.appointments.filter((appointment, index) => {
     if (DateTime.now().day === DateTime.fromISO(appointment.appointmentStart).day || DateTime.now().day === DateTime.fromISO(appointment.appointmentEnd).day) {
@@ -33,7 +33,7 @@ module.exports = catchAsync(async (request, response, next) => {
   });
 
   response.status(200).json({
-    status: "Success",
+    status: 'Success',
     data: {
       userType: userType,
       currentAppointments: dateFilteredAppointments,

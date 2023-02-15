@@ -1,16 +1,16 @@
 ////////////////////////////////////////////
 //  Third Party Modules
-const randomToken = require("random-token");
+import randomToken from 'random-token';
 
 ////////////////////////////////////////////
 //  My Middleware
 const catchAsync = require(`../Utilities/catchAsync`);
 const AppError = require(`../Utilities/appError`);
-const Email = require("../Utilities/email");
+const Email = require('../Utilities/email');
 
 ////////////////////////////////////////////
 //  My Models
-const Owner = require("../Models/ownerModel");
+const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response) => {
   const email = request.params.email;
@@ -33,18 +33,18 @@ module.exports = catchAsync(async (request, response) => {
       token: token,
     });
     firstTime = true;
-    await new Email("ownerLogin", newOwner, {}).sendToken();
+    await new Email('ownerLogin', newOwner, {}).sendToken();
   }
 
   if (owner !== null && owner !== undefined) {
     await Owner.findOneAndUpdate({ email }, { token: token });
     owner.token = token;
-    await new Email("ownerLogin", owner, {}).sendToken();
+    await new Email('ownerLogin', owner, {}).sendToken();
   }
 
-  const userType = "Owner";
+  const userType = 'Owner';
   response.status(200).json({
-    status: "Success",
+    status: 'Success',
     data: {
       userType: userType,
       owner: owner,

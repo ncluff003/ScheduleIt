@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
+import mongoose from "mongoose";
+import validator from "validator";
 
 const ownerSchema = new mongoose.Schema({
   firstname: {
@@ -81,4 +81,4 @@ const ownerSchema = new mongoose.Schema({
 
 const Owner = new mongoose.model("Owner", ownerSchema);
 
-module.exports = Owner;
+export default Owner;

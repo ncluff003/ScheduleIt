@@ -3,7 +3,7 @@
 
 ////////////////////////////////////////////
 //  Third Party Modules
-const express = require("express");
+const express = require('express');
 
 ////////////////////////////////////////////
 //  Third Party Module Instances
@@ -17,16 +17,16 @@ const router = express.Router();
 
 ////////////////////////////////////////////
 //  My Middleware
-const controllers = require("../Controllers");
+const routes = require('./routes.js');
+const controllers = require('../Controllers');
 
 ////////////////////////////////////////////
 //  Routing Middleware
-const routes = require("./routes");
-const ownerRouter = require("./ownerRoutes");
-const clientRouter = require("./clientRoutes");
-const tokenRouter = require("./tokenRoutes");
+const ownerRouter = require('./ownerRoutes');
+const clientRouter = require('./clientRoutes');
+const tokenRouter = require('./tokenRoutes');
 
-router.route("/").post(controllers.app.getReady);
+router.route('/').post(controllers.app.getReady);
 router.use(routes.scheduleIt.owners.all, ownerRouter);
 router.use(routes.scheduleIt.client.base, clientRouter);
 router.use(routes.scheduleIt.token.base, tokenRouter);

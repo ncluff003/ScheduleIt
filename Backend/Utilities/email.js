@@ -3,9 +3,9 @@
 
 ////////////////////////////////////////////
 //  Third Party Modules;
-const nodemailer = require(`nodemailer`);
-const pug = require(`pug`);
-const htmlToText = require(`html-to-text`);
+const nodemailer = require("nodemailer");
+const pug = require("pug");
+const htmlToText = require("html-to-text");
 
 ////////////////////////////////////////////
 //  Third Party Module Instances
@@ -36,8 +36,6 @@ module.exports = class Email {
       this.to = ownerOptions.email;
       this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
       this.owner = ownerOptions;
-      // this.client = { firstname: "", lastname: "" };
-      // this.appointment = { appointmentType: "" };
     } else if (emailType === "appointmentRequest" || emailType === "appointmentUpdateRequest") {
       this.to = ownerOptions.email;
       this.from = clientOptions.client.clientEmail;
@@ -57,7 +55,6 @@ module.exports = class Email {
       this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
       this.owner = ownerOptions;
       this.client = clientOptions.client;
-      this.appointment = { appointmentType: undefined };
       if (emailType === "appointmentUpdateDeclined") {
         this.appointment = { appointmentId: clientOptions.client.appointmentId };
       }
@@ -188,51 +185,7 @@ module.exports = class Email {
     }
 
     // I am considering putting an emailType to see if it takes care of the errors from before.
-    const html = pug.renderFile(
-      `${__dirname}/../Views/Emails/${template}.pug`,
-      emailInfo
-      // {
-      // to: this.to,
-      // calendar: new Calendar(),
-      // firstName: this.owner.firstname,
-      // lastName: this.owner.lastname,
-      // clientFirstName: this.client.firstname,
-      // clientLastName: this.client.lastname,
-      // token: this.owner.token,
-      // communicationPreference: this.appointment.appointmentType,
-      // clientEmail: this.client.clientEmail,
-      // clientPhone: this.client.clientPhone,
-      // requestDate: this.appointment.dateRequested,
-      // scheduledDate: DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.DATE_HUGE),
-      // scheduledDateJS: DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.DATE_HUGE),
-      // scheduledDateISO: DateTime.local(
-      //   DateTime.fromISO(this.appointment.appointmentStart).year,
-      //   DateTime.fromISO(this.appointment.appointmentStart).month,
-      //   DateTime.fromISO(this.appointment.appointmentStart).day,
-      //   0,
-      //   0,
-      //   0
-      // ),
-      // scheduledStart: this.appointment.appointmentStart,
-      // scheduledEnd: this.appointment.appointmentEnd,
-      // humanScheduledStart:
-      //   DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_SIMPLE) ||
-      //   `${DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromISO(this.appointment.appointmentStart).hour > 11 ? "PM" : "AM"}`,
-      // humanScheduledStartJS:
-      //   DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_SIMPLE) ||
-      //   `${DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromJSDate(this.appointment.appointmentStart).hour > 11 ? "PM" : "AM"}`,
-      // humanScheduledEnd:
-      //   DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_SIMPLE) ||
-      //   `${DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromISO(this.appointment.appointmentEnd).hour > 11 ? "PM" : "AM"}`,
-      // humanScheduledEndJS:
-      //   DateTime.fromJSDate(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_SIMPLE) ||
-      //   `${DateTime.fromJSDate(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromJSDate(this.appointment.appointmentEnd).hour > 11 ? "PM" : "AM"}`,
-      // message: this.message,
-      // url: `${this.protocol}://${this.host}/ScheduleIt/Owners/${this.owner.email}/Appointments`,
-      // ownerEmail: this.owner.email,
-      // appointmentId: this.appointment.appointmentId,
-      // }
-    );
+    const html = pug.renderFile(`${__dirname}/../Views/Emails/${template}.pug`, emailInfo);
 
     const mailOptions = {
       from: this.from,
@@ -280,4 +233,4 @@ module.exports = class Email {
   async deleteAppointment() {
     await this.send("appointmentDeleted", "deleteAppointment", "Appointment Deleted");
   }
-};
+}
