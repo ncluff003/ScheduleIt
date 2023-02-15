@@ -37,13 +37,17 @@ module.exports = catchAsync(async (request, response, next) => {
   }).deleteAppointment();
 
   // Delete Appointment AFTER Emails Are Sent Out.
+  owner.appointments = owner.appointments.filter((appointment) => {
+    if (String(appointment._id) !== appointmentId) {
+      return appointment;
+    }
+  });
 
   // Save Owner Without Those Appointments.
+  await owner.save();
 
   response.status(200).json({
     status: "Success",
     message: "Appointment Successfully Deleted",
-    id: appointmentId,
-    deletedAppointment: deletedAppointment,
   });
 });
