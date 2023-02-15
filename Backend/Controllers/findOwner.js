@@ -18,6 +18,8 @@ module.exports = catchAsync(async (request, response) => {
   const token = randomToken(8);
   let newOwner;
   let firstTime = false;
+  console.log(request.body, request.params);
+  console.log(owner);
 
   if (owner === null) {
     newOwner = await Owner.create({

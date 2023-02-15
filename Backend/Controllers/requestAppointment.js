@@ -14,10 +14,12 @@ module.exports = catchAsync(async (request, response, next) => {
     return next(new AppError("Owners Do Not Request Appointments.", 400));
   }
   const info = request.body;
-  const ownerEmail = info.ownerEmail;
+  console.log(info);
+  const email = info.ownerEmail;
+  console.log(email);
 
   // OWNER
-  const owner = await Owner.findOne({ ownerEmail });
+  const owner = await Owner.findOne({ email });
 
   // CLIENT
   const client = {
