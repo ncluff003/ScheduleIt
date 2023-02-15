@@ -34,10 +34,10 @@ module.exports = class Email {
   constructor(emailType, ownerOptions, clientOptions) {
     if (emailType === "ownerLogin") {
       this.to = ownerOptions.email;
-      this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
+      // this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
+      this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
       this.owner = ownerOptions;
     } else if (emailType === "appointmentRequest" || emailType === "appointmentUpdateRequest") {
-      console.log("Request");
       this.to = ownerOptions.email;
       this.from = clientOptions.client.clientEmail;
       this.owner = ownerOptions;
@@ -52,15 +52,22 @@ module.exports = class Email {
         this.host = clientOptions.host;
       }
     } else if (emailType === "appointmentDeclined" || emailType === "appointmentUpdateDeclined") {
-      console.log("Decline");
       this.to = clientOptions.client.clientEmail;
-      this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
+      // this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
+      this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
       this.owner = ownerOptions;
       this.client = clientOptions.client;
       this.appointment = { appointmentType: undefined };
       if (emailType === "appointmentUpdateDeclined") {
         this.appointment = { appointmentId: clientOptions.client.appointmentId };
       }
+    } else if (emailType === "appointmentDeleted") {
+      this.to = [ownerOptions.email, clientOptions.client.clientEmail];
+      // this.from = `Support | <${process.env.NAMECHEAP_EMAIL}>`;
+      this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
+      this.owner = ownerOptions;
+      this.client = clientOptions.client;
+      this.appointment = clientOptions.client.appointment;
     }
   }
 
@@ -72,7 +79,8 @@ module.exports = class Email {
         port: process.env.SECURE_PORT,
         secure: true,
         auth: {
-          user: process.env.NAMECHEAP_EMAIL,
+          // user: process.env.NAMECHEAP_EMAIL,
+          user: process.env.SCHEDULE_IT_EMAIL,
           pass: process.env.NAMECHEAP_PASSWORD,
         },
         logger: true,
@@ -104,6 +112,7 @@ module.exports = class Email {
       clientPhone: this.client.clientPhone,
       requestDate: this.appointment.dateRequested,
       scheduledDate: DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.DATE_HUGE),
+      scheduledDateJS: DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.DATE_HUGE),
       scheduledDateISO: DateTime.local(
         DateTime.fromISO(this.appointment.appointmentStart).year,
         DateTime.fromISO(this.appointment.appointmentStart).month,
@@ -117,9 +126,15 @@ module.exports = class Email {
       humanScheduledStart:
         DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_SIMPLE) ||
         `${DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromISO(this.appointment.appointmentStart).hour > 11 ? "PM" : "AM"}`,
+      humanScheduledStartJS:
+        DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_SIMPLE) ||
+        `${DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromJSDate(this.appointment.appointmentStart).hour > 11 ? "PM" : "AM"}`,
       humanScheduledEnd:
         DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_SIMPLE) ||
         `${DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromISO(this.appointment.appointmentEnd).hour > 11 ? "PM" : "AM"}`,
+      humanScheduledEndJS:
+        DateTime.fromJSDate(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_SIMPLE) ||
+        `${DateTime.fromJSDate(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromJSDate(this.appointment.appointmentEnd).hour > 11 ? "PM" : "AM"}`,
       message: this.message,
       url: `${this.protocol}://${this.host}/ScheduleIt/Owners/${this.owner.email}/Appointments`,
       ownerEmail: this.owner.email,
@@ -175,6 +190,10 @@ module.exports = class Email {
 
   async declineAppointmentUpdate() {
     await this.send("declineAppointmentUpdate", "Appointment Update Declined");
+  }
+
+  async deleteAppointment() {
+    await this.send("deleteAppointment", "Appointment Deleted");
   }
 
   /*

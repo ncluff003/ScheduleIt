@@ -1,0 +1,30 @@
+extends baseEmail
+
+block content
+  table(style="position: relative; display: block; max-width: 600px; width: 600px; margin: 0 auto; padding: 0; border: 3px groove #BBBBBB77; border-top: none; border-bottom: none; background-color: #CCCCCC33; color: #333333;") 
+    tbody
+      tr.table-row
+        td.table-data(style="position: relative; display: block; width: 89%; margin: 0 auto;")  
+          blockquote.salutations(style="position: relative; border: none; margin: 0 auto 30px; text-indent: 20px; font-size: 16px; color: #333333;")= `${calendar.getGreeting()} ${firstName} ${lastName} and ${clientFirstName} ${clientLastName},`
+      tr.table-row 
+        td.table-data(style="position: relative; display: block; width: 87%; margin: 0 auto;") 
+          blockquote.salutations(style="position: relative; border: none; text-indent: 20px; font-size: 16px; color: #333333;") The appointment in which both of you were set to chat via #{communicationPreference.toLowerCase()} on #{scheduledDateJS} between #{humanScheduledStartJS} to #{humanScheduledEndJS} has been cancelled. If this was a mistake, we urge you to contact the other party as soon as possible as to be able to re-schedule the appointment for the same time, or a time that suits both parties well.  We have provided the email of each party below.
+        
+        td.table-data(style="position: relative; display: block; width: 87%; margin: 0 auto;") 
+          blockquote.salutations(style="position: relative; border: none; text-indent: 20px; font-size: 16px; color: #333333;") Owner | Freelancer
+        td.table-data(style="position: relative; display: block; width: 87%; margin: 0 auto;") 
+          blockquote.spacer(style="position: relative; border: none; text-indent: 20px; font-size: 16px; color: #333333;")
+        td.table-data(style="position: relative; display: flex; justify-content: center; width: 87%; margin: 0 auto;") 
+          blockquote.token(style="position: relative; border: none; font-size: 40px; color: #f0f0f0; padding: 2rem; background-color: #333333AA; width: max-content; border-radius: 10px; margin: 0;") #{ownerEmail}
+        td.table-data(style="position: relative; display: flex; justify-content: center; width: 87%; margin: 0 auto;") 
+          hr
+
+        td.table-data(style="position: relative; display: block; width: 87%; margin: 0 auto;") 
+          blockquote.salutations(style="position: relative; border: none; text-indent: 20px; font-size: 16px; color: #333333;") Client
+        td.table-data(style="position: relative; display: block; width: 87%; margin: 0 auto;") 
+          blockquote.spacer(style="position: relative; border: none; text-indent: 20px; font-size: 16px; color: #333333;")
+        td.table-data(style="position: relative; display: flex; justify-content: center; width: 87%; margin: 0 auto;") 
+          blockquote.token(style="position: relative; border: none; font-size: 40px; color: #f0f0f0; padding: 2rem; background-color: #333333AA; width: max-content; border-radius: 10px; margin: 0;") #{clientEmail}
+
+      tr.disclaimer(style="postion: relative; margin: 0 auto; padding: 20px 0 0; display: block; width: 87%; font-size: 16px;" colspan="2")
+        td.disclaimer-text(style="position: relative; text-align: center; padding: 0 20px;") We are sorry that you both were not able to meet and chat.  Hopefully you will be able to in the future. 😄 👍
