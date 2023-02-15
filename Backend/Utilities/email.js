@@ -163,6 +163,28 @@ module.exports = class Email {
       emailInfo.scheduledStart = this.appointment.appointmentStart;
       emailInfo.scheduledEnd = this.appointment.appointmentEnd;
       emailInfo.appointmentId = this.appointment.appointmentId;
+    } else if (emailType === "appointmentDeclined" || emailType === "appointmentUpdateDeclined") {
+      emailInfo.firstName = this.owner.firstname;
+      emailInfo.lastName = this.owner.lastname;
+      emailInfo.ownerEmail = this.owner.email;
+      emailInfo.clientFirstName = this.client.firstname;
+      emailInfo.clientLastName = this.client.lastname;
+    } else if (emailType === "appointmentDeleted") {
+      emailInfo.firstName = this.owner.firstname;
+      emailInfo.lastName = this.owner.lastname;
+      emailInfo.clientFirstName = this.client.firstname;
+      emailInfo.clientLastName = this.client.lastname;
+      emailInfo.communicationPreference = this.appointment.appointmentType;
+      emailInfo.scheduledDateJS = DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.DATE_HUGE);
+      emailInfo.humanScheduledStartJS =
+        DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_SIMPLE) ||
+        `${DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromJSDate(this.appointment.appointmentStart).hour > 11 ? "PM" : "AM"}`;
+      emailInfo.ownerEmail = this.owner.email;
+      emailInfo.humanScheduledEndJS =
+        DateTime.fromJSDate(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_SIMPLE) ||
+        `${DateTime.fromJSDate(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromJSDate(this.appointment.appointmentEnd).hour > 11 ? "PM" : "AM"}`;
+      emailInfo.ownerEmail = this.owner.email;
+      emailInfo.clientEmail = this.client.clientEmail;
     }
 
     // I am considering putting an emailType to see if it takes care of the errors from before.
@@ -244,7 +266,7 @@ module.exports = class Email {
   }
 
   async declineAppointment() {
-    await this.send("declineAppointment", "Appointment Declined");
+    await this.send("appointmentDeclined", "declineAppointment", "Appointment Declined");
   }
 
   async requestAppointmentUpdate() {
@@ -252,10 +274,10 @@ module.exports = class Email {
   }
 
   async declineAppointmentUpdate() {
-    await this.send("declineAppointmentUpdate", "Appointment Update Declined");
+    await this.send("appointmentUpdateDeclined", "declineAppointmentUpdate", "Appointment Update Declined");
   }
 
   async deleteAppointment() {
-    await this.send("deleteAppointment", "Appointment Deleted");
+    await this.send("appointmentDeleted", "deleteAppointment", "Appointment Deleted");
   }
 };

@@ -14,11 +14,11 @@ module.exports = catchAsync(async (request, response, next) => {
     return next(new AppError("Owners Cannot Update Appointments. Please Consider Emailing The Client About Re-Scheduling If Necessary.", 400));
   }
   const info = request.body;
-  const ownerEmail = info.ownerEmail;
+  const email = info.ownerEmail;
   const appointmentId = request.params.appointmentId;
 
   // OWNER
-  const owner = await Owner.findOne({ ownerEmail });
+  const owner = await Owner.findOne({ email });
 
   // CLIENT
   const client = {

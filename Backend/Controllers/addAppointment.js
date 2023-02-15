@@ -9,7 +9,7 @@ const Owner = require("../Models/ownerModel");
 
 module.exports = catchAsync(async (request, response) => {
   const info = request.params;
-  const ownerEmail = info.ownerEmail;
+  const email = info.ownerEmail;
 
   const appointment = {
     appointmentType: info.communicationPreference,
@@ -20,7 +20,7 @@ module.exports = catchAsync(async (request, response) => {
     attendees: [],
   };
 
-  const owner = await Owner.findOne({ ownerEmail });
+  const owner = await Owner.findOne({ email });
 
   const host = {
     attendeeFirstname: owner.firstname,

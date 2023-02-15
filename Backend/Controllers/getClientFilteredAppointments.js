@@ -13,8 +13,8 @@ const Owner = require("../Models/ownerModel");
 
 module.exports = catchAsync(async (request, response, next) => {
   const clientEmail = request.body.email;
-  const ownerEmail = request.body.ownerEmail;
-  const owner = await Owner.findOne({ ownerEmail });
+  const email = request.body.ownerEmail;
+  const owner = await Owner.findOne({ email });
   const userType = "Client";
 
   const dateFilteredAppointments = owner.appointments.filter((appointment, index) => {

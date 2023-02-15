@@ -9,11 +9,11 @@ const Owner = require("../Models/ownerModel");
 
 module.exports = catchAsync(async (request, response) => {
   const userType = request.body.userType;
-  const ownerEmail = request.body.ownerEmail;
+  const email = request.body.ownerEmail;
   const clientEmail = request.body.clientEmail;
   const selectedDate = request.body.selectedDate;
 
-  const owner = await Owner.findOne({ ownerEmail });
+  const owner = await Owner.findOne({ email });
 
   const dateFilteredAppointments = owner.appointments.filter((appointment) => {
     if (DateTime.fromISO(selectedDate).day === DateTime.fromISO(appointment.appointmentStart).day || DateTime.fromISO(selectedDate).day === DateTime.fromISO(appointment.appointmentEnd).day) {

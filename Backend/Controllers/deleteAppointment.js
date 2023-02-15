@@ -9,10 +9,10 @@ const Email = require("../Utilities/email");
 const Owner = require("../Models/ownerModel");
 
 module.exports = catchAsync(async (request, response, next) => {
-  const ownerEmail = request.params.email;
+  const email = request.params.email;
   const appointmentId = request.params.appointmentId;
 
-  const owner = await Owner.findOne({ ownerEmail });
+  const owner = await Owner.findOne({ email });
   const filteredAppointments = owner.appointments.filter((appointment) => {
     if (String(appointment._id) === appointmentId) {
       return appointment;

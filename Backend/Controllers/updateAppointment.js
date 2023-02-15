@@ -9,12 +9,12 @@ const Owner = require("../Models/ownerModel");
 
 module.exports = catchAsync(async (request, response, next) => {
   const info = request.params;
-  const ownerEmail = info.ownerEmail;
+  const email = info.ownerEmail;
   const id = request.params.appointmentId;
 
   // Start by getting the owner's information.
   // OWNER
-  const owner = await Owner.findOne({ ownerEmail });
+  const owner = await Owner.findOne({ email });
 
   // UPDATE APPOINTMENT
   owner.appointments.forEach((appointment) => {
