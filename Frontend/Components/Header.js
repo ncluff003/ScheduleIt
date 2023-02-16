@@ -30,22 +30,21 @@ function calendarHeader(theme, container) {
   insertElement('beforeend', header, title);
 }
 
-function loginFormHeader(user, theme, container) {
+function loginFormHeader(theme, container) {
   const heading = document.createElement('header');
-  const headingStyle = heading.style;
-  headingStyle.height = '33%';
-  headingStyle.width = '100%';
-  headingStyle.display = 'flex';
-  headingStyle.flexFlow = 'row nowrap';
-  headingStyle.justifyContent = 'center';
-  headingStyle.alignItems = 'center';
+  addClasses(heading, ['schedule-it__form--login__heading']);
+  const style = heading.style;
+  style.height = '33%';
+  style.width = '100%';
+  style.display = 'flex';
+  style.flexFlow = 'row nowrap';
+  style.justifyContent = 'center';
+  style.alignItems = 'center';
+  style.fontFamily = 'MADE Tommy Soft';
+  style.fontSize = '1em';
   const headingText = document.createElement('h4');
-  if (user === 'Owner') {
-    headingText.textContent = 'Owner Login';
-  } else if (user === 'Client') {
-    headingText.textContent = 'Client Login';
-  }
   insertElement('beforeend', heading, headingText);
+  insertElement('beforeend', container, heading);
 }
 
-export { calendarHeader };
+export { calendarHeader, loginFormHeader };

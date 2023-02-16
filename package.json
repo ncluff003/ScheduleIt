@@ -26,6 +26,7 @@
     "mongoose": "^6.9.1",
     "nodemailer": "^6.9.1",
     "pug": "^3.0.2",
+    "qs": "^6.11.0",
     "random-token": "^0.0.8",
     "validator": "^13.9.0"
   },

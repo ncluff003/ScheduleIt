@@ -1,7 +1,7 @@
 import { addClasses, insertElement } from '../Global/Utility';
 import { loginOverlay } from './Overlay';
 
-function calendarDisplay(theme, container) {
+function calendarDisplay(theme, container, info) {
   // Parent font size = 3rem or 30px.
   const calendarDisplay = document.createElement('section');
   const style = calendarDisplay.style;
@@ -17,7 +17,7 @@ function calendarDisplay(theme, container) {
   style.borderRadius = '0 0 .5rem .5rem';
   style.overflowY = 'auto';
   insertElement('beforeend', container, calendarDisplay);
-  loginOverlay(theme, calendarDisplay);
+  loginOverlay(theme, calendarDisplay, info);
 }
 
 export { calendarDisplay };

@@ -3,9 +3,9 @@
 
 ////////////////////////////////////////////
 //  Third Party Modules;
-const nodemailer = require("nodemailer");
-const pug = require("pug");
-const htmlToText = require("html-to-text");
+const nodemailer = require('nodemailer');
+const pug = require('pug');
+const htmlToText = require('html-to-text');
 
 ////////////////////////////////////////////
 //  Third Party Module Instances
@@ -15,7 +15,7 @@ const htmlToText = require("html-to-text");
 
 ////////////////////////////////////////////
 //  Third Party Middleware
-const { DateTime } = require("luxon");
+const { DateTime } = require('luxon');
 
 ////////////////////////////////////////////
 //  My Middleware
@@ -25,40 +25,40 @@ const { DateTime } = require("luxon");
 
 ////////////////////////////////////////////
 //  My Modules
-const Calendar = require("./Calendar");
+const Calendar = require('./Calendar');
 
 ////////////////////////////////////////////
 //  Email Model
 
 module.exports = class Email {
   constructor(emailType, ownerOptions, clientOptions) {
-    if (emailType === "ownerLogin") {
+    if (emailType === 'ownerLogin') {
       this.to = ownerOptions.email;
       this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
       this.owner = ownerOptions;
-    } else if (emailType === "appointmentRequest" || emailType === "appointmentUpdateRequest") {
+    } else if (emailType === 'appointmentRequest' || emailType === 'appointmentUpdateRequest') {
       this.to = ownerOptions.email;
       this.from = clientOptions.client.clientEmail;
       this.owner = ownerOptions;
       this.client = clientOptions.client;
       this.appointment = clientOptions.appointment;
       this.message = clientOptions.message;
-      if (process.env.NODE_ENV === "production") {
+      if (process.env.NODE_ENV === 'production') {
         this.protocol = clientOptions.protocol;
         this.host = clientOptions.host;
-      } else if (process.env.NODE_ENV === "development") {
+      } else if (process.env.NODE_ENV === 'development') {
         this.protocol = clientOptions.protocol;
         this.host = clientOptions.host;
       }
-    } else if (emailType === "appointmentDeclined" || emailType === "appointmentUpdateDeclined") {
+    } else if (emailType === 'appointmentDeclined' || emailType === 'appointmentUpdateDeclined') {
       this.to = clientOptions.client.clientEmail;
       this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
       this.owner = ownerOptions;
       this.client = clientOptions.client;
-      if (emailType === "appointmentUpdateDeclined") {
+      if (emailType === 'appointmentUpdateDeclined') {
         this.appointment = { appointmentId: clientOptions.client.appointmentId };
       }
-    } else if (emailType === "appointmentDeleted") {
+    } else if (emailType === 'appointmentDeleted') {
       this.to = [ownerOptions.email, clientOptions.client.clientEmail];
       this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
       this.owner = ownerOptions;
@@ -71,7 +71,7 @@ module.exports = class Email {
   makeTransport() {
     if (process.env.NODE_ENV === `production`) {
       return nodemailer.createTransport({
-        host: "mail.privateemail.com",
+        host: 'mail.privateemail.com',
         port: process.env.SECURE_PORT,
         secure: true,
         auth: {
@@ -97,11 +97,11 @@ module.exports = class Email {
       calendar: new Calendar(),
     };
 
-    if (emailType === "ownerLogin") {
+    if (emailType === 'ownerLogin') {
       emailInfo.firstName = this.owner.firstname;
       emailInfo.lastName = this.owner.lastname;
       emailInfo.token = this.owner.token;
-    } else if (emailType === "appointmentRequest") {
+    } else if (emailType === 'appointmentRequest') {
       emailInfo.firstName = this.owner.firstname;
       emailInfo.lastName = this.owner.lastname;
       emailInfo.clientFirstName = this.client.firstname;
@@ -112,10 +112,14 @@ module.exports = class Email {
       emailInfo.scheduledDate = DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.DATE_HUGE);
       emailInfo.humanScheduledStart =
         DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_SIMPLE) ||
-        `${DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromISO(this.appointment.appointmentStart).hour > 11 ? "PM" : "AM"}`;
+        `${DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_24_SIMPLE)} ${
+          DateTime.fromISO(this.appointment.appointmentStart).hour > 11 ? 'PM' : 'AM'
+        }`;
       emailInfo.humanScheduledEnd =
         DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_SIMPLE) ||
-        `${DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromISO(this.appointment.appointmentEnd).hour > 11 ? "PM" : "AM"}`;
+        `${DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${
+          DateTime.fromISO(this.appointment.appointmentEnd).hour > 11 ? 'PM' : 'AM'
+        }`;
       emailInfo.message = this.message;
       emailInfo.url = `${this.protocol}://${this.host}/ScheduleIt/Owners/${this.owner.email}/Appointments`;
       emailInfo.ownerEmail = this.owner.email;
@@ -126,11 +130,11 @@ module.exports = class Email {
         DateTime.fromISO(this.appointment.appointmentStart).day,
         0,
         0,
-        0
+        0,
       );
       emailInfo.scheduledStart = this.appointment.appointmentStart;
       emailInfo.scheduledEnd = this.appointment.appointmentEnd;
-    } else if (emailType === "appointmentUpdateRequest") {
+    } else if (emailType === 'appointmentUpdateRequest') {
       emailInfo.firstName = this.owner.firstname;
       emailInfo.lastName = this.owner.lastname;
       emailInfo.clientFirstName = this.client.firstname;
@@ -141,10 +145,14 @@ module.exports = class Email {
       emailInfo.scheduledDate = DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.DATE_HUGE);
       emailInfo.humanScheduledStart =
         DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_SIMPLE) ||
-        `${DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromISO(this.appointment.appointmentStart).hour > 11 ? "PM" : "AM"}`;
+        `${DateTime.fromISO(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_24_SIMPLE)} ${
+          DateTime.fromISO(this.appointment.appointmentStart).hour > 11 ? 'PM' : 'AM'
+        }`;
       emailInfo.humanScheduledEnd =
         DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_SIMPLE) ||
-        `${DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromISO(this.appointment.appointmentEnd).hour > 11 ? "PM" : "AM"}`;
+        `${DateTime.fromISO(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${
+          DateTime.fromISO(this.appointment.appointmentEnd).hour > 11 ? 'PM' : 'AM'
+        }`;
       emailInfo.message = this.message;
       emailInfo.url = `${this.protocol}://${this.host}/ScheduleIt/Owners/${this.owner.email}/Appointments`;
       emailInfo.ownerEmail = this.owner.email;
@@ -155,18 +163,18 @@ module.exports = class Email {
         DateTime.fromISO(this.appointment.appointmentStart).day,
         0,
         0,
-        0
+        0,
       );
       emailInfo.scheduledStart = this.appointment.appointmentStart;
       emailInfo.scheduledEnd = this.appointment.appointmentEnd;
       emailInfo.appointmentId = this.appointment.appointmentId;
-    } else if (emailType === "appointmentDeclined" || emailType === "appointmentUpdateDeclined") {
+    } else if (emailType === 'appointmentDeclined' || emailType === 'appointmentUpdateDeclined') {
       emailInfo.firstName = this.owner.firstname;
       emailInfo.lastName = this.owner.lastname;
       emailInfo.ownerEmail = this.owner.email;
       emailInfo.clientFirstName = this.client.firstname;
       emailInfo.clientLastName = this.client.lastname;
-    } else if (emailType === "appointmentDeleted") {
+    } else if (emailType === 'appointmentDeleted') {
       emailInfo.firstName = this.owner.firstname;
       emailInfo.lastName = this.owner.lastname;
       emailInfo.clientFirstName = this.client.firstname;
@@ -175,17 +183,22 @@ module.exports = class Email {
       emailInfo.scheduledDateJS = DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.DATE_HUGE);
       emailInfo.humanScheduledStartJS =
         DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_SIMPLE) ||
-        `${DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromJSDate(this.appointment.appointmentStart).hour > 11 ? "PM" : "AM"}`;
+        `${DateTime.fromJSDate(this.appointment.appointmentStart).toLocaleString(DateTime.TIME_24_SIMPLE)} ${
+          DateTime.fromJSDate(this.appointment.appointmentStart).hour > 11 ? 'PM' : 'AM'
+        }`;
       emailInfo.ownerEmail = this.owner.email;
       emailInfo.humanScheduledEndJS =
         DateTime.fromJSDate(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_SIMPLE) ||
-        `${DateTime.fromJSDate(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${DateTime.fromJSDate(this.appointment.appointmentEnd).hour > 11 ? "PM" : "AM"}`;
+        `${DateTime.fromJSDate(this.appointment.appointmentEnd).toLocaleString(DateTime.TIME_24_SIMPLE)} ${
+          DateTime.fromJSDate(this.appointment.appointmentEnd).hour > 11 ? 'PM' : 'AM'
+        }`;
       emailInfo.ownerEmail = this.owner.email;
       emailInfo.clientEmail = this.client.clientEmail;
     }
 
+    console.log(process.env.NODE_ENV);
     // I am considering putting an emailType to see if it takes care of the errors from before.
-    const html = pug.renderFile(`${__dirname}/../Views/Emails/${template}.pug`, emailInfo);
+    const html = pug.renderFile(`${__dirname}/../Backend/Views/Emails/${template}.pug`, emailInfo);
 
     const mailOptions = {
       from: this.from,
@@ -195,10 +208,10 @@ module.exports = class Email {
       text: htmlToText.convert(html),
       attachments: [
         {
-          filename: "schedule-it-logo.png",
-          contentType: "image/jpeg",
-          path: __dirname + `/../../schedule-it-logo.png`,
-          cid: "company-logo",
+          filename: 'schedule-it-logo.png',
+          contentType: 'image/jpeg',
+          path: __dirname + `/../schedule-it-logo.png`,
+          cid: 'company-logo',
         },
       ],
       envelope: {
@@ -211,26 +224,26 @@ module.exports = class Email {
   }
 
   async sendToken() {
-    await this.send("ownerLogin", "sendToken", "Confirm Login With Token");
+    await this.send('ownerLogin', 'sendToken', 'Confirm Login With Token');
   }
 
   async requestAppointment() {
-    await this.send("appointmentRequest", "requestAppointment", "Appointment Request");
+    await this.send('appointmentRequest', 'requestAppointment', 'Appointment Request');
   }
 
   async declineAppointment() {
-    await this.send("appointmentDeclined", "declineAppointment", "Appointment Declined");
+    await this.send('appointmentDeclined', 'declineAppointment', 'Appointment Declined');
   }
 
   async requestAppointmentUpdate() {
-    await this.send("appointmentUpdateRequest", "requestAppointmentUpdate", "Appointment Update");
+    await this.send('appointmentUpdateRequest', 'requestAppointmentUpdate', 'Appointment Update');
   }
 
   async declineAppointmentUpdate() {
-    await this.send("appointmentUpdateDeclined", "declineAppointmentUpdate", "Appointment Update Declined");
+    await this.send('appointmentUpdateDeclined', 'declineAppointmentUpdate', 'Appointment Update Declined');
   }
 
   async deleteAppointment() {
-    await this.send("appointmentDeleted", "deleteAppointment", "Appointment Deleted");
+    await this.send('appointmentDeleted', 'deleteAppointment', 'Appointment Deleted');
   }
-}
+};

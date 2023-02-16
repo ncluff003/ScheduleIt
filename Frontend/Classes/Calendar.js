@@ -39,7 +39,7 @@ export default class Calendar {
 
       insertElement('beforeend', container, scheduleItContainer);
       calendarHeader(theme, scheduleItContainer);
-      calendarDisplay(theme, scheduleItContainer);
+      calendarDisplay(theme, scheduleItContainer, this.info);
     }
   }
 }

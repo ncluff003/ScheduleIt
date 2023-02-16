@@ -2,7 +2,7 @@ import { addClasses, insertElement } from '../Global/Utility';
 import { button, Button } from './Button';
 import { form } from './Form';
 
-function loginOverlay(theme, container) {
+function loginOverlay(theme, container, info) {
   // Parent font size = 3rem or 30px.
   const overlay = document.createElement('section');
   const style = overlay.style;
@@ -22,8 +22,8 @@ function loginOverlay(theme, container) {
 
   form(user, theme, overlay);
 
-  button('primary--overlay', 'Owner Login', theme, overlay);
-  button('primary--overlay', 'Client Login', theme, overlay);
+  button('primary--overlay', 'Owner Login', theme, overlay, info, user);
+  button('primary--overlay', 'Client Login', theme, overlay, info, user);
 }
 
 export { loginOverlay };
