@@ -4,7 +4,7 @@
 ////////////////////////////////////////////
 //  Third Party Modules
 const dotenv = require('dotenv');
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 ////////////////////////////////////////////
 //  Third Party Config Files
@@ -14,9 +14,9 @@ dotenv.config({
 
 ////////////////////////////////////////////
 //  My Modules
-import App from './App';
+const App = require('./App');
 
-export default {
+module.exports = {
   // EVENTUALLY, THIS WILL NEED TO BE REPLACED WITH MORE FLEXIBILITY FOR CONNECTING TO MORE THAN A MONGODB DATABASE.
   connectToDB: {
     mongo: (connectionString) => {

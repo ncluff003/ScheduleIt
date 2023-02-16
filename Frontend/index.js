@@ -1,5 +1,3 @@
-import ScheduleIt from "./Components/ScheduleIt";
+import Calendar from './Classes/Calendar.js';
 
-export default {
-  ScheduleIt: ScheduleIt,
-};
+export { Calendar };

@@ -22,9 +22,8 @@ const controllers = require('../Controllers');
 
 ////////////////////////////////////////////
 //  Routing Middleware
-import appointmentRouter from './appointmentRoutes';
+const appointmentRouter = require('./appointmentRoutes');
 
-router.route('/').get(controllers.owners.getAllOwners).post(controllers.app.getReady);
 router.route(routes.scheduleIt.client.appointments).post(controllers.clients.getClientFilteredAppointments);
 router.use(`${routes.scheduleIt.client.owner}${routes.scheduleIt.client.appointments}`, appointmentRouter);
 

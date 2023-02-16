@@ -4,7 +4,6 @@
 const getReady = require('./getReady');
 
 // Owners
-const getAllOwners = require('./getAllOwners');
 const findOwner = require('./findOwner');
 
 // Clients
@@ -28,7 +27,6 @@ module.exports = {
     getReady: getReady,
   },
   owners: {
-    getAllOwners: getAllOwners,
     findOwner: findOwner,
   },
   clients: {

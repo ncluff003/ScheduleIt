@@ -1,6 +1,6 @@
 ////////////////////////////////////////////
 //  Third Party Modules
-import randomToken from 'random-token';
+const randomToken = require('random-token');
 
 ////////////////////////////////////////////
 //  My Middleware
