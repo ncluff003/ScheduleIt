@@ -4,14 +4,14 @@ import { loginFormInput } from './Input';
 import { loginFormLabel } from './Label';
 import { button } from './Button';
 
-function loginContainer(user, theme, container) {
+function loginContainer(user, theme, container, info) {
   const loginContainer = document.createElement('section');
   addClasses(loginContainer, ['schedule-it__form--login__user-login']);
   const style = loginContainer.style;
   style.position = 'relative';
   style.height = '6em';
   style.width = '100%';
-  style.display = 'flex';
+  style.display = 'none';
   style.flexFlow = 'column nowrap';
   style.justifyContent = 'space-evenly';
   style.alignItems = 'center';
@@ -20,10 +20,10 @@ function loginContainer(user, theme, container) {
   loginFormHeader(theme, loginContainer);
   loginFormLabel(theme, loginContainer);
   loginFormInput(theme, loginContainer);
-  loginButtonContainer(user, theme, loginContainer);
+  loginButtonContainer(user, theme, loginContainer, info);
 }
 
-function loginButtonContainer(user, theme, container) {
+function loginButtonContainer(user, theme, container, info) {
   const buttonContainer = document.createElement('section');
   addClasses(buttonContainer, ['schedule-it__form--login__user-login__buttons']);
   const style = buttonContainer.style;
@@ -36,7 +36,7 @@ function loginButtonContainer(user, theme, container) {
   style.alignItems = 'center';
 
   insertElement('beforeend', container, buttonContainer);
-  button('login--overlay', 'Login', theme, buttonContainer);
+  button('login--overlay', 'Login', theme, buttonContainer, info);
   button('login--overlay', 'Close', theme, buttonContainer);
 }
 

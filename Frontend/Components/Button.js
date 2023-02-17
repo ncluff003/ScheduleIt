@@ -29,9 +29,11 @@ function button(buttonType, text, theme, container, info, user) {
         e.preventDefault();
         user = 'Owner';
         const form = document.querySelector('.schedule-it__form--login');
+        const loginContainer = document.querySelectorAll('.schedule-it__form--login__user-login')[0];
         const loginHeading = document.querySelectorAll('.schedule-it__form--login__heading')[0];
         const loginLabel = document.querySelectorAll('.schedule-it__form--login__user-login__label')[0];
         const loginInput = document.querySelectorAll('.schedule-it__form--login__user-login__input')[0];
+        loginContainer.style.display = 'flex';
         loginHeading.firstChild.textContent = 'Owner Login';
         loginLabel.textContent = 'Enter Token';
         loginInput.placeholder = 'Enter Token';
@@ -40,7 +42,6 @@ function button(buttonType, text, theme, container, info, user) {
         const response = await axios({
           method: 'POST',
           url: `/ScheduleIt/Owners/${info.email}`,
-          // data: qs.stringify(info),
           data: info,
         });
         console.log(response);
@@ -50,9 +51,11 @@ function button(buttonType, text, theme, container, info, user) {
         e.preventDefault();
         user = 'Client';
         const form = document.querySelector('.schedule-it__form--login');
+        const loginContainer = document.querySelectorAll('.schedule-it__form--login__user-login')[1];
         const loginHeading = document.querySelectorAll('.schedule-it__form--login__heading')[1];
         const loginLabel = document.querySelectorAll('.schedule-it__form--login__user-login__label')[1];
         const loginInput = document.querySelectorAll('.schedule-it__form--login__user-login__input')[1];
+        loginContainer.style.display = 'flex';
         loginHeading.firstChild.textContent = 'Client Login';
         loginLabel.textContent = 'Enter Email Address';
         loginInput.placeholder = 'Enter Email Address';
@@ -76,12 +79,89 @@ function button(buttonType, text, theme, container, info, user) {
     style.margin = '0.3em';
     button.textContent = text;
 
+    if (text === 'Login') {
+      button.addEventListener('click', async (e) => {
+        e.preventDefault();
+        console.log(info);
+        let header = e.target.closest('.schedule-it__form--login').firstChild.firstChild;
+        console.log(header.textContent);
+        if (header.textContent === 'Owner Login') {
+          console.log(document.querySelectorAll('.schedule-it__form--login__user-login__input')[0]);
+          console.log(document.querySelectorAll('.schedule-it__form--login__user-login__input')[0].value);
+          const token = document.querySelectorAll('.schedule-it__form--login__user-login__input')[0].value;
+          try {
+            const response = await axios({
+              method: 'POST',
+              url: '/ScheduleIt/Token',
+              data: {
+                token: token,
+                email: info.email,
+              },
+            });
+            if (response.data.status === 'Success') {
+              const form = document.querySelector('.schedule-it__form--login');
+              form.style.display = 'none';
+              const loginContainers = document.querySelectorAll('.schedule-it__form--login__user-login');
+              loginContainers.forEach((container) => (container.style.display = 'none'));
+              const overlay = document.querySelector('.schedule-it__display__overlay--login');
+              overlay.style.display = 'none';
+              console.log('Token Is Verified! 😄');
+            }
+          } catch (error) {
+            console.error(error);
+          }
+
+          /*
+            * As soon as the token is verified, the following must be available.
+            @ 1. Login Form goes away.
+            @ 2. A login variable is stored in Local Storage with an expiration date. -- This is an eventuality, but for now, they will have to login in each time they navigate away.
+            @ 3. The current day's schedule appears with the right elements available.
+              ~ For Owners:
+                ~ No Requesting Appointment Button
+                ~ ALL appointments can be deleted, but NOT updated from the application.
+              
+              ~ For Clients
+                ~ Only appointments that the client is a part of can be updated or deleted.
+
+          */
+        }
+        let headerTwo = e.target.closest('.schedule-it__form--login').firstChild.nextSibling.firstChild;
+        console.log(headerTwo.textContent);
+        if (headerTwo.textContent === 'Client Login') {
+          const email = document.querySelectorAll('.schedule-it__form--login__user-login__input')[0].value;
+          try {
+            const response = await axios({
+              method: 'POST',
+              url: '/ScheduleIt/Client/Appointments',
+              data: {
+                email: email,
+                ownerEmail: info.email,
+              },
+            });
+            if (response.data.status === 'Success') {
+              const form = document.querySelector('.schedule-it__form--login');
+              form.style.display = 'none';
+              const loginContainers = document.querySelectorAll('.schedule-it__form--login__user-login');
+              loginContainers.forEach((container) => (container.style.display = 'none'));
+              const overlay = document.querySelector('.schedule-it__display__overlay--login');
+              overlay.style.display = 'none';
+              console.log('Appointments Have Been Verified! 😄');
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      });
+    }
+
     if (text === 'Close') {
       button.addEventListener('click', (e) => {
         e.preventDefault();
         const form = e.target.closest('.schedule-it__form--login');
+        const loginContainers = document.querySelectorAll('.schedule-it__form--login__user-login');
         const style = form.style;
         style.display = 'none';
+        loginContainers.forEach((container) => (container.style.display = 'none'));
       });
     }
   }

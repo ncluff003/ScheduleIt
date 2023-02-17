@@ -20,7 +20,7 @@ function loginOverlay(theme, container, info) {
   style.alignItems = 'center';
   insertElement('beforeend', container, overlay);
 
-  form(user, theme, overlay);
+  form('login', user, theme, overlay, info);
 
   button('primary--overlay', 'Owner Login', theme, overlay, info, user);
   button('primary--overlay', 'Client Login', theme, overlay, info, user);

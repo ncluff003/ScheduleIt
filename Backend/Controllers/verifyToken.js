@@ -10,8 +10,13 @@ const Owner = require('../Models/ownerModel');
 module.exports = catchAsync(async (request, response, next) => {
   const email = request.body.email;
   const token = request.body.token;
+  if (!token) {
+    return next(new AppError('You must provide a token to compare with the one the owner has to login.', 400));
+  }
   const owner = await Owner.findOne({ email }).select('+token');
   let tokenVerified = false;
+
+  console.log(owner);
 
   if (token !== owner.token) {
     return next(new AppError('Token provided does not match the token given to the owner.', 400));
