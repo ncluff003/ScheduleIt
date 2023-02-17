@@ -39,4 +39,4 @@ function formCloser(formType, theme, container) {
   insertElement('beforeend', container, close);
 }
 
-export { formCloser };
+export { formCloser, closeForm };

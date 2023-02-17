@@ -13,6 +13,7 @@ function loginFormInput(theme, container) {
   style.height = '30%';
   style.width = '70%';
   style.padding = '.5rem 1rem';
+  style.margin = '.25rem 0';
   style.fontFamily = theme.text;
   style.fontSize = '.6em';
   style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
@@ -67,6 +68,7 @@ function formSelect(type, theme, container, info) {
       insertElement('beforeend', select, option);
       start++;
     }
+    select.selectedIndex = DateTime.now().day - 1;
   } else if (type === 'month') {
     addClasses(select, ['schedule-it__form--date-selection__select-container__select']);
     style.position = 'relative';
@@ -112,20 +114,16 @@ function formSelect(type, theme, container, info) {
       const daysInMonth = DateTime.local(yearValue, monthValue, 1).daysInMonth;
       clearSelect(day);
 
-      console.log(daysInMonth, yearValue, monthValue);
-
       while (dayStart < daysInMonth) {
         const option = document.createElement('option');
         addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
         const style = option.style;
-        console.log(option);
         style.fontFamily = theme.text;
         style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
         option.textContent =
           `${DateTime.local(yearValue, monthValue, dayStart + 1).day}`.length === 1
             ? `0${DateTime.local(yearValue, monthValue, dayStart + 1).day}`
             : DateTime.local(yearValue, monthValue, dayStart + 1).day;
-        console.log(option.textContent);
         option.value = dayStart + 1;
         insertElement('beforeend', day, option);
         dayStart++;
@@ -176,20 +174,16 @@ function formSelect(type, theme, container, info) {
       const daysInMonth = DateTime.local(yearValue, monthValue, 1).daysInMonth;
       clearSelect(day);
 
-      console.log(daysInMonth, yearValue, monthValue);
-
       while (dayStart < daysInMonth) {
         const option = document.createElement('option');
         addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
         const style = option.style;
-        console.log(option);
         style.fontFamily = theme.text;
         style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
         option.textContent =
           `${DateTime.local(yearValue, monthValue, dayStart + 1).day}`.length === 1
             ? `0${DateTime.local(yearValue, monthValue, dayStart + 1).day}`
             : DateTime.local(yearValue, monthValue, dayStart + 1).day;
-        console.log(option.textContent);
         option.value = dayStart + 1;
         insertElement('beforeend', day, option);
         dayStart++;

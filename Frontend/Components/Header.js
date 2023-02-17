@@ -47,6 +47,7 @@ function loginFormHeader(theme, container) {
   style.flexFlow = 'row nowrap';
   style.justifyContent = 'center';
   style.alignItems = 'center';
+  style.margin = '.25rem 0';
   style.fontFamily = theme.text;
   style.fontSize = '1em';
   const headingText = document.createElement('h4');

@@ -1,5 +1,4 @@
 import Calendar from './Classes/Calendar.js';
-const dayLogo = './../schedule-it-logo--day.png';
-const nightLogo = './../schedule-it-logo--night.png';
+import Methods from './Global/Methods.js';
 
-export { dayLogo, nightLogo, Calendar };
+export { Calendar, Methods };

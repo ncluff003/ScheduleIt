@@ -8,6 +8,7 @@ function loginFormLabel(theme, container) {
   style.height = 'max-content';
   style.width = '70%';
   style.left = '1rem';
+  style.margin = '.25rem 0';
   style.fontFamily = theme.text;
   style.fontSize = '.6em';
   insertElement('beforeend', container, label);

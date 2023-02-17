@@ -41,6 +41,7 @@ function form(formType, user, theme, container, info) {
 
     selectDateFormHeader(theme, form);
     dateSelectContainer(theme, form, info);
+    button('Date Selection', 'Select Date', theme, form, info, '');
   }
   insertElement('beforeend', container, form);
 }

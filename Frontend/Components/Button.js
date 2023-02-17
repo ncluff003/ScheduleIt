@@ -1,7 +1,9 @@
 import axios from 'axios';
 import qs from 'qs';
+import { DateTime } from 'luxon';
 import { addClasses, insertElement } from '../Global/Utility';
 import { renderSchedule } from './Schedule';
+import { closeForm } from './FormCloser';
 
 function button(buttonType, text, theme, container, info, user) {
   const button = document.createElement('button');
@@ -29,6 +31,7 @@ function button(buttonType, text, theme, container, info, user) {
       button.addEventListener('click', async (e) => {
         e.preventDefault();
         user = 'Owner';
+        info.userType = `${user}s`;
         const form = document.querySelector('.schedule-it__form--login');
         const loginContainer = document.querySelectorAll('.schedule-it__form--login__user-login')[0];
         const loginHeading = document.querySelectorAll('.schedule-it__form--login__heading')[0];
@@ -51,6 +54,7 @@ function button(buttonType, text, theme, container, info, user) {
       button.addEventListener('click', (e) => {
         e.preventDefault();
         user = 'Client';
+        info.userType = user;
         const form = document.querySelector('.schedule-it__form--login');
         const loginContainer = document.querySelectorAll('.schedule-it__form--login__user-login')[1];
         const loginHeading = document.querySelectorAll('.schedule-it__form--login__heading')[1];
@@ -132,6 +136,7 @@ function button(buttonType, text, theme, container, info, user) {
         console.log(headerTwo.textContent);
         if (headerTwo.textContent === 'Client Login') {
           const email = document.querySelectorAll('.schedule-it__form--login__user-login__input')[1].value;
+          info.clientEmail = email;
           try {
             const response = await axios({
               method: 'POST',
@@ -197,6 +202,57 @@ function button(buttonType, text, theme, container, info, user) {
         formHeader.textContent = 'Select Date';
       });
     }
+  } else if (buttonType === 'Date Selection') {
+    style.position = 'relative';
+    style.height = '5rem';
+    style.width = 'max-content';
+    style.display = 'flex';
+    style.flexFlow = 'row nowrap';
+    style.justifyContent = 'center';
+    style.alignItems = 'center';
+    style.padding = '.5em 1em';
+    style.backgroundColor = 'transparent';
+    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}`;
+    style.borderRadius = '2rem';
+    style.fontFamily = theme.text;
+    style.fontSize = '.53em';
+    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
+    style.margin = '0.3em';
+    button.textContent = text;
+
+    button.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const form = document.querySelector('.schedule-it__form--date-selection');
+      const date = document.querySelector('.schedule-it__display__schedule__header__date__text');
+      const dateSelects = document.querySelectorAll('.schedule-it__form--date-selection__select-container__select');
+
+      const year = Number(dateSelects[2].value);
+      const month = Number(dateSelects[1].value);
+      const day = Number(dateSelects[0].value);
+      const selectedDate = DateTime.local(year, month, day);
+
+      if (selectedDate.day < DateTime.now().day) return console.error('You need to select today or a day in the future.');
+
+      date.textContent = selectedDate.toLocaleString(DateTime.DATE_HUGE);
+
+      try {
+        const response = await axios({
+          method: 'POST',
+          url: `/ScheduleIt/${info.userType}/${info.email}/Appointments/Date`,
+          data: {
+            userType: info.userType,
+            ownerEmail: info.email,
+            clientEmail: info.clientEmail,
+            selectedDate: selectedDate.toISO(),
+          },
+        });
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+
+      closeForm(document.querySelector('.schedule-it__form__close'), 'select-date');
+    });
   }
 
   button.addEventListener('mouseover', (e) => {

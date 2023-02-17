@@ -11,7 +11,7 @@ function loginContainer(user, theme, container, info) {
   addClasses(loginContainer, ['schedule-it__form--login__user-login']);
   const style = loginContainer.style;
   style.position = 'relative';
-  style.height = '6em';
+  style.height = '7em';
   style.width = '100%';
   style.display = 'none';
   style.flexFlow = 'column nowrap';
@@ -32,13 +32,14 @@ function loginButtonContainer(user, theme, container, info) {
   style.position = 'relative';
   style.height = 'max-content';
   style.width = '70%';
+  style.margin = '.25rem 0';
   style.display = 'flex';
   style.flexFlow = 'row nowrap';
   style.justifyContent = 'flex-end';
   style.alignItems = 'center';
 
   insertElement('beforeend', container, buttonContainer);
-  button('login--overlay', 'Login', theme, buttonContainer, info);
+  button('login--overlay', 'Login', theme, buttonContainer, info, user);
   button('login--overlay', 'Close', theme, buttonContainer);
 }
 
