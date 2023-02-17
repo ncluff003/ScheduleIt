@@ -1,5 +1,6 @@
 import { addClasses, insertElement } from '../Global/Utility';
 import { scheduleContainer } from './Container';
+import { form } from './Form';
 import { scheduleHeader } from './Header';
 
 function renderSchedule(user, theme, info) {
@@ -22,6 +23,7 @@ function renderSchedule(user, theme, info) {
 
   scheduleHeader(user, theme, schedule, info);
   scheduleContainer(theme, schedule, info);
+  form('select-date', '', theme, schedule, info);
 }
 
 export { renderSchedule };

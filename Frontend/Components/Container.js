@@ -1,6 +1,6 @@
 import { addClasses, insertElement } from '../Global/Utility';
 import { loginFormHeader } from './Header';
-import { loginFormInput } from './Input';
+import { formSelect, loginFormInput } from './Input';
 import { loginFormLabel } from './Label';
 import { button } from './Button';
 import { DateTime } from 'luxon';
@@ -105,4 +105,22 @@ function scheduleContainer(theme, container, info) {
   insertElement('beforeend', container, scheduleContainer);
 }
 
-export { loginContainer, loginButtonContainer, scheduleButtonContainer, dateContainer, scheduleContainer };
+function dateSelectContainer(theme, container, info) {
+  const dateSelectContainer = document.createElement('section');
+  addClasses(dateSelectContainer, ['schedule-it__form--date-selection__select-container']);
+  const style = dateSelectContainer.style;
+  style.position = 'relative';
+  style.height = '10%';
+  style.width = '100%';
+  style.display = 'flex';
+  style.flexFlow = 'row nowrap';
+  style.justifyContent = 'center';
+  style.alignItems = 'center';
+
+  formSelect('day', theme, dateSelectContainer, info);
+  formSelect('month', theme, dateSelectContainer, info);
+  formSelect('year', theme, dateSelectContainer, info);
+  insertElement('beforeend', container, dateSelectContainer);
+}
+
+export { loginContainer, loginButtonContainer, scheduleButtonContainer, dateContainer, scheduleContainer, dateSelectContainer };

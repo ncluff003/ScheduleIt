@@ -187,6 +187,16 @@ function button(buttonType, text, theme, container, info, user) {
     theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
     style.margin = '0.3em';
     button.textContent = text;
+
+    if (text === 'Select Date') {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const form = document.querySelector('.schedule-it__form--date-selection');
+        form.style.display = 'flex';
+        const formHeader = document.querySelector('.schedule-it__form--date-selection__heading').firstChild;
+        formHeader.textContent = 'Select Date';
+      });
+    }
   }
 
   button.addEventListener('mouseover', (e) => {

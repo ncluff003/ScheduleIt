@@ -54,6 +54,23 @@ function loginFormHeader(theme, container) {
   insertElement('beforeend', container, heading);
 }
 
+function selectDateFormHeader(theme, container) {
+  const heading = document.createElement('header');
+  addClasses(heading, ['schedule-it__form--date-selection__heading']);
+  const style = heading.style;
+  style.height = '15%';
+  style.width = '100%';
+  style.display = 'flex';
+  style.flexFlow = 'row nowrap';
+  style.justifyContent = 'center';
+  style.alignItems = 'center';
+  style.fontFamily = theme.text;
+  style.fontSize = '1.75em';
+  const headingText = document.createElement('h4');
+  insertElement('beforeend', heading, headingText);
+  insertElement('beforeend', container, heading);
+}
+
 function scheduleHeader(user, theme, container, info) {
   // Parent font size = 3rem or 30px.
   console.log(info);
@@ -73,4 +90,4 @@ function scheduleHeader(user, theme, container, info) {
   dateContainer(theme, header, info);
 }
 
-export { calendarHeader, loginFormHeader, scheduleHeader };
+export { calendarHeader, loginFormHeader, scheduleHeader, selectDateFormHeader };
