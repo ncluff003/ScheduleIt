@@ -1,6 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 import { addClasses, insertElement } from '../Global/Utility';
+import { renderSchedule } from './Schedule';
 
 function button(buttonType, text, theme, container, info, user) {
   const button = document.createElement('button');
@@ -106,6 +107,7 @@ function button(buttonType, text, theme, container, info, user) {
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
               console.log('Token Is Verified! 😄');
+              renderSchedule(theme);
             }
           } catch (error) {
             console.error(error);
@@ -146,6 +148,7 @@ function button(buttonType, text, theme, container, info, user) {
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
               console.log('Appointments Have Been Verified! 😄');
+              renderSchedule(theme);
             }
           } catch (error) {
             console.error(error);
@@ -169,7 +172,7 @@ function button(buttonType, text, theme, container, info, user) {
   button.addEventListener('mouseover', (e) => {
     e.preventDefault();
     style.cursor = 'pointer';
-    style.color = theme.timeOfDay === 'day' ? theme.grayScale.offWhite : theme.grayScale.raisinBlack;
+    style.color = theme.timeOfDay === 'day' ? theme.primary : theme.primary;
     style.backgroundColor = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
     style.transition = 'background-color .5s, color .5s, border .5s';
   });

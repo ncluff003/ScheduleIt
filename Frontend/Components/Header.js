@@ -1,3 +1,4 @@
+import chroma from 'chroma-js';
 import { addClasses, insertElement } from '../Global/Utility';
 
 function calendarHeader(theme, container) {
@@ -7,6 +8,7 @@ function calendarHeader(theme, container) {
   header.style.position = 'relative';
   header.style.height = '10%';
   header.style.width = '100%';
+  header.style.backgroundColor = theme.timeOfDay === 'day' ? chroma(theme.primary).darken(0.4).hex() : theme.primary;
   header.style.padding = '1rem 2rem';
   header.style.display = 'flex';
   header.style.flexFlow = 'row nowrap';
@@ -14,11 +16,14 @@ function calendarHeader(theme, container) {
   header.style.alignItems = 'center';
   insertElement('beforeend', container, header);
 
-  const logo = document.createElement('img');
-  logo.src = './../../schedule-it-logo.png';
-  logo.alt = 'Schedule It Logo';
-  addClasses(logo, ['schedule-it__header__logo']);
-  insertElement('beforeend', header, logo);
+  // * FOR NOW I AM DITCHING THE LOGO AS IT IS NEXT TO IMPOSSIBLE TO GET IT IN THE APPLICATION CURRENTLY.
+  // const logo = document.createElement('img');
+  // const dayLogo = '../../schedule-it-logo--day.png';
+  // const nightLogo = '../../schedule-it-logo--night.png';
+  // logo.src = theme.timeOfDay === 'day' ? dayLogo : nightLogo;
+  // logo.alt = 'Schedule It Logo';
+  // addClasses(logo, ['schedule-it__header__logo']);
+  // insertElement('beforeend', header, logo);
 
   const title = document.createElement('h2');
   title.textContent = 'ScheduleIt';
