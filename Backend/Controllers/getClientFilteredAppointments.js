@@ -13,6 +13,10 @@ const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
   const clientEmail = request.body.email;
+  console.log(clientEmail);
+
+  if (!clientEmail || clientEmail === null || clientEmail === undefined) return next(new AppError('You must provide an email for the client to login.', 400));
+
   const email = request.body.ownerEmail;
   const owner = await Owner.findOne({ email });
   const userType = 'Client';

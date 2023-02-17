@@ -54,7 +54,7 @@ function loginFormHeader(theme, container) {
   insertElement('beforeend', container, heading);
 }
 
-function scheduleHeader(theme, container, info) {
+function scheduleHeader(user, theme, container, info) {
   // Parent font size = 3rem or 30px.
   console.log(info);
   const header = document.createElement('header');
@@ -69,7 +69,7 @@ function scheduleHeader(theme, container, info) {
   style.alignItems = 'center';
   style.borderBottom = `.3rem groove ${chroma(theme.primary).darken(0.4).hex()}`;
   insertElement('beforeend', container, header);
-  scheduleButtonContainer(theme, header, info);
+  scheduleButtonContainer(user, theme, header, info);
   dateContainer(theme, header, info);
 }
 

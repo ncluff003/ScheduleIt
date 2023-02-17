@@ -2,7 +2,7 @@ import { addClasses, insertElement } from '../Global/Utility';
 import { scheduleContainer } from './Container';
 import { scheduleHeader } from './Header';
 
-function renderSchedule(theme, info) {
+function renderSchedule(user, theme, info) {
   const display = document.querySelector('.schedule-it__display');
 
   const schedule = document.createElement('section');
@@ -20,7 +20,7 @@ function renderSchedule(theme, info) {
   }
   insertElement('beforeend', display, schedule);
 
-  scheduleHeader(theme, schedule, info);
+  scheduleHeader(user, theme, schedule, info);
   scheduleContainer(theme, schedule, info);
 }
 

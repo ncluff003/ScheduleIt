@@ -100,6 +100,7 @@ function button(buttonType, text, theme, container, info, user) {
               },
             });
             if (response.data.status === 'Success') {
+              const userType = response.data.data.userType;
               const form = document.querySelector('.schedule-it__form--login');
               form.style.display = 'none';
               const loginContainers = document.querySelectorAll('.schedule-it__form--login__user-login');
@@ -107,7 +108,7 @@ function button(buttonType, text, theme, container, info, user) {
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
               console.log('Token Is Verified! 😄');
-              renderSchedule(theme, info);
+              renderSchedule(userType, theme, info);
             }
           } catch (error) {
             console.error(error);
@@ -130,7 +131,7 @@ function button(buttonType, text, theme, container, info, user) {
         let headerTwo = e.target.closest('.schedule-it__form--login').firstChild.nextSibling.firstChild;
         console.log(headerTwo.textContent);
         if (headerTwo.textContent === 'Client Login') {
-          const email = document.querySelectorAll('.schedule-it__form--login__user-login__input')[0].value;
+          const email = document.querySelectorAll('.schedule-it__form--login__user-login__input')[1].value;
           try {
             const response = await axios({
               method: 'POST',
@@ -140,7 +141,9 @@ function button(buttonType, text, theme, container, info, user) {
                 ownerEmail: info.email,
               },
             });
+            console.log(response);
             if (response.data.status === 'Success') {
+              const userType = response.data.data.userType;
               const form = document.querySelector('.schedule-it__form--login');
               form.style.display = 'none';
               const loginContainers = document.querySelectorAll('.schedule-it__form--login__user-login');
@@ -148,7 +151,7 @@ function button(buttonType, text, theme, container, info, user) {
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
               console.log('Appointments Have Been Verified! 😄');
-              renderSchedule(theme, info);
+              renderSchedule(userType, theme, info);
             }
           } catch (error) {
             console.error(error);

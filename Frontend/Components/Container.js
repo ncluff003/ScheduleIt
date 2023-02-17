@@ -42,7 +42,7 @@ function loginButtonContainer(user, theme, container, info) {
   button('login--overlay', 'Close', theme, buttonContainer);
 }
 
-function scheduleButtonContainer(theme, container, info) {
+function scheduleButtonContainer(user, theme, container, info) {
   const buttonContainer = document.createElement('section');
   addClasses(buttonContainer, ['schedule-it__display__schedule__header__buttons']);
   const style = buttonContainer.style;
@@ -55,7 +55,9 @@ function scheduleButtonContainer(theme, container, info) {
   style.alignItems = 'center';
   insertElement('beforeend', container, buttonContainer);
   button('schedule-outside', 'Select Date', theme, buttonContainer, info);
-  button('schedule-outside', 'Request Appointment', theme, buttonContainer, info);
+  if (user === 'Client') {
+    button('schedule-outside', 'Request Appointment', theme, buttonContainer, info);
+  }
 }
 
 function dateContainer(theme, container, info) {
@@ -97,7 +99,7 @@ function scheduleContainer(theme, container, info) {
   let hours = 24;
   let start = 0;
   while (start < hours) {
-    hour(theme, scheduleContainer, info);
+    hour(theme, scheduleContainer, info, start);
     start++;
   }
   insertElement('beforeend', container, scheduleContainer);
