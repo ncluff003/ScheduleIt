@@ -107,7 +107,7 @@ function button(buttonType, text, theme, container, info, user) {
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
               console.log('Token Is Verified! 😄');
-              renderSchedule(theme);
+              renderSchedule(theme, info);
             }
           } catch (error) {
             console.error(error);
@@ -148,7 +148,7 @@ function button(buttonType, text, theme, container, info, user) {
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
               console.log('Appointments Have Been Verified! 😄');
-              renderSchedule(theme);
+              renderSchedule(theme, info);
             }
           } catch (error) {
             console.error(error);

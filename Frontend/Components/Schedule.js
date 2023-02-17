@@ -1,6 +1,7 @@
 import { addClasses, insertElement } from '../Global/Utility';
+import { scheduleHeader } from './Header';
 
-function renderSchedule(theme) {
+function renderSchedule(theme, info) {
   const display = document.querySelector('.schedule-it__display');
 
   const schedule = document.createElement('section');
@@ -16,6 +17,8 @@ function renderSchedule(theme) {
     style.backgroundColor = theme.grayScale.raisinBlack;
   }
   insertElement('beforeend', display, schedule);
+
+  scheduleHeader(theme, schedule, info);
 }
 
 export { renderSchedule };

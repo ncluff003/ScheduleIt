@@ -14,6 +14,7 @@ function calendarHeader(theme, container) {
   header.style.flexFlow = 'row nowrap';
   header.style.justifyContent = 'flex-start';
   header.style.alignItems = 'center';
+  header.style.borderBottom = `.3rem groove ${chroma(theme.primary).darken(0.4).hex()}`;
   insertElement('beforeend', container, header);
 
   // * FOR NOW I AM DITCHING THE LOGO AS IT IS NEXT TO IMPOSSIBLE TO GET IT IN THE APPLICATION CURRENTLY.
@@ -52,4 +53,20 @@ function loginFormHeader(theme, container) {
   insertElement('beforeend', container, heading);
 }
 
-export { calendarHeader, loginFormHeader };
+function scheduleHeader(theme, container, info) {
+  console.log(info);
+  const header = document.createElement('header');
+  addClasses(header, ['schedule-it__display__schedule__header']);
+  const style = header.style;
+  style.position = 'relative';
+  style.height = '20%';
+  style.width = '100%';
+  style.display = 'flex';
+  style.flexFlow = 'column nowrap';
+  style.justifyContent = 'space-evenly';
+  style.alignItems = 'center';
+  style.borderBottom = `.3rem groove ${chroma(theme.primary).darken(0.4).hex()}`;
+  insertElement('beforeend', container, header);
+}
+
+export { calendarHeader, loginFormHeader, scheduleHeader };
