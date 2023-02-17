@@ -1,5 +1,6 @@
 import chroma from 'chroma-js';
 import { addClasses, insertElement } from '../Global/Utility';
+import { dateContainer, scheduleButtonContainer } from './Container';
 
 function calendarHeader(theme, container) {
   // Parent font size = 3rem or 30px.
@@ -29,7 +30,7 @@ function calendarHeader(theme, container) {
   const title = document.createElement('h2');
   title.textContent = 'ScheduleIt';
   addClasses(title, ['schedule-it__header__title']);
-  title.style.fontFamily = 'Made Tommy Soft';
+  title.style.fontFamily = theme.text;
   title.style.fontSize = '1em';
   title.style.fontWeight = '300';
   title.style.color = theme.grayScale.raisinBlack;
@@ -46,7 +47,7 @@ function loginFormHeader(theme, container) {
   style.flexFlow = 'row nowrap';
   style.justifyContent = 'center';
   style.alignItems = 'center';
-  style.fontFamily = 'MADE Tommy Soft';
+  style.fontFamily = theme.text;
   style.fontSize = '1em';
   const headingText = document.createElement('h4');
   insertElement('beforeend', heading, headingText);
@@ -54,6 +55,7 @@ function loginFormHeader(theme, container) {
 }
 
 function scheduleHeader(theme, container, info) {
+  // Parent font size = 3rem or 30px.
   console.log(info);
   const header = document.createElement('header');
   addClasses(header, ['schedule-it__display__schedule__header']);
@@ -67,6 +69,8 @@ function scheduleHeader(theme, container, info) {
   style.alignItems = 'center';
   style.borderBottom = `.3rem groove ${chroma(theme.primary).darken(0.4).hex()}`;
   insertElement('beforeend', container, header);
+  scheduleButtonContainer(theme, header, info);
+  dateContainer(theme, header, info);
 }
 
 export { calendarHeader, loginFormHeader, scheduleHeader };

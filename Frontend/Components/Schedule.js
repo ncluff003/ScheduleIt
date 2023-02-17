@@ -1,4 +1,5 @@
 import { addClasses, insertElement } from '../Global/Utility';
+import { scheduleContainer } from './Container';
 import { scheduleHeader } from './Header';
 
 function renderSchedule(theme, info) {
@@ -11,6 +12,7 @@ function renderSchedule(theme, info) {
   style.height = '100%';
   style.width = '100%';
   style.borderRadius = '0 0 .5rem .5rem';
+  style.padding = '1rem';
   if (theme.timeOfDay === 'day') {
     style.backgroundColor = theme.grayScale.offWhite;
   } else if (theme.timeOfDay === 'night') {
@@ -19,6 +21,7 @@ function renderSchedule(theme, info) {
   insertElement('beforeend', display, schedule);
 
   scheduleHeader(theme, schedule, info);
+  scheduleContainer(theme, schedule, info);
 }
 
 export { renderSchedule };

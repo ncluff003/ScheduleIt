@@ -8,7 +8,7 @@ function loginFormInput(theme, container) {
   style.height = '30%';
   style.width = '70%';
   style.padding = '.5rem 1rem';
-  style.fontFamily = 'Made Tommy Soft';
+  style.fontFamily = theme.text;
   style.fontSize = '.6em';
   style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
   style.border = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;

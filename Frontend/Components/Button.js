@@ -19,7 +19,7 @@ function button(buttonType, text, theme, container, info, user) {
     style.backgroundColor = 'transparent';
     style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}`;
     style.borderRadius = '1rem';
-    style.fontFamily = 'MADE Tommy Soft';
+    style.fontFamily = theme.text;
     style.fontSize = '.53em';
     theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
     style.margin = '1rem 0';
@@ -74,7 +74,7 @@ function button(buttonType, text, theme, container, info, user) {
     style.backgroundColor = 'transparent';
     style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}`;
     style.borderRadius = '1rem';
-    style.fontFamily = 'MADE Tommy Soft';
+    style.fontFamily = theme.text;
     style.fontSize = '.53em';
     theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
     style.margin = '0.3em';
@@ -167,6 +167,23 @@ function button(buttonType, text, theme, container, info, user) {
         loginContainers.forEach((container) => (container.style.display = 'none'));
       });
     }
+  } else if (buttonType === 'schedule-outside') {
+    style.position = 'relative';
+    style.height = '4rem';
+    style.width = 'max-content';
+    style.display = 'flex';
+    style.flexFlow = 'row nowrap';
+    style.justifyContent = 'center';
+    style.alignItems = 'center';
+    style.padding = '.5em 1em';
+    style.backgroundColor = 'transparent';
+    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}`;
+    style.borderRadius = '2rem';
+    style.fontFamily = theme.text;
+    style.fontSize = '.53em';
+    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
+    style.margin = '0.3em';
+    button.textContent = text;
   }
 
   button.addEventListener('mouseover', (e) => {
