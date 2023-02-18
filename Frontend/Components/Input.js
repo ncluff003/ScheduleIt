@@ -219,11 +219,11 @@ function formSelect(type, theme, container, info, elNum) {
     style.height = 'max-content';
     style.width = 'max-content';
     style.padding = '.25em';
-    style.margin = '0 .5em';
+    style.margin = '0';
     style.backgroundColor = 'transparent';
     style.border = 'none';
     if (elNum !== undefined && elNum !== null && elNum === 'first') {
-      style.marginTop = '1em';
+      style.margin = '1em 0 0';
       addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'first-hour']);
     } else {
       addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'second-hour']);
@@ -262,12 +262,12 @@ function formSelect(type, theme, container, info, elNum) {
     style.height = 'max-content';
     style.width = 'max-content';
     style.padding = '.25em';
-    style.margin = '0 .5em';
+    style.margin = '0';
     style.backgroundColor = 'transparent';
     style.border = 'none';
 
     if (elNum !== undefined && elNum !== null && elNum === 'first') {
-      style.marginTop = '1em';
+      style.margin = '1em 0 0';
       addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'first-minute']);
     } else {
       addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'second-minute']);
@@ -311,7 +311,7 @@ function formSelect(type, theme, container, info, elNum) {
     style.height = '1.4em';
     style.width = 'max-content';
     if (elNum !== undefined && elNum !== null && elNum === 'first') {
-      style.marginTop = '1em';
+      style.margin = '1em 0 0';
     }
 
     const colon = document.createElement('p');

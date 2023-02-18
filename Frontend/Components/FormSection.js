@@ -9,6 +9,7 @@ function flexSection(sectionstyle, sectionType, theme, container, info) {
   style.height = 'max-content';
   style.minHeight = '2em';
   style.width = '100%';
+  style.paddingRight = '1em';
   style.display = 'flex';
   sectionstyle === 'flexing' ? (style.flexFlow = 'row wrap') : sectionstyle === 'column' ? (style.flexFlow = 'column nowrap') : (style.flexFlow = 'row nowrap');
   style.justifyContent = sectionstyle === 'flexing' ? 'space-evenly' : 'center';
@@ -56,7 +57,7 @@ function timeFlexSection(type, theme, container, info, elNum) {
     if (elNum !== undefined && elNum !== null && elNum === 'first') {
       const meridiem = document.createElement('p');
       addClasses(meridiem, ['schedule-it__form--request-appointment__flex-section__time__meridiem', 'first-meridiem']);
-      meridiem.style.marginTop = '1em';
+      meridiem.style.margin = '1em 0 0';
       insertElement('beforeend', timeFlex, meridiem);
     } else {
       const meridiem = document.createElement('p');
