@@ -55,10 +55,16 @@ function loginFormHeader(theme, container) {
   insertElement('beforeend', container, heading);
 }
 
-function selectDateFormHeader(theme, container) {
+function selectDateFormHeader(formType, theme, container) {
   const heading = document.createElement('header');
-  addClasses(heading, ['schedule-it__form--date-selection__heading']);
   const style = heading.style;
+  if (formType === 'select-date') {
+    addClasses(heading, ['schedule-it__form--date-selection__heading']);
+    style.fontSize = '1.75em';
+  } else if (formType === 'request-appointment') {
+    addClasses(heading, ['schedule-it__form--request-appointment__heading']);
+    style.fontSize = '1.25em';
+  }
   style.height = '15%';
   style.width = '100%';
   style.display = 'flex';
@@ -66,8 +72,8 @@ function selectDateFormHeader(theme, container) {
   style.justifyContent = 'center';
   style.alignItems = 'center';
   style.fontFamily = theme.text;
-  style.fontSize = '1.75em';
   const headingText = document.createElement('h4');
+  theme.timeOfDay === 'day' ? (headingText.style.color = theme.grayScale.raisinBlack) : (headingText.style.color = theme.grayScale.offWhite);
   insertElement('beforeend', heading, headingText);
   insertElement('beforeend', container, heading);
 }

@@ -36,11 +36,30 @@ function loginFormInput(theme, container) {
   insertElement('beforeend', container, input);
 }
 
-function formSelect(type, theme, container, info) {
+function appointmentRequestInput(type, placeholder, theme, container, info) {
+  const input = document.createElement('input');
+  addClasses(input, ['schedule-it__form--request-appointment__input']);
+  const style = input.style;
+  style.position = 'relative';
+  style.height = '3em';
+  type === 'half' ? (style.width = '40%') : (style.width = '80%');
+  style.padding = '.5em';
+  style.fontFamily = theme.text;
+  style.fontSize = '.53em';
+  style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+  style.backgroundColor = 'transparent';
+  style.border = 'none';
+  style.borderBottom = `.2em groove ${theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`}`;
+  input.placeholder = placeholder;
+  insertElement('beforeend', container, input);
+}
+
+function formSelect(type, theme, container, info, elNum) {
   const select = document.createElement('select');
   const style = select.style;
   style.fontFamily = theme.text;
   let dividerNeeded = false;
+  let colonNeeded = false;
   if (type === 'day') {
     addClasses(select, ['schedule-it__form--date-selection__select-container__select']);
     style.position = 'relative';
@@ -195,6 +214,77 @@ function formSelect(type, theme, container, info) {
         day.selectedIndex = dayValue - 1;
       }
     });
+  } else if (type === 'hour') {
+    addClasses(select, ['schedule-it__form--date-selection__select-container__select']);
+    style.position = 'relative';
+    style.height = 'max-content';
+    style.width = 'max-content';
+    style.padding = '.25em';
+    style.margin = '0 .5em';
+    style.backgroundColor = 'transparent';
+    style.border = 'none';
+    if (elNum !== undefined && elNum !== null && elNum === 'first') {
+      style.marginTop = '.5em';
+    }
+
+    colonNeeded = true;
+
+    let start = 0;
+    let end = 24;
+    while (start < end) {
+      const option = document.createElement('option');
+      addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
+      const style = option.style;
+      style.fontFamily = theme.text;
+      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+      option.textContent =
+        `${DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour}`.length === 1 &&
+        DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour === 0
+          ? '12'
+          : `${DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour}`.length === 1 &&
+            DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour !== 0
+          ? `0${DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour}`
+          : DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour > 12 &&
+            DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour < 22
+          ? `0${DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour - 12}`
+          : DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour > 12 &&
+            DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour > 21
+          ? DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour - 12
+          : DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour;
+      option.value = start;
+      insertElement('beforeend', select, option);
+      start++;
+    }
+  } else if (type === 'minute') {
+    addClasses(select, ['schedule-it__form--date-selection__select-container__select']);
+    style.position = 'relative';
+    style.height = 'max-content';
+    style.width = 'max-content';
+    style.padding = '.25em';
+    style.margin = '0 .5em';
+    style.backgroundColor = 'transparent';
+    style.border = 'none';
+
+    if (elNum !== undefined && elNum !== null && elNum === 'first') {
+      style.marginTop = '.5em';
+    }
+
+    let start = 0;
+    let end = 60;
+    while (start < end) {
+      const option = document.createElement('option');
+      addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
+      const style = option.style;
+      style.fontFamily = theme.text;
+      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+      option.textContent =
+        `${DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, start, 0).minute}`.length === 1
+          ? `0${DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, start, 0).minute}`
+          : DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, start, 0).minute;
+      option.value = start;
+      insertElement('beforeend', select, option);
+      start++;
+    }
   }
   insertElement('beforeend', container, select);
 
@@ -209,7 +299,27 @@ function formSelect(type, theme, container, info) {
       style.border = `.075em groove ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}cc`;
       insertElement('beforeend', container, divider);
     }
+  } else if (colonNeeded === true) {
+    const colonDiv = document.createElement('div');
+    addClasses(colonDiv, ['schedule-it__form--date-selection__select-container__colon']);
+    const style = colonDiv.style;
+    style.position = 'relative';
+    style.height = '1.4em';
+    style.width = 'max-content';
+    if (elNum !== undefined && elNum !== null && elNum === 'first') {
+      style.marginTop = '.5em';
+    }
+
+    const colon = document.createElement('p');
+    colon.textContent = ':';
+    colon.style.padding = '0 .5em';
+
+    style.fontFamily = theme.text;
+    style.fontSize = '1em';
+    style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+    insertElement('beforeend', colonDiv, colon);
+    insertElement('beforeend', container, colonDiv);
   }
 }
 
-export { loginFormInput, formSelect };
+export { loginFormInput, formSelect, appointmentRequestInput };

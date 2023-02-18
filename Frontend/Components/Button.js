@@ -201,6 +201,14 @@ function button(buttonType, text, theme, container, info, user) {
         const formHeader = document.querySelector('.schedule-it__form--date-selection__heading').firstChild;
         formHeader.textContent = 'Select Date';
       });
+    } else if (text === 'Request Appointment') {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const form = document.querySelector('.schedule-it__form--request-appointment');
+        form.style.display = 'flex';
+        const formHeader = document.querySelector('.schedule-it__form--request-appointment__heading').firstChild;
+        formHeader.textContent = 'Request Appointment';
+      });
     }
   } else if (buttonType === 'Date Selection') {
     style.position = 'relative';
