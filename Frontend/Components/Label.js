@@ -68,4 +68,25 @@ function communicationPreferenceLabel(value, theme, container, info) {
   insertElement('beforeend', container, label);
 }
 
-export { loginFormLabel, communicationPreferenceLabel };
+function characterCountLabel(theme, container, settings) {
+  const label = document.createElement('label');
+  addClasses(label, ['schedule-it__form--request-appointment__textarea__label']);
+  const style = label.style;
+  style.position = 'absolute';
+  style.bottom = '-7em';
+  style.right = '4.5em';
+  style.fontFamily = theme.text;
+  style.fontSize = '.53em';
+  style.color = theme.timeOfDay === 'day' ? theme.grayScale.offWhite : theme.grayScale.raisinBlack;
+  style.backgroundColor = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+  style.borderRadius = '.5em';
+  style.padding = '.5em';
+
+  label.textContent = `Characters Left: ${
+    settings.size === 'small' ? 500 : settings.size === 'medium' ? 1000 : settings.size === 'large' ? 2000 : settings.size === 'extra-large' ? 4000 : 'unknown'
+  }`;
+
+  insertElement('beforeend', container, label);
+}
+
+export { loginFormLabel, communicationPreferenceLabel, characterCountLabel };

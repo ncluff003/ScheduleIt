@@ -1,7 +1,8 @@
 import { addClasses, insertElement } from '../Global/Utility';
+import { button } from './Button';
 import { communicationPreferenceHeader } from './Header';
 import { appointmentRequestInput, formSelect, textArea } from './Input';
-import { communicationPreferenceLabel } from './Label';
+import { characterCountLabel, communicationPreferenceLabel } from './Label';
 import { InvisibleRadio } from './Radio';
 
 function flexSection(sectionstyle, sectionType, theme, container, info, settings) {
@@ -35,9 +36,11 @@ function flexSection(sectionstyle, sectionType, theme, container, info, settings
   } else if (sectionType === 'message') {
     style.justifyContent = 'flex-start';
     style.paddingTop = '1em';
-    style.marginBottom = '3em';
+    style.marginBottom = '4em';
     textArea(theme, flex, info, { size: 'extra-large' });
+    characterCountLabel(theme, flex, { size: 'extra-large' });
   } else if (sectionType === 'request') {
+    button('Request Appointment', 'Request Appointment', theme, flex, info, '');
   }
 }
 

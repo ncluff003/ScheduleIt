@@ -350,23 +350,32 @@ function textArea(theme, container, info, settings) {
   style.fontSize = '.53em';
   style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
   textarea.placeholder = `Enter Your Message For ${info.firstname} ${info.lastname}`;
+  let maxLength;
 
   if (settings.size === 'small') {
+    maxLength = 500;
     style.height = '10em';
     style.minHeight = '10em';
-    textArea.minLength = 500;
+    textArea.max = maxLength;
+    textArea.maxLength = maxLength;
   } else if (settings.size === 'medium') {
+    maxLength = 1000;
     style.height = '13em';
     style.minHeight = '13em';
-    textArea.minLength = 1000;
+    textArea.max = maxLength;
+    textArea.maxLength = maxLength;
   } else if (settings.size === 'large') {
+    maxLength = 2000;
     style.height = '15em';
     style.minHeight = '15em';
-    textArea.minLength = 2000;
+    textArea.max = maxLength;
+    textArea.maxLength = maxLength;
   } else if (settings.size === 'extra-large') {
+    maxLength = 4000;
     style.height = '17em';
     style.minHeight = '17em';
-    textArea.minLength = 4000;
+    textArea.max = maxLength;
+    textArea.maxLength = maxLength;
   }
 
   textarea.addEventListener('focus', (e) => {
@@ -381,6 +390,13 @@ function textArea(theme, container, info, settings) {
     style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
     style.borderColor = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
     style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
+  });
+
+  textarea.addEventListener('keyup', (e) => {
+    e.preventDefault();
+    const label = document.querySelector('.schedule-it__form--request-appointment__textarea__label');
+    console.log(textarea.value.length, maxLength);
+    label.textContent = `Characters Left: ${Number(maxLength) - Number(textarea.value.length)}`;
   });
 
   insertElement('beforeend', container, textarea);

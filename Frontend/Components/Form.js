@@ -67,7 +67,7 @@ function form(formType, user, theme, container, info) {
     flexSection('column', 'phone', theme, form, info, { minHeight: '3em' });
     flexSection('column', 'communication', theme, form, info, { minHeight: '4em' });
     flexSection('column', 'message', theme, form, info, { minHeight: '6em' });
-    flexSection('column', 'request', theme, form, info, { minHeight: '2em' });
+    flexSection('column', 'request', theme, form, info, { minHeight: '3em' });
   }
 
   insertElement('beforeend', container, form);
