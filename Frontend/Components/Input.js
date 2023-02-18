@@ -215,7 +215,6 @@ function formSelect(type, theme, container, info, elNum) {
       }
     });
   } else if (type === 'hour') {
-    addClasses(select, ['schedule-it__form--date-selection__select-container__select']);
     style.position = 'relative';
     style.height = 'max-content';
     style.width = 'max-content';
@@ -224,7 +223,10 @@ function formSelect(type, theme, container, info, elNum) {
     style.backgroundColor = 'transparent';
     style.border = 'none';
     if (elNum !== undefined && elNum !== null && elNum === 'first') {
-      style.marginTop = '.5em';
+      style.marginTop = '1em';
+      addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'first-hour']);
+    } else {
+      addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'second-hour']);
     }
 
     colonNeeded = true;
@@ -256,7 +258,6 @@ function formSelect(type, theme, container, info, elNum) {
       start++;
     }
   } else if (type === 'minute') {
-    addClasses(select, ['schedule-it__form--date-selection__select-container__select']);
     style.position = 'relative';
     style.height = 'max-content';
     style.width = 'max-content';
@@ -266,7 +267,10 @@ function formSelect(type, theme, container, info, elNum) {
     style.border = 'none';
 
     if (elNum !== undefined && elNum !== null && elNum === 'first') {
-      style.marginTop = '.5em';
+      style.marginTop = '1em';
+      addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'first-minute']);
+    } else {
+      addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'second-minute']);
     }
 
     let start = 0;
@@ -307,7 +311,7 @@ function formSelect(type, theme, container, info, elNum) {
     style.height = '1.4em';
     style.width = 'max-content';
     if (elNum !== undefined && elNum !== null && elNum === 'first') {
-      style.marginTop = '.5em';
+      style.marginTop = '1em';
     }
 
     const colon = document.createElement('p');

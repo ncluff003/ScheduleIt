@@ -208,6 +208,29 @@ function button(buttonType, text, theme, container, info, user) {
         form.style.display = 'flex';
         const formHeader = document.querySelector('.schedule-it__form--request-appointment__heading').firstChild;
         formHeader.textContent = 'Request Appointment';
+
+        const startHourValue = Number(document.querySelector('.first-hour').value);
+        const endHourValue = Number(document.querySelector('.second-hour').value);
+        const startMinuteValue = Number(document.querySelector('.first-minute').value);
+        const endMinuteValue = Number(document.querySelector('.second-minute').value);
+        const startMeridiemValue = document.querySelector('.first-meridiem');
+        const endMeridiemValue = document.querySelector('.second-meridiem');
+
+        startMeridiemValue.textContent = DateTime.local(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+          startHourValue,
+          startMinuteValue,
+          0,
+        ).toFormat('a');
+        endMeridiemValue.textContent = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, endHourValue, endMinuteValue, 0).toFormat(
+          'a',
+        );
+
+        console.log(startHourValue, startMinuteValue, startMeridiemValue);
+        console.log(endHourValue, endMinuteValue, endMeridiemValue);
+        console.log(DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, startHourValue, startMinuteValue, 0).toFormat('A'));
       });
     }
   } else if (buttonType === 'Date Selection') {

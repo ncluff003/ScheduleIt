@@ -55,6 +55,7 @@ function form(formType, user, theme, container, info) {
     style.flexFlow = 'column nowrap';
     style.justifyContent = 'center';
     style.alignItems = 'center';
+    style.paddingTop = '2em';
     style.zIndex = 5;
     style.backgroundColor = `${theme.primary}f2`;
     formCloser('request-appointment', theme, form);

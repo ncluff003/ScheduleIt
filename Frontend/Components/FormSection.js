@@ -53,6 +53,20 @@ function timeFlexSection(type, theme, container, info, elNum) {
     } else {
       formSelect('minute', theme, timeFlex, info);
     }
+    if (elNum !== undefined && elNum !== null && elNum === 'first') {
+      const meridiem = document.createElement('p');
+      addClasses(meridiem, ['schedule-it__form--request-appointment__flex-section__time__meridiem', 'first-meridiem']);
+      meridiem.style.marginTop = '1em';
+      insertElement('beforeend', timeFlex, meridiem);
+    } else {
+      const meridiem = document.createElement('p');
+      addClasses(meridiem, ['schedule-it__form--request-appointment__flex-section__time__meridiem', 'second-meridiem']);
+      insertElement('beforeend', timeFlex, meridiem);
+    }
+
+    // meridiem.textContent = DateTime.local();
+    style.fontFamily = theme.text;
+    style.fontSize = '.75em';
   } else if (type === 'to') {
     const to = document.createElement('p');
     const style = to.style;
