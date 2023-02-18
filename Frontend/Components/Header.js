@@ -112,6 +112,7 @@ function communicationPreferenceHeader(theme, container) {
   style.fontSize = '.6em';
   style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
   style.marginBottom = '.6em';
+  style.paddingTop = '1em';
 
   const headerText = document.createElement('h3');
   addClasses(header, ['schedule-it__form--request-appointment__flex-section__header__text']);

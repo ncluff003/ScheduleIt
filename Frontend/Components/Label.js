@@ -28,6 +28,7 @@ function communicationPreferenceLabel(value, theme, container, info) {
   style.alignItems = 'center';
   style.fontFamily = theme.text;
   style.fontSize = '.7em';
+  style.transition = 'background-color .5s, color .5s, border .5s';
 
   if (value.split(' ').join('').toLowerCase() === 'videochat') {
     style.borderRadius = '.5em 0 0 .5em';

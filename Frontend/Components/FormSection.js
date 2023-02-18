@@ -4,13 +4,13 @@ import { appointmentRequestInput, formSelect } from './Input';
 import { communicationPreferenceLabel } from './Label';
 import { InvisibleRadio } from './Radio';
 
-function flexSection(sectionstyle, sectionType, theme, container, info) {
+function flexSection(sectionstyle, sectionType, theme, container, info, settings) {
   const flex = document.createElement('section');
   addClasses(flex, ['schedule-it__form--request-appointment__flex-section']);
   const style = flex.style;
   style.position = 'relative';
   style.height = 'max-content';
-  style.minHeight = '2em';
+  style.minHeight = settings.minHeight;
   style.width = '100%';
   style.display = 'flex';
   sectionstyle === 'flexing' ? (style.flexFlow = 'row wrap') : sectionstyle === 'column' ? (style.flexFlow = 'column nowrap') : (style.flexFlow = 'row nowrap');

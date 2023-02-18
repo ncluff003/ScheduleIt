@@ -53,20 +53,21 @@ function form(formType, user, theme, container, info) {
     style.width = '100%';
     style.display = 'none'; // This will be changed later on to aid the functionality of the scheduling application.  It will start as 'none'.
     style.flexFlow = 'column nowrap';
-    style.justifyContent = 'center';
+    style.justifyContent = 'flex-start';
     style.alignItems = 'center';
-    style.paddingTop = '2em';
+    style.paddingTop = '2.5em';
     style.zIndex = 5;
     style.backgroundColor = `${theme.primary}f2`;
+    style.overflowY = 'auto';
     formCloser('request-appointment', theme, form);
     selectDateFormHeader('request-appointment', theme, form);
-    flexSection('flexing', 'names', theme, form, info);
-    flexSection('column', 'time', theme, form, info);
-    flexSection('column', 'email', theme, form, info);
-    flexSection('column', 'phone', theme, form, info);
-    flexSection('column', 'communication', theme, form, info);
-    flexSection('column', 'message', theme, form, info);
-    flexSection('column', 'request', theme, form, info);
+    flexSection('flexing', 'names', theme, form, info, { minHeight: '2em' });
+    flexSection('column', 'time', theme, form, info, { minHeight: '4em' });
+    flexSection('column', 'email', theme, form, info, { minHeight: '3em' });
+    flexSection('column', 'phone', theme, form, info, { minHeight: '3em' });
+    flexSection('column', 'communication', theme, form, info, { minHeight: '4em' });
+    flexSection('column', 'message', theme, form, info, { minHeight: '6em' });
+    flexSection('column', 'request', theme, form, info, { minHeight: '2em' });
   }
 
   insertElement('beforeend', container, form);
