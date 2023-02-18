@@ -1,5 +1,8 @@
 import { addClasses, insertElement } from '../Global/Utility';
+import { communicationPreferenceHeader } from './Header';
 import { appointmentRequestInput, formSelect } from './Input';
+import { communicationPreferenceLabel } from './Label';
+import { InvisibleRadio } from './Radio';
 
 function flexSection(sectionstyle, sectionType, theme, container, info) {
   const flex = document.createElement('section');
@@ -9,7 +12,6 @@ function flexSection(sectionstyle, sectionType, theme, container, info) {
   style.height = 'max-content';
   style.minHeight = '2em';
   style.width = '100%';
-  style.paddingRight = '1em';
   style.display = 'flex';
   sectionstyle === 'flexing' ? (style.flexFlow = 'row wrap') : sectionstyle === 'column' ? (style.flexFlow = 'column nowrap') : (style.flexFlow = 'row nowrap');
   style.justifyContent = sectionstyle === 'flexing' ? 'space-evenly' : 'center';
@@ -28,6 +30,9 @@ function flexSection(sectionstyle, sectionType, theme, container, info) {
   } else if (sectionType === 'phone') {
     appointmentRequestInput('full', 'Phone Number', theme, flex, info);
   } else if (sectionstyle === 'column' && sectionType === 'communication') {
+    communicationPreferenceHeader(theme, flex);
+    communicationFlexSection(theme, flex, info);
+  } else if (sectionType === 'message') {
   } else if (sectionType === 'request') {
   }
 }
@@ -61,6 +66,7 @@ function timeFlexSection(type, theme, container, info, elNum) {
       insertElement('beforeend', timeFlex, meridiem);
     } else {
       const meridiem = document.createElement('p');
+      meridiem.style.margin = '0 0 1em';
       addClasses(meridiem, ['schedule-it__form--request-appointment__flex-section__time__meridiem', 'second-meridiem']);
       insertElement('beforeend', timeFlex, meridiem);
     }
@@ -79,6 +85,24 @@ function timeFlexSection(type, theme, container, info, elNum) {
     insertElement('beforeend', timeFlex, to);
   }
   insertElement('beforeend', container, timeFlex);
+}
+
+function communicationFlexSection(theme, container, info) {
+  const flex = document.createElement('section');
+  addClasses(flex, ['schedule-it__form--request-appointment__flex-section__communication']);
+  const style = flex.style;
+  style.position = 'relative';
+  style.height = '3em';
+  style.width = '100%';
+  style.display = 'flex';
+  style.flexFlow = 'row nowrap';
+  style.justifyContent = 'center';
+  style.alignItems = 'center';
+  InvisibleRadio('Video Chat', theme, flex, info);
+  communicationPreferenceLabel('Video Chat', theme, flex, info);
+  InvisibleRadio('Phone Call', theme, flex, info);
+  communicationPreferenceLabel('Phone Call', theme, flex, info);
+  insertElement('beforeend', container, flex);
 }
 
 export { flexSection };

@@ -97,4 +97,28 @@ function scheduleHeader(user, theme, container, info) {
   dateContainer(theme, header, info);
 }
 
-export { calendarHeader, loginFormHeader, scheduleHeader, selectDateFormHeader };
+function communicationPreferenceHeader(theme, container) {
+  const header = document.createElement('header');
+  addClasses(header, ['schedule-it__form--request-appointment__flex-section__header']);
+  const style = header.style;
+  style.position = 'relative';
+  style.height = '3em';
+  style.width = '100%';
+  style.display = 'flex';
+  style.flexFlow = 'column nowrap';
+  style.justifyContent = 'center';
+  style.alignItems = 'center';
+  style.fontFamily = theme.text;
+  style.fontSize = '.6em';
+  style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+  style.marginBottom = '.6em';
+
+  const headerText = document.createElement('h3');
+  addClasses(header, ['schedule-it__form--request-appointment__flex-section__header__text']);
+  headerText.textContent = 'Select Your Preferred Means Of Communication';
+  insertElement('beforeend', header, headerText);
+
+  insertElement('beforeend', container, header);
+}
+
+export { calendarHeader, loginFormHeader, scheduleHeader, selectDateFormHeader, communicationPreferenceHeader };

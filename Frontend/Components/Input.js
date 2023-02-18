@@ -1,5 +1,6 @@
-import { addClasses, insertElement } from '../Global/Utility';
 import { DateTime, Info } from 'luxon';
+import chroma from 'chroma-js';
+import { addClasses, insertElement } from '../Global/Utility';
 
 function clearSelect(select) {
   [...select.childNodes].forEach((child) => child.remove());
@@ -17,20 +18,20 @@ function loginFormInput(theme, container) {
   style.fontFamily = theme.text;
   style.fontSize = '.6em';
   style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
-  style.border = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
+  style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
   style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
   style.borderRadius = '.5rem';
   input.addEventListener('focus', (e) => {
     e.preventDefault();
     style.outline = 'none';
     style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`;
-    style.border = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`;
+    style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`}`;
     style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}` : `${theme.grayScale.offWhite}`;
   });
   input.addEventListener('blur', (e) => {
     e.preventDefault();
     style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
-    style.border = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
+    style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
     style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
   });
   insertElement('beforeend', container, input);
@@ -46,10 +47,10 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
   style.padding = '.5em';
   style.fontFamily = theme.text;
   style.fontSize = '.53em';
-  style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
-  style.backgroundColor = 'transparent';
-  style.border = 'none';
-  style.borderBottom = `.2em groove ${theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`}`;
+  style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
+  style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
+  style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+  style.borderRadius = '.5rem';
   input.placeholder = placeholder;
   insertElement('beforeend', container, input);
 }
@@ -227,6 +228,7 @@ function formSelect(type, theme, container, info, elNum) {
       addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'first-hour']);
     } else {
       addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'second-hour']);
+      style.margin = '0 0 1em';
     }
 
     colonNeeded = true;
@@ -270,6 +272,7 @@ function formSelect(type, theme, container, info, elNum) {
       style.margin = '1em 0 0';
       addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'first-minute']);
     } else {
+      style.margin = '0 0 1em';
       addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'second-minute']);
     }
 
@@ -312,6 +315,8 @@ function formSelect(type, theme, container, info, elNum) {
     style.width = 'max-content';
     if (elNum !== undefined && elNum !== null && elNum === 'first') {
       style.margin = '1em 0 0';
+    } else {
+      style.margin = '0 0 1em';
     }
 
     const colon = document.createElement('p');
@@ -324,6 +329,11 @@ function formSelect(type, theme, container, info, elNum) {
     insertElement('beforeend', colonDiv, colon);
     insertElement('beforeend', container, colonDiv);
   }
+
+  select.addEventListener('mouseover', (e) => {
+    e.preventDefault();
+    style.cursor = 'pointer';
+  });
 }
 
 export { loginFormInput, formSelect, appointmentRequestInput };

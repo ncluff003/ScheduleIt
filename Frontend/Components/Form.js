@@ -65,6 +65,7 @@ function form(formType, user, theme, container, info) {
     flexSection('column', 'email', theme, form, info);
     flexSection('column', 'phone', theme, form, info);
     flexSection('column', 'communication', theme, form, info);
+    flexSection('column', 'message', theme, form, info);
     flexSection('column', 'request', theme, form, info);
   }
 
