@@ -336,4 +336,54 @@ function formSelect(type, theme, container, info, elNum) {
   });
 }
 
-export { loginFormInput, formSelect, appointmentRequestInput };
+function textArea(theme, container, info, settings) {
+  const textarea = document.createElement('textarea');
+  addClasses(textarea, ['schedule-it__form--request-appointment__textarea']);
+  const style = textarea.style;
+  style.width = '80%';
+  style.resize = 'none';
+  style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+  style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
+  style.borderRadius = '.25em';
+  style.padding = '1em';
+  style.fontFamily = theme.text;
+  style.fontSize = '.53em';
+  style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
+  textarea.placeholder = `Enter Your Message For ${info.firstname} ${info.lastname}`;
+
+  if (settings.size === 'small') {
+    style.height = '10em';
+    style.minHeight = '10em';
+    textArea.minLength = 500;
+  } else if (settings.size === 'medium') {
+    style.height = '13em';
+    style.minHeight = '13em';
+    textArea.minLength = 1000;
+  } else if (settings.size === 'large') {
+    style.height = '15em';
+    style.minHeight = '15em';
+    textArea.minLength = 2000;
+  } else if (settings.size === 'extra-large') {
+    style.height = '17em';
+    style.minHeight = '17em';
+    textArea.minLength = 4000;
+  }
+
+  textarea.addEventListener('focus', (e) => {
+    e.preventDefault();
+    style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}` : `${theme.grayScale.offWhite}`;
+    style.borderColor = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`;
+    style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`;
+  });
+
+  textarea.addEventListener('blur', (e) => {
+    e.preventDefault();
+    style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+    style.borderColor = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
+    style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
+  });
+
+  insertElement('beforeend', container, textarea);
+}
+
+export { loginFormInput, formSelect, appointmentRequestInput, textArea };

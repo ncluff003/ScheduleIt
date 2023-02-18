@@ -1,6 +1,6 @@
 import { addClasses, insertElement } from '../Global/Utility';
 import { communicationPreferenceHeader } from './Header';
-import { appointmentRequestInput, formSelect } from './Input';
+import { appointmentRequestInput, formSelect, textArea } from './Input';
 import { communicationPreferenceLabel } from './Label';
 import { InvisibleRadio } from './Radio';
 
@@ -33,6 +33,10 @@ function flexSection(sectionstyle, sectionType, theme, container, info, settings
     communicationPreferenceHeader(theme, flex);
     communicationFlexSection(theme, flex, info);
   } else if (sectionType === 'message') {
+    style.justifyContent = 'flex-start';
+    style.paddingTop = '1em';
+    style.marginBottom = '3em';
+    textArea(theme, flex, info, { size: 'extra-large' });
   } else if (sectionType === 'request') {
   }
 }
