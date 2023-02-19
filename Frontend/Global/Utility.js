@@ -39,6 +39,21 @@ export const toggleClasses = (element, classNames) => {
   });
 };
 
+export const formatPhoneNumber = (value) => {
+  if (!value) return value;
+  let number;
+  let phoneNumber = value.replace(/[^\d]/g, '');
+  let phoneNumberLength = phoneNumber.length;
+  if (phoneNumberLength <= 3) {
+    return phoneNumber;
+  }
+  if (phoneNumberLength >= 4 && phoneNumberLength < 7) {
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}`;
+  }
+  number = `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)} - ${phoneNumber.slice(6)}`;
+  return number;
+};
+
 export const multiplyTwo = (numberOne, numberTwo) => {
   return numberOne * numberTwo;
 };

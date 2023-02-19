@@ -1,6 +1,6 @@
 import { DateTime, Info } from 'luxon';
 import chroma from 'chroma-js';
-import { addClasses, insertElement } from '../Global/Utility';
+import { addClasses, formatPhoneNumber, insertElement } from '../Global/Utility';
 
 function clearSelect(select) {
   [...select.childNodes].forEach((child) => child.remove());
@@ -52,6 +52,14 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
   style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
   style.borderRadius = '.5rem';
   input.placeholder = placeholder;
+
+  if (placeholder === 'Phone Number') {
+    input.addEventListener('keyup', (e) => {
+      e.preventDefault();
+      input.value = formatPhoneNumber(input.value);
+    });
+  }
+
   insertElement('beforeend', container, input);
 }
 
