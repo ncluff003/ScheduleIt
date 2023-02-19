@@ -88,9 +88,7 @@ function button(buttonType, text, theme, container, info, user) {
     if (text === 'Login') {
       button.addEventListener('click', async (e) => {
         e.preventDefault();
-        console.log(info);
         let header = e.target.closest('.schedule-it__form--login').firstChild.firstChild;
-        console.log(header.textContent);
         if (header.textContent === 'Owner Login') {
           console.log(document.querySelectorAll('.schedule-it__form--login__user-login__input')[0]);
           console.log(document.querySelectorAll('.schedule-it__form--login__user-login__input')[0].value);
@@ -112,8 +110,6 @@ function button(buttonType, text, theme, container, info, user) {
               loginContainers.forEach((container) => (container.style.display = 'none'));
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
-              console.log('Token Is Verified! 😄');
-              console.log(response.data.data);
               renderSchedule(userType, theme, info);
               info.appointments = response.data.data.currentAppointments;
             }
@@ -122,7 +118,6 @@ function button(buttonType, text, theme, container, info, user) {
           }
         }
         let headerTwo = e.target.closest('.schedule-it__form--login').firstChild.nextSibling.firstChild;
-        console.log(headerTwo.textContent);
         if (headerTwo.textContent === 'Client Login') {
           const email = document.querySelectorAll('.schedule-it__form--login__user-login__input')[1].value;
           info.clientEmail = email;

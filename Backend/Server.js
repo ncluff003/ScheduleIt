@@ -20,12 +20,11 @@ module.exports = {
   // EVENTUALLY, THIS WILL NEED TO BE REPLACED WITH MORE FLEXIBILITY FOR CONNECTING TO MORE THAN A MONGODB DATABASE.
   connectToDB: {
     mongo: (connectionString) => {
-      console.log(process.env.NODE_ENV);
-      const DB = process.env.DB.replace(`<PASSWORD>`, process.env.DBPASSWORD)
-        .replace(`<DATABASE>`, process.env.DBNAME)
-        .replace(`<USERNAME>`, process.env.DBUSERNAME);
-      console.log(`Connection String: ${DB}`);
-      // const DB = connectionString;
+      // const DB = process.env.DB.replace(`<PASSWORD>`, process.env.DBPASSWORD)
+      //   .replace(`<DATABASE>`, process.env.DBNAME)
+      //   .replace(`<USERNAME>`, process.env.DBUSERNAME);
+      const DB = connectionString;
+      console.log(process.env.DB);
       mongoose
         .connect(DB, {
           useNewUrlParser: true,

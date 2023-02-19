@@ -12,10 +12,11 @@ const AppError = require(`../Utilities/appError`);
 const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response) => {
-  console.log(request.body);
   const userType = request.body.userType;
   const email = request.body.ownerEmail;
   const selectedDate = request.body.selectedDate;
+
+  // THIS IS FOR IF IT IS A CLIENT SELECTING THE DATE.
   let clientEmail;
   if (request.body.clientEmail) {
     clientEmail = request.body.clientEmail;
@@ -23,6 +24,7 @@ module.exports = catchAsync(async (request, response) => {
 
   const owner = await Owner.findOne({ email });
 
+  // GET THIS DATE'S APPOINTMENTS
   const dateFilteredAppointments = owner.appointments.filter((appointment) => {
     if (
       DateTime.fromISO(selectedDate).day === DateTime.fromJSDate(appointment.appointmentStart).day ||
@@ -37,6 +39,7 @@ module.exports = catchAsync(async (request, response) => {
     currentAppointments: dateFilteredAppointments,
   };
 
+  // IF CLIENT IS MAKING THE REQUEST, GET THEIR APPOINTMENTS FOR THIS DATE.
   let clientAppointments;
   if (userType === 'Client') {
     clientAppointments = dateFilteredAppointments.filter((appointment) => {

@@ -6,6 +6,10 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const hpp = require('hpp');
+const compression = require('compression');
 
 ////////////////////////////////////////////
 //  Third Party Module Instances
@@ -21,6 +25,16 @@ App.set(`views`, path.join(__dirname, `Views`));
 App.use(bodyParser.json({ limit: `300kb` }));
 App.use(express.json());
 App.use(express.urlencoded({ extended: true, limit: '10kb' }));
+// App.use(
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       connectSrc: ["'self'", `${process.env.PROD_URL}`, `http://127.0.0.1:${process.env.PORT}/*`],
+//     },
+//   }),
+// );
+App.use(xss());
+App.use(hpp());
+App.use(compression());
 
 ////////////////////////////////////////////
 //  Routing Middleware

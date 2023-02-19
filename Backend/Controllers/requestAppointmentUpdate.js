@@ -9,7 +9,6 @@ const Email = require('../Utilities/email');
 const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
-  console.log(request.originalUrl);
   const userType = request.originalUrl.split('/')[2];
   if (userType === 'Owners') {
     return next(new AppError('Owners Cannot Update Appointments. Please Consider Emailing The Client About Re-Scheduling If Necessary.', 400));

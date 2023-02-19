@@ -13,7 +13,8 @@ const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
   const clientEmail = request.body.email;
-  console.log(clientEmail);
+
+  // I STILL NEED TO VALIDATE IT AS AN EMAIL ADDRESS AT ALL.
 
   if (!clientEmail || clientEmail === null || clientEmail === undefined) return next(new AppError('You must provide an email for the client to login.', 400));
 
@@ -21,7 +22,8 @@ module.exports = catchAsync(async (request, response, next) => {
   const owner = await Owner.findOne({ email });
   const userType = 'Client';
 
-  const dateFilteredAppointments = owner.appointments.filter((appointment, index) => {
+  // GET TODAY'S APPOINTMENTS
+  const dateFilteredAppointments = owner.appointments.filter((appointment) => {
     if (
       DateTime.now().day === DateTime.fromJSDate(appointment.appointmentStart).day ||
       DateTime.now().day === DateTime.fromJSDate(appointment.appointmentEnd).day
@@ -30,7 +32,8 @@ module.exports = catchAsync(async (request, response, next) => {
     }
   });
 
-  const clientAppointments = dateFilteredAppointments.filter((appointment, index) => {
+  // GET THE CLIENT'S APPOINTMENTS FOR TODAY
+  const clientAppointments = dateFilteredAppointments.filter((appointment) => {
     let attendees = appointment.attendees;
     attendees.forEach((attendee) => {
       if (attendee.email === clientEmail) {

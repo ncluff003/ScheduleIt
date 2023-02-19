@@ -13,13 +13,12 @@ const Email = require('../Utilities/email');
 const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response) => {
-  const email = request.params.email;
+  // THIS MUST BE UPDATED TO REFLECT THE UPDATE REGARDING THE NEED FOR THE FREELANCER'S AND OWNER'S NEED TO PROVIDE THE ENVIRONMENT VARIABLES AND DATABASE CONNECTION STRING.
+  const email = request.body.email;
   const owner = await Owner.findOne({ email });
   const token = randomToken(8);
   let newOwner;
   let firstTime = false;
-  console.log(request.body, request.params);
-  console.log(owner);
 
   if (owner === null) {
     newOwner = await Owner.create({
@@ -47,8 +46,6 @@ module.exports = catchAsync(async (request, response) => {
     status: 'Success',
     data: {
       userType: userType,
-      owner: owner,
-      token: token,
       firstTime: firstTime,
     },
   });
