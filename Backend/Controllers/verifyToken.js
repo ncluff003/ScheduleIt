@@ -1,4 +1,8 @@
 ////////////////////////////////////////////
+//  Third Party Middleware
+const { DateTime } = require('luxon');
+
+////////////////////////////////////////////
 //  My Middleware
 const catchAsync = require(`../Utilities/catchAsync`);
 const AppError = require(`../Utilities/appError`);
@@ -23,7 +27,10 @@ module.exports = catchAsync(async (request, response, next) => {
   }
 
   const dateFilteredAppointments = owner.appointments.filter((appointment, index) => {
-    if (DateTime.now().day === DateTime.fromISO(appointment.appointmentStart).day || DateTime.now().day === DateTime.fromISO(appointment.appointmentEnd).day) {
+    if (
+      DateTime.now().day === DateTime.fromJSDate(appointment.appointmentStart).day ||
+      DateTime.now().day === DateTime.fromJSDate(appointment.appointmentEnd).day
+    ) {
       return appointment;
     }
   });
