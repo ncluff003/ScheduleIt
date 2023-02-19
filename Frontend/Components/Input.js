@@ -259,6 +259,17 @@ function formSelect(type, theme, container, info, elNum) {
       insertElement('beforeend', select, option);
       start++;
     }
+
+    select.addEventListener('change', (e) => {
+      e.preventDefault();
+      if (select.classList.contains('first-hour')) {
+        const meridiem = document.querySelector('.first-meridiem');
+        meridiem.textContent = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, Number(select.value), 0, 0).toFormat('a');
+      } else if (select.classList.contains('second-hour')) {
+        const meridiem = document.querySelector('.second-meridiem');
+        meridiem.textContent = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, Number(select.value), 0, 0).toFormat('a');
+      }
+    });
   } else if (type === 'minute') {
     style.position = 'relative';
     style.height = 'max-content';

@@ -301,6 +301,54 @@ function button(buttonType, text, theme, container, info, user) {
     theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
     style.margin = '0.6em 0.3em';
     button.textContent = text;
+
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      const inputs = document.querySelectorAll('.schedule-it__form--request-appointment__input');
+      const textareas = document.querySelectorAll('.schedule-it__form--request-appointment__textarea');
+      const selects = document.querySelectorAll('.schedule-it__form--date-selection__select-container__select');
+      const radios = document.querySelectorAll('.schedule-it__form--request-appointment__flex-section__radio');
+      const firstname = inputs[0].value;
+      const lastname = inputs[1].value;
+      const email = inputs[2].value;
+      const phone = inputs[3].value;
+      let communicationPreference;
+      const message = textareas[0].value;
+      const date = document.querySelector('.schedule-it__display__schedule__header__date__text').dataset.date;
+      const startHour = Number(selects[3].value);
+      const startMinute = Number(selects[4].value);
+      const endHour = Number(selects[5].value);
+      const endMinute = Number(selects[6].value);
+
+      radios.forEach((radio) => {
+        if (radio.checked === true) {
+          communicationPreference = radio.value;
+        }
+      });
+
+      const request = {
+        ownerEmail: info.email,
+        firstname: firstname,
+        lastname: lastname,
+        clientEmail: email,
+        clientPhone: phone,
+        appointment: {
+          appointmentType: communicationPreference,
+          dateRequested: DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, 0, 0, 0).toISO(),
+          appointmentStart: DateTime.local(
+            DateTime.fromISO(date).year,
+            DateTime.fromISO(date).month,
+            DateTime.fromISO(date).day,
+            startHour,
+            startMinute,
+            0,
+          ).toISO(),
+          appointmentEnd: DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, endHour, endMinute, 0).toISO(),
+        },
+        message: message,
+      };
+      console.log(request);
+    });
   }
 
   button.addEventListener('mouseover', (e) => {
