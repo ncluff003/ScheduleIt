@@ -302,7 +302,7 @@ function button(buttonType, text, theme, container, info, user) {
     style.margin = '0.6em 0.3em';
     button.textContent = text;
 
-    button.addEventListener('click', (e) => {
+    button.addEventListener('click', async (e) => {
       e.preventDefault();
       const inputs = document.querySelectorAll('.schedule-it__form--request-appointment__input');
       const textareas = document.querySelectorAll('.schedule-it__form--request-appointment__textarea');
@@ -348,6 +348,16 @@ function button(buttonType, text, theme, container, info, user) {
         message: message,
       };
       console.log(request);
+
+      try {
+        const response = await axios({
+          method: 'POST',
+          url: `/ScheduleIt/Client/${info.email}/Appointments`,
+          data: request,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     });
   }
 

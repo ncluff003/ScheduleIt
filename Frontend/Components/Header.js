@@ -64,6 +64,9 @@ function selectDateFormHeader(formType, theme, container) {
   } else if (formType === 'request-appointment') {
     addClasses(heading, ['schedule-it__form--request-appointment__heading']);
     style.fontSize = '1.25em';
+  } else if (formType === 'update-appointment') {
+    addClasses(heading, ['schedule-it__form--request-appointment__heading']);
+    style.fontSize = '1.25em';
   }
   style.height = '15%';
   style.width = '100%';

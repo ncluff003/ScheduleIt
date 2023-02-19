@@ -5,6 +5,12 @@ import { addClasses, insertElement } from '../Global/Utility';
 function hour(theme, container, info, index) {
   const hour = document.createElement('section');
   addClasses(hour, ['schedule-it__display__schedule__planner__hour']);
+  console.log(info.scheduleStart, info.scheduleEnd);
+  if ((info.scheduleIsOvernight === false && info.scheduleStart.hour > index) || (info.scheduleIsOvernight === false && info.scheduleEnd.hour <= index)) {
+    addClasses(hour, ['disabled']);
+  } else if (info.scheduleIsOvernight === true && index >= info.scheduleEnd.hour && index < info.scheduleStart.hour) {
+    addClasses(hour, ['disabled']);
+  }
   const style = hour.style;
   style.position = 'relative';
   style.height = '3em';
@@ -49,6 +55,10 @@ function hour(theme, container, info, index) {
       interval(theme, hour);
       start++;
     }
+  }
+
+  if (hour.classList.contains('disabled')) {
+    style.backgroundColor = theme.grayScale.darkCharcoal;
   }
 }
 

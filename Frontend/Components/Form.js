@@ -43,8 +43,12 @@ function form(formType, user, theme, container, info) {
     selectDateFormHeader('select-date', theme, form);
     dateSelectContainer(theme, form, info);
     button('Date Selection', 'Select Date', theme, form, info, '');
-  } else if (formType === 'request-appointment') {
-    addClasses(form, ['schedule-it__form--request-appointment']);
+  } else if (formType === 'request-appointment' || formType === 'update-appointment') {
+    if (formType === 'request-appointment') {
+      addClasses(form, ['schedule-it__form--request-appointment']);
+    } else if (formType === 'update-appointment') {
+      addClasses(form, ['schedule-it__form--update-appointment']);
+    }
     const style = form.style;
     style.position = 'absolute';
     style.top = 0;
@@ -59,8 +63,13 @@ function form(formType, user, theme, container, info) {
     style.zIndex = 5;
     style.backgroundColor = `${theme.primary}f2`;
     style.overflowY = 'auto';
-    formCloser('request-appointment', theme, form);
-    selectDateFormHeader('request-appointment', theme, form);
+    if (formType === 'request-appointment') {
+      formCloser('request-appointment', theme, form);
+      selectDateFormHeader('request-appointment', theme, form);
+    } else if (formType === 'update-appointment') {
+      formCloser('update-appointment', theme, form);
+      selectDateFormHeader('update-appointment', theme, form);
+    }
     flexSection('flexing', 'names', theme, form, info, { minHeight: '2em' });
     flexSection('column', 'time', theme, form, info, { minHeight: '4em' });
     flexSection('column', 'email', theme, form, info, { minHeight: '3em' });

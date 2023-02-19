@@ -5,6 +5,7 @@ import { scheduleHeader } from './Header';
 
 function renderSchedule(user, theme, info) {
   const display = document.querySelector('.schedule-it__display');
+  console.log(user);
 
   const schedule = document.createElement('section');
   addClasses(schedule, ['schedule-it__display__schedule']);
@@ -25,6 +26,9 @@ function renderSchedule(user, theme, info) {
   scheduleContainer(theme, schedule, info);
   form('select-date', user, theme, schedule, info);
   form('request-appointment', user, theme, schedule, info);
+  if (user === 'Client') {
+    form('update-appointment', user, theme, schedule, info);
+  }
 }
 
 export { renderSchedule };

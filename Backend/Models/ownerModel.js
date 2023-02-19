@@ -35,7 +35,7 @@ const ownerSchema = new mongoose.Schema({
     {
       appointmentType: {
         type: String,
-        enum: ['Video', 'Phone'],
+        enum: ['Video Chat', 'Phone Call'],
       },
       dateRequested: {
         type: Date,
