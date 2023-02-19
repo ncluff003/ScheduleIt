@@ -20,8 +20,6 @@ module.exports = catchAsync(async (request, response, next) => {
   const owner = await Owner.findOne({ email }).select('+token');
   let tokenVerified = false;
 
-  console.log(owner);
-
   if (token !== owner.token) {
     return next(new AppError('Token provided does not match the token given to the owner.', 400));
   }
@@ -41,7 +39,6 @@ module.exports = catchAsync(async (request, response, next) => {
     data: {
       owner: owner,
       currentAppointments: dateFilteredAppointments,
-      token: token,
       tokenVerified: tokenVerified,
       message: 'Token Verified',
     },

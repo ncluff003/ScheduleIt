@@ -113,7 +113,9 @@ function button(buttonType, text, theme, container, info, user) {
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
               console.log('Token Is Verified! 😄');
+              console.log(response.data.data);
               renderSchedule(userType, theme, info);
+              info.appointments = response.data.data.currentAppointments;
             }
           } catch (error) {
             console.error(error);
