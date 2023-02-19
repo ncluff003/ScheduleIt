@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import { addClasses, insertElement } from '../Global/Utility';
 import { renderSchedule } from './Schedule';
 import { closeForm } from './FormCloser';
+import { getTodaysAppointments } from '../Global/Methods.js/getCurrentAppointments';
 
 function button(buttonType, text, theme, container, info, user) {
   const button = document.createElement('button');
@@ -117,20 +118,6 @@ function button(buttonType, text, theme, container, info, user) {
           } catch (error) {
             console.error(error);
           }
-
-          /*
-            * As soon as the token is verified, the following must be available.
-            @ 1. Login Form goes away.
-            @ 2. A login variable is stored in Local Storage with an expiration date. -- This is an eventuality, but for now, they will have to login in each time they navigate away.
-            @ 3. The current day's schedule appears with the right elements available.
-              ~ For Owners:
-                ~ No Requesting Appointment Button
-                ~ ALL appointments can be deleted, but NOT updated from the application.
-              
-              ~ For Clients
-                ~ Only appointments that the client is a part of can be updated or deleted.
-
-          */
         }
         let headerTwo = e.target.closest('.schedule-it__form--login').firstChild.nextSibling.firstChild;
         console.log(headerTwo.textContent);
@@ -157,6 +144,10 @@ function button(buttonType, text, theme, container, info, user) {
               overlay.style.display = 'none';
               console.log('Appointments Have Been Verified! 😄');
               renderSchedule(userType, theme, info);
+              console.log(response.data.data);
+              const currentAppointments = await getTodaysAppointments(info.email);
+              info.appointments = currentAppointments;
+              console.log(currentAppointments);
             }
           } catch (error) {
             console.error(error);

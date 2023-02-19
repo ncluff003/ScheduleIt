@@ -22,7 +22,10 @@ module.exports = catchAsync(async (request, response, next) => {
   const userType = 'Client';
 
   const dateFilteredAppointments = owner.appointments.filter((appointment, index) => {
-    if (DateTime.now().day === DateTime.fromISO(appointment.appointmentStart).day || DateTime.now().day === DateTime.fromISO(appointment.appointmentEnd).day) {
+    if (
+      DateTime.now().day === DateTime.fromJSDate(appointment.appointmentStart).day ||
+      DateTime.now().day === DateTime.fromJSDate(appointment.appointmentEnd).day
+    ) {
       return appointment;
     }
   });
