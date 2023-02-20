@@ -1,4 +1,14 @@
 ////////////////////////////////////////////
+//  Third Party Modules
+const dotenv = require('dotenv');
+
+////////////////////////////////////////////
+//  Third Party Config Files
+dotenv.config({
+  path: `./config.env`,
+});
+
+////////////////////////////////////////////
 //  My Middleware
 const catchAsync = require(`../Utilities/catchAsync`);
 const AppError = require(`../Utilities/appError`);
@@ -39,13 +49,15 @@ module.exports = catchAsync(async (request, response) => {
   owner.appointments.push(appointment);
   await owner.save();
 
-  response.status(200).json({
-    status: 'Success',
-    data: {
-      owner: owner,
-      appointment: appointment,
-      params: request.params,
-      message: 'Successful Added Appointment',
-    },
-  });
+  response.redirect(301, process.env.DEV_URL);
+
+  // response.status(200).json({
+  //   status: 'Success',
+  //   data: {
+  //     owner: owner,
+  //     appointment: appointment,
+  //     params: request.params,
+  //     message: 'Successful Added Appointment',
+  //   },
+  // });
 });

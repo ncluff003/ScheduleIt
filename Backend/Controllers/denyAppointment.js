@@ -21,11 +21,13 @@ module.exports = catchAsync(async (request, response) => {
     client: { firstname: clientFirstName, lastname: clientLastName, clientEmail: clientEmail },
   }).declineAppointment();
 
-  response.status(200).json({
-    status: 'Success',
-    data: {
-      owner: owner,
-      params: info,
-    },
-  });
+  response.redirect(301, process.env.DEV_URL);
+
+  // response.status(200).json({
+  //   status: 'Success',
+  //   data: {
+  //     owner: owner,
+  //     params: info,
+  //   },
+  // });
 });
