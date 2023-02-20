@@ -373,6 +373,21 @@ function formSelect(type, theme, container, info, elNum) {
           ? DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour - 12
           : DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour;
       option.value = start;
+      if (info.scheduleIsOvernight === false) {
+        if (start < info.scheduleStart.hour || start > info.scheduleEnd.hour - 1) {
+          option.disabled = true;
+          addClasses(option, ['disabled']);
+          style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+          style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}80` : `${theme.grayScale.raisinBlack}80`;
+        }
+      } else if (info.scheduleIsOvernight === true) {
+        if (start > info.scheduleEnd.hour - 1 && start < info.scheduleStart.hour) {
+          option.disabled = true;
+          addClasses(option, ['disabled']);
+          style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+          style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}80` : `${theme.grayScale.raisinBlack}80`;
+        }
+      }
       insertElement('beforeend', select, option);
       start++;
     }
