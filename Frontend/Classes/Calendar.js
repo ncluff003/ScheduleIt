@@ -27,7 +27,10 @@ export default class Calendar {
 
   renderCalendar(theme, container) {
     if (!document.querySelector('.schedule-it')) {
-      console.log(this.info);
+      !this.info.minimumAppointmentLength // This is set by hours.
+        ? (this.info.minimumAppointmentLength = 1)
+        : (this.info.minimumAppointmentLength = this.info.minimumAppointmentLength);
+      console.log(this.info, this.info.minimumAppointmentLength);
       const scheduleItContainer = document.createElement('section');
       const style = scheduleItContainer.style;
       addClasses(scheduleItContainer, ['schedule-it']);
