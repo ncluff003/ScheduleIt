@@ -40,7 +40,7 @@ function appointment(theme, container, info, appointment, clientAppointment) {
   labelStyle.fontSize = '.425em';
   labelStyle.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
 
-  if (info.userType === 'Owner') {
+  if (info.userType === 'Owners') {
     appointmentLabel.textContent = `${appointment.appointmentType.split(' ')[0]} ${appointment.appointmentType.split(' ')[1].toLowerCase()} with ${
       appointment.attendees[1].attendeeFirstname
     } ${appointment.attendees[1].attendeeLastname} from ${start.toLocaleString(DateTime.TIME_SIMPLE)} to ${end.toLocaleString(DateTime.TIME_SIMPLE)}.`;

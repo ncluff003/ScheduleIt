@@ -146,7 +146,7 @@ function appointmentButtons(theme, container, info, appointment) {
         done = true;
       }
     });
-  } else if (info.userType === 'Owner') {
+  } else if (info.userType === 'Owners') {
     button('Delete Appointment', 'Delete', theme, element, info, '');
   }
 }

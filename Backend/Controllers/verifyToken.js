@@ -38,6 +38,8 @@ module.exports = catchAsync(async (request, response, next) => {
     }
   });
 
+  console.log(dateFilteredAppointments);
+
   tokenVerified = true;
   response.status(200).json({
     status: 'Success',

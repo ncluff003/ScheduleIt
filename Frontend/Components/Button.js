@@ -113,6 +113,12 @@ function button(buttonType, text, theme, container, info, user) {
               overlay.style.display = 'none';
               renderSchedule(userType, theme, info);
               info.appointments = response.data.data.currentAppointments;
+              info.currentAppointments = response.data.data.currentAppointments;
+
+              const schedule = document.querySelector('.schedule-it__display__schedule__planner');
+              info.currentAppointments.forEach((app) => {
+                appointment(theme, schedule, info, app);
+              });
             }
           } catch (error) {
             console.error(error);
