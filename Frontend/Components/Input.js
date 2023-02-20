@@ -1,12 +1,12 @@
 import { DateTime, Info } from 'luxon';
 import chroma from 'chroma-js';
-import { addClasses, formatPhoneNumber, insertElement } from '../Global/Utility';
+import { addClasses, formatPhoneNumber, insertElement, addError, renderErrors } from '../Global/Utility';
 
 function clearSelect(select) {
   [...select.childNodes].forEach((child) => child.remove());
 }
 
-function loginFormInput(theme, container) {
+function loginFormInput(theme, container, info) {
   const input = document.createElement('input');
   addClasses(input, ['schedule-it__form--login__user-login__input']);
   const style = input.style;
@@ -34,6 +34,7 @@ function loginFormInput(theme, container) {
     style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
     style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
   });
+
   insertElement('beforeend', container, input);
 }
 

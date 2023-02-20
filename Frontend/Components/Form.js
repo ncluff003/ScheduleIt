@@ -22,6 +22,7 @@ function form(formType, user, theme, container, info) {
     style.backgroundColor = `${theme.primary}f2`;
 
     // Building The Login Forms.
+
     loginContainer(user, theme, form, info);
     loginContainer(user, theme, form, info);
   } else if (formType === 'select-date') {

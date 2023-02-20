@@ -1,5 +1,24 @@
 import { get, getAll, set, remove, useNamespace } from './Cache';
 
+export const renderErrors = (container, errors) => {
+  console.log(container);
+  [...container.childNodes].forEach((child) => child.remove());
+
+  const errorKeys = Object.keys(errors);
+  errorKeys.forEach((key, index) => {
+    const error = document.createElement('p');
+    error.textContent = `${index + 1}: ${errors[key]}`;
+    if (errors[key] !== '' && errors[key] !== undefined && errors[key] !== null) {
+      insertElement('beforeend', container, error);
+    }
+  });
+};
+
+export const addError = (info, key, error) => {
+  info.errors[key] = error;
+  return info.errors;
+};
+
 export const replaceClassName = (element, classReplaced, replacementClass) => {
   element.classList.remove(classReplaced);
   element.classList.add(replacementClass);

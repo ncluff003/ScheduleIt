@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 import { DateTime } from 'luxon';
-import { addClasses, insertElement } from '../Global/Utility';
+import { addClasses, insertElement, addError, renderErrors } from '../Global/Utility';
 import { renderSchedule } from './Schedule';
 import { closeForm } from './FormCloser';
 import { getTodaysAppointments } from '../Global/Methods.js/getCurrentAppointments';
@@ -45,6 +45,31 @@ function button(buttonType, text, theme, container, info, user) {
         loginInput.placeholder = 'Enter Token';
         form.style.display = 'flex';
 
+        loginInput.setAttribute('minLength', 8);
+        loginInput.setAttribute('pattern', '[A-Za-z0-9]');
+
+        const errorContainer = document.querySelectorAll('.error-container')[0];
+
+        loginInput.addEventListener('keyup', (e) => {
+          e.preventDefault();
+          console.log(info.errors);
+          if (loginInput.value.length !== 8) {
+            info.errors = addError(info, 'token', 'Token given is not the correct length.');
+            renderErrors(errorContainer, info.errors);
+            if (loginInput.value.length === 0) {
+              info.errors = addError(info, 'token', '');
+              renderErrors(errorContainer, info.errors);
+            }
+          } else if (/[A-Za-z0-9]+$/.test(loginInput.value) === true || loginInput.value === '') {
+            info.errors = addError(info, 'token', '');
+            renderErrors(errorContainer, info.errors);
+            console.log(loginInput.value.length !== 8);
+          } else if (/[A-Za-z0-9]+$/.test(loginInput.value) === false) {
+            info.errors = addError(info, 'token', 'Tokens should only be numbers and letters.');
+            renderErrors(errorContainer, info.errors);
+          }
+        });
+
         const response = await axios({
           method: 'POST',
           url: `/ScheduleIt/Owners/${info.email}`,
@@ -66,6 +91,24 @@ function button(buttonType, text, theme, container, info, user) {
         loginHeading.firstChild.textContent = 'Client Login';
         loginLabel.textContent = 'Enter Email Address';
         loginInput.placeholder = 'Enter Email Address';
+
+        const errorContainer = document.querySelectorAll('.error-container')[1];
+
+        loginInput.addEventListener('keyup', (e) => {
+          e.preventDefault();
+          console.log(info.errors);
+          if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(loginInput.value) === true || loginInput.value === '') {
+            info.errors = addError(info, 'email', '');
+            renderErrors(errorContainer, info.errors);
+          } else if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(loginInput.value) === false) {
+            console.log('Error');
+            info.errors = addError(info, 'email', 'Please Provide A Valid Email Address');
+            renderErrors(errorContainer, info.errors);
+          }
+        });
+
+        loginInput.setAttribute('pattern', '[^@]+@[^@]+[.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$');
+
         form.style.display = 'flex';
       });
     }

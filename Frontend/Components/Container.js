@@ -11,7 +11,8 @@ function loginContainer(user, theme, container, info) {
   addClasses(loginContainer, ['schedule-it__form--login__user-login']);
   const style = loginContainer.style;
   style.position = 'relative';
-  style.height = '7em';
+  style.height = '9em';
+  style.maxHeight = '13em';
   style.width = '100%';
   style.display = 'none';
   style.flexFlow = 'column nowrap';
@@ -19,9 +20,11 @@ function loginContainer(user, theme, container, info) {
   style.alignItems = 'center';
   insertElement('beforeend', container, loginContainer);
 
+  errorContainer(theme, loginContainer, info, info.errors);
+
   loginFormHeader(theme, loginContainer);
   loginFormLabel(theme, loginContainer);
-  loginFormInput(theme, loginContainer);
+  loginFormInput(theme, loginContainer, info);
   loginButtonContainer(user, theme, loginContainer, info);
 }
 
@@ -151,4 +154,31 @@ function appointmentButtons(theme, container, info, appointment) {
   }
 }
 
-export { loginContainer, loginButtonContainer, scheduleButtonContainer, dateContainer, scheduleContainer, dateSelectContainer, appointmentButtons };
+function errorContainer(theme, container, info, errors) {
+  const errorContainer = document.createElement('div');
+  addClasses(errorContainer, ['error-container']);
+  const style = errorContainer.style;
+  style.position = 'relative';
+  style.height = 'max-content';
+  style.width = '100%';
+  style.display = 'flex';
+  style.flexFlow = 'column nowrap';
+  style.justifyContent = 'flex-start';
+  style.alignItems = 'center';
+  style.padding = '2em';
+  style.fontFamily = theme.text;
+  style.fontSize = '.53em';
+  style.color = theme.error;
+  insertElement('beforeend', container, errorContainer);
+}
+
+export {
+  loginContainer,
+  loginButtonContainer,
+  scheduleButtonContainer,
+  dateContainer,
+  scheduleContainer,
+  dateSelectContainer,
+  appointmentButtons,
+  errorContainer,
+};

@@ -31,6 +31,27 @@ export default class Calendar {
         ? (this.info.minimumAppointmentLength = 1)
         : (this.info.minimumAppointmentLength = this.info.minimumAppointmentLength);
       console.log(this.info, this.info.minimumAppointmentLength);
+      this.theme.error = '#cf352e';
+      this.info.errors = {};
+      this.theme.grayScale = {
+        black: `#030303`,
+        chineseBlack: `#111111`,
+        raisinBlack: `#222222`,
+        darkCharcoal: `#333333`,
+        outerSpace: `#444444`,
+        davysGrey: `#555555`,
+        granite: `#666666`,
+        sonicSilver: `#777777`,
+        taupeGrey: `#888888`,
+        spanishGrey: `#999999`,
+        darkGrey: `#AAAAAA`,
+        gray: `#BBBBBB`,
+        chineseSilver: `#CCCCCC`,
+        gainsboro: `#DDDDDD`,
+        brightGrey: `#EEEEEE`,
+        offWhite: `#F0F0F0`,
+        white: `#FFFFFF`,
+      };
       const scheduleItContainer = document.createElement('section');
       const style = scheduleItContainer.style;
       addClasses(scheduleItContainer, ['schedule-it']);
@@ -41,8 +62,8 @@ export default class Calendar {
       style.fontSize = '3rem';
 
       insertElement('beforeend', container, scheduleItContainer);
-      calendarHeader(theme, scheduleItContainer);
-      calendarDisplay(theme, scheduleItContainer, this.info);
+      calendarHeader(this.theme, scheduleItContainer);
+      calendarDisplay(this.theme, scheduleItContainer, this.info);
     }
   }
 }
