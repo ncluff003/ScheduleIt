@@ -138,10 +138,12 @@ function appointmentButtons(theme, container, info, appointment) {
   insertElement('beforeend', container, element);
 
   if (info.userType === 'Client') {
+    let done = false;
     appointment.attendees.forEach((person) => {
-      if (person.attendeeEmail === info.clientEmail) {
+      if (person.attendeeEmail === info.clientEmail && done === false) {
         button('Request Appointment Update', 'Update', theme, element, info, '');
         button('Delete Appointment', 'Delete', theme, element, info, '');
+        done = true;
       }
     });
   } else if (info.userType === 'Owner') {
