@@ -124,4 +124,29 @@ function dateSelectContainer(theme, container, info) {
   insertElement('beforeend', container, dateSelectContainer);
 }
 
-export { loginContainer, loginButtonContainer, scheduleButtonContainer, dateContainer, scheduleContainer, dateSelectContainer };
+function appointmentButtons(theme, container, info, appointment) {
+  const element = document.createElement('div');
+  addClasses(element, ['schedule-it__display__schedule__planner__appointment__buttons']);
+  const style = element.style;
+  style.height = 'max-content';
+  style.minHeight = '1em';
+  style.width = '100%';
+  style.display = 'flex';
+  style.flexFlow = 'row nowrap';
+  style.justifyContent = 'space-evenly';
+  style.alignItems = 'center';
+  insertElement('beforeend', container, element);
+
+  if (info.userType === 'Client') {
+    appointment.attendees.forEach((person) => {
+      if (person.attendeeEmail === info.clientEmail) {
+        button('Request Appointment Update', 'Update', theme, element, info, '');
+        button('Delete Appointment', 'Delete', theme, element, info, '');
+      }
+    });
+  } else if (info.userType === 'Owner') {
+    button('Delete Appointment', 'Delete', theme, element, info, '');
+  }
+}
+
+export { loginContainer, loginButtonContainer, scheduleButtonContainer, dateContainer, scheduleContainer, dateSelectContainer, appointmentButtons };

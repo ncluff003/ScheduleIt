@@ -1,18 +1,24 @@
 import axios from 'axios';
 import { DateTime } from 'luxon';
+import { appointment } from '../../Components/Appointment';
 
-async function getTodaysAppointments(email) {
+async function getTodaysAppointments(info) {
   try {
     const response = await axios({
       method: 'POST',
-      url: `/ScheduleIt/Owners/${email}/Appointments/Date`,
+      url: `/ScheduleIt/Owners/${info.email}/Appointments/Date`,
       data: {
-        ownerEmail: email,
+        ownerEmail: info.email,
         selectedDate: DateTime.now().toISO(),
         userType: 'Owner',
       },
     });
-    return response.data.data;
+
+    const currentAppointments = response.data.data.currentAppointments;
+    const results = response.data.data;
+    info.currentAppointments = currentAppointments;
+
+    return { results, currentAppointments };
   } catch (error) {
     console.error(error);
   }

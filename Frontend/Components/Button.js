@@ -5,6 +5,7 @@ import { addClasses, insertElement } from '../Global/Utility';
 import { renderSchedule } from './Schedule';
 import { closeForm } from './FormCloser';
 import { getTodaysAppointments } from '../Global/Methods.js/getCurrentAppointments';
+import { appointment } from './Appointment';
 
 function button(buttonType, text, theme, container, info, user) {
   const button = document.createElement('button');
@@ -142,9 +143,14 @@ function button(buttonType, text, theme, container, info, user) {
               console.log('Appointments Have Been Verified! 😄');
               renderSchedule(userType, theme, info);
               console.log(response.data.data);
-              const currentAppointments = await getTodaysAppointments(info.email);
-              info.appointments = currentAppointments;
+              const { results, currentAppointments } = await getTodaysAppointments(info);
               console.log(currentAppointments);
+              info.appointments = currentAppointments;
+
+              const schedule = document.querySelector('.schedule-it__display__schedule__planner');
+              info.currentAppointments.forEach((app) => {
+                appointment(theme, schedule, info, app);
+              });
             }
           } catch (error) {
             console.error(error);
@@ -347,6 +353,40 @@ function button(buttonType, text, theme, container, info, user) {
         console.error(error);
       }
     });
+  } else if (buttonType === 'Request Appointment Update') {
+    style.position = 'relative';
+    style.height = '2.5em';
+    style.width = 'max-content';
+    style.display = 'flex';
+    style.flexFlow = 'row nowrap';
+    style.justifyContent = 'center';
+    style.alignItems = 'center';
+    style.padding = '.5em 1em';
+    style.backgroundColor = 'transparent';
+    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}`;
+    style.borderRadius = '1rem';
+    style.fontFamily = theme.text;
+    style.fontSize = '.45em';
+    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
+    style.margin = '0.6em 0.3em';
+    button.textContent = text;
+  } else if ((buttonType = 'Delete Appointment')) {
+    style.position = 'relative';
+    style.height = '2.5em';
+    style.width = 'max-content';
+    style.display = 'flex';
+    style.flexFlow = 'row nowrap';
+    style.justifyContent = 'center';
+    style.alignItems = 'center';
+    style.padding = '.5em 1em';
+    style.backgroundColor = 'transparent';
+    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}`;
+    style.borderRadius = '1rem';
+    style.fontFamily = theme.text;
+    style.fontSize = '.45em';
+    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
+    style.margin = '0.6em 0.3em';
+    button.textContent = text;
   }
 
   button.addEventListener('mouseover', (e) => {
