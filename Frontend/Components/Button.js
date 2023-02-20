@@ -278,6 +278,13 @@ function button(buttonType, text, theme, container, info, user) {
           },
         });
         console.log(response);
+        const appointments = document.querySelectorAll('.schedule-it__display__schedule__planner__appointment');
+        appointments.forEach((child) => child.remove());
+        const currentAppointments = response.data.data.currentAppointments;
+        const schedule = document.querySelector('.schedule-it__display__schedule__planner');
+        currentAppointments.forEach((app) => {
+          appointment(theme, schedule, info, app);
+        });
       } catch (error) {
         console.error(error);
       }

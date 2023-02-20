@@ -27,8 +27,12 @@ module.exports = catchAsync(async (request, response) => {
   // GET THIS DATE'S APPOINTMENTS
   const dateFilteredAppointments = owner.appointments.filter((appointment) => {
     if (
-      DateTime.fromISO(selectedDate).day === DateTime.fromJSDate(appointment.appointmentStart).day ||
-      DateTime.fromISO(selectedDate).day === DateTime.fromJSDate(appointment.appointmentEnd).day
+      (DateTime.fromISO(selectedDate).day === DateTime.fromJSDate(appointment.appointmentStart).day &&
+        DateTime.fromISO(selectedDate).month === DateTime.fromJSDate(appointment.appointmentStart).month &&
+        DateTime.fromISO(selectedDate).year === DateTime.fromJSDate(appointment.appointmentStart).year) ||
+      (DateTime.fromISO(selectedDate).day === DateTime.fromJSDate(appointment.appointmentEnd).day &&
+        DateTime.fromISO(selectedDate).month === DateTime.fromJSDate(appointment.appointmentEnd).month &&
+        DateTime.fromISO(selectedDate).year === DateTime.fromJSDate(appointment.appointmentEnd).year)
     ) {
       return appointment;
     }
