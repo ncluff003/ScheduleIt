@@ -265,6 +265,7 @@ function button(buttonType, text, theme, container, info, user) {
       if (selectedDate.day < DateTime.now().day) return console.error('You need to select today or a day in the future.');
 
       date.textContent = selectedDate.toLocaleString(DateTime.DATE_HUGE);
+      date.dataset.date = selectedDate.toISO();
 
       try {
         const response = await axios({

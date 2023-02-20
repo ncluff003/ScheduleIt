@@ -26,12 +26,4 @@ module.exports = catchAsync(async (request, response) => {
   } else if (process.env.NODE_ENV === 'production') {
     response.redirect(301, process.env.PROD_URL);
   }
-
-  // response.status(200).json({
-  //   status: 'Success',
-  //   data: {
-  //     owner: owner,
-  //     params: info,
-  //   },
-  // });
 });
