@@ -257,6 +257,7 @@ function button(buttonType, text, theme, container, info, user) {
       button.addEventListener('click', (e) => {
         e.preventDefault();
         const form = document.querySelector('.schedule-it__form--request-appointment');
+        console.log(form);
         form.style.display = 'flex';
         const formHeader = document.querySelector('.schedule-it__form--request-appointment__heading').firstChild;
         formHeader.textContent = 'Request Appointment';

@@ -51,6 +51,7 @@ function form(formType, user, theme, container, info) {
     } else if (formType === 'update-appointment') {
       addClasses(form, ['schedule-it__form--update-appointment']);
     }
+    errorContainer(theme, form, info, info.errors);
     const style = form.style;
     style.position = 'absolute';
     style.top = 0;

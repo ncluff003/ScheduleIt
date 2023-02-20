@@ -11,8 +11,8 @@ function loginFormInput(theme, container, info) {
   addClasses(input, ['schedule-it__form--login__user-login__input']);
   const style = input.style;
   style.position = 'relative';
-  style.height = '30%';
-  style.minHeight = '4em';
+  style.height = '20%';
+  style.minHeight = '3em';
   style.width = '70%';
   style.padding = '.5rem 1rem';
   style.margin = '.25rem 0';
@@ -55,9 +55,61 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
   style.borderRadius = '.5rem';
   input.placeholder = placeholder;
 
+  if (placeholder === 'First Name') {
+    input.addEventListener('keyup', (e) => {
+      e.preventDefault();
+      const errorContainer = document.querySelectorAll('.error-container')[3];
+      const firstnameRegex = new RegExp(/^[A-Z][A-Za-z]*$/);
+      console.log(firstnameRegex.test(input.value) === true || input.value === '');
+      if (firstnameRegex.test(input.value) === true) {
+        info.errors = addError(info, 'firstname', '');
+        renderErrors(errorContainer, info.errors);
+      } else if (firstnameRegex.test(input.value) === false) {
+        info.errors = addError(info, 'firstname', 'First name should start with a capital, and only be letters.');
+        renderErrors(errorContainer, info.errors);
+      }
+    });
+  }
+  if (placeholder === 'Last Name') {
+    input.addEventListener('keyup', (e) => {
+      e.preventDefault();
+      const errorContainer = document.querySelectorAll('.error-container')[3];
+      if (/^[A-Z][A-Za-z]*$/.test(input.value) === true || input.value === '') {
+        info.errors = addError(info, 'lastname', '');
+        renderErrors(errorContainer, info.errors);
+      } else if (/^[A-Z][A-Za-z]*$/.test(input.value) === false) {
+        info.errors = addError(info, 'lastname', 'Last name should start with a capital, and only be letters.');
+        renderErrors(errorContainer, info.errors);
+      }
+    });
+  }
+  if (placeholder === 'Email Address') {
+    input.addEventListener('keyup', (e) => {
+      e.preventDefault();
+      const errorContainer = document.querySelectorAll('.error-container')[3];
+      if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(input.value) === true || input.value === '') {
+        info.errors = addError(info, 'email', '');
+        renderErrors(errorContainer, info.errors);
+      } else if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(input.value) === false) {
+        info.errors = addError(info, 'email', 'Please Provide A Valid Email Address');
+        renderErrors(errorContainer, info.errors);
+      }
+    });
+  }
+
   if (placeholder === 'Phone Number') {
     input.addEventListener('keyup', (e) => {
       e.preventDefault();
+      const errorContainer = document.querySelectorAll('.error-container')[3];
+      input.value = input.value.replace(/[^\d]/g, '');
+      console.log(input.value);
+      if (input.value.length !== 10) {
+        info.errors = addError(info, 'phone', 'Phone numbers must be at least ten digits long.');
+        renderErrors(errorContainer, info.errors);
+      } else {
+        info.errors = addError(info, 'phone', '');
+        renderErrors(errorContainer, info.errors);
+      }
       input.value = formatPhoneNumber(input.value);
     });
   }
