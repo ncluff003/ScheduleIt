@@ -4,14 +4,16 @@ import { addClasses, insertElement } from '../Global/Utility';
 import { appointmentButtons } from './Container';
 
 function appointment(theme, container, info, appointment, clientAppointment) {
+  const currentDateISO = document.querySelector('.schedule-it__display__schedule__header__date__text').dataset.date;
+  const currentDate = DateTime.fromISO(currentDateISO);
+  const dayStart = DateTime.local(currentDate.year, currentDate.month, currentDate.day, 0, 0, 0);
+  const dayEnd = DateTime.local(currentDate.year, currentDate.month, currentDate.day, 23, 59, 59);
   const start = DateTime.fromISO(appointment.appointmentStart);
   const end = DateTime.fromISO(appointment.appointmentEnd);
-  const difference = end.diff(start, ['days', 'hours', 'minutes']).toObject();
 
   const exampleHour = document.querySelectorAll('.schedule-it__display__schedule__planner__hour')[0];
   const hourHeight = exampleHour.getBoundingClientRect().height;
   const minuteHeight = exampleHour.getBoundingClientRect().height / 60;
-  const totalHeight = difference.hours * hourHeight + difference.minutes * minuteHeight;
   console.log(exampleHour.getBoundingClientRect().height, minuteHeight);
   const appointmentContainer = document.createElement('div');
   addClasses(appointmentContainer, ['schedule-it__display__schedule__planner__appointment']);
@@ -19,7 +21,21 @@ function appointment(theme, container, info, appointment, clientAppointment) {
   appointmentContainer.dataset.appointment = appointment._id;
   console.log(DateTime.fromISO(appointment.appointmentStart).hour);
   style.position = 'absolute';
-  style.top = `${hourHeight * DateTime.fromISO(appointment.appointmentStart).hour}px`;
+  let difference, totalHeight;
+  if (start > dayStart && end < dayEnd) {
+    difference = end.diff(start, ['days', 'hours', 'minutes']).toObject();
+    totalHeight = difference.hours * hourHeight + difference.minutes * minuteHeight;
+    style.top = `${hourHeight * DateTime.fromISO(appointment.appointmentStart).hour}px`;
+  } else if (start < dayStart && end < dayEnd) {
+    difference = end.diff(dayStart, ['days', 'hours', 'minutes']).toObject();
+    totalHeight = difference.hours * hourHeight + difference.minutes * minuteHeight;
+    style.top = `0px`;
+  } else if (start > dayStart && end > dayEnd) {
+    difference = dayEnd.diff(start, ['days', 'hours', 'minutes']).toObject();
+    console.log(difference);
+    totalHeight = difference.hours * hourHeight + difference.minutes * minuteHeight;
+    style.top = `${hourHeight * DateTime.fromISO(appointment.appointmentStart).hour}px`;
+  }
   style.height = `${totalHeight}px`;
   style.width = '100%';
   style.backgroundColor = `${theme.primary}f2`;

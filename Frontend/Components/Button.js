@@ -334,6 +334,14 @@ function button(buttonType, text, theme, container, info, user) {
         }
       });
 
+      let appointmentStart = DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, startHour, startMinute, 0);
+      let appointmentEnd = DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, endHour, endMinute, 0);
+      console.log(Number(appointmentEnd.hour), Number(appointmentStart.hour));
+      if (info.scheduleIsOvernight === true && Number(appointmentEnd.hour) < Number(appointmentStart.hour)) {
+        appointmentEnd = appointmentEnd.plus({ days: 1 });
+        console.log(appointmentStart, appointmentEnd);
+      }
+
       const request = {
         ownerEmail: info.email,
         firstname: firstname,
@@ -343,15 +351,8 @@ function button(buttonType, text, theme, container, info, user) {
         appointment: {
           appointmentType: communicationPreference,
           dateRequested: DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, 0, 0, 0).toISO(),
-          appointmentStart: DateTime.local(
-            DateTime.fromISO(date).year,
-            DateTime.fromISO(date).month,
-            DateTime.fromISO(date).day,
-            startHour,
-            startMinute,
-            0,
-          ).toISO(),
-          appointmentEnd: DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, endHour, endMinute, 0).toISO(),
+          appointmentStart: appointmentStart.toISO(),
+          appointmentEnd: appointmentEnd.toISO(),
         },
         message: message,
       };
