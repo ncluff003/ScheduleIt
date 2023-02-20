@@ -21,7 +21,11 @@ module.exports = catchAsync(async (request, response) => {
     client: { firstname: clientFirstName, lastname: clientLastName, clientEmail: clientEmail },
   }).declineAppointment();
 
-  response.redirect(301, process.env.DEV_URL);
+  if (process.env.NODE_ENV === 'development') {
+    response.redirect(301, process.env.DEV_URL);
+  } else if (process.env.NODE_ENV === 'production') {
+    response.redirect(301, process.env.PROD_URL);
+  }
 
   // response.status(200).json({
   //   status: 'Success',
