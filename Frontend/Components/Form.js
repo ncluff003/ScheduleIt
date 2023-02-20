@@ -1,6 +1,6 @@
 import { addClasses, insertElement } from '../Global/Utility';
 import { button } from './Button';
-import { dateSelectContainer, loginContainer } from './Container';
+import { dateSelectContainer, errorContainer, loginContainer } from './Container';
 import { formCloser } from './FormCloser';
 import { flexSection } from './FormSection';
 import { selectDateFormHeader } from './Header';
@@ -27,6 +27,7 @@ function form(formType, user, theme, container, info) {
     loginContainer(user, theme, form, info);
   } else if (formType === 'select-date') {
     addClasses(form, ['schedule-it__form--date-selection']);
+    errorContainer(theme, form, info, info.errors);
     const style = form.style;
     style.position = 'absolute';
     style.top = 0;

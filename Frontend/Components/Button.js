@@ -132,11 +132,16 @@ function button(buttonType, text, theme, container, info, user) {
     if (text === 'Login') {
       button.addEventListener('click', async (e) => {
         e.preventDefault();
-        let header = e.target.closest('.schedule-it__form--login').firstChild.firstChild;
+        let header = e.target.closest('.schedule-it__form--login').firstChild.nextSibling.firstChild;
+        console.log(header);
         if (header.textContent === 'Owner Login') {
           console.log(document.querySelectorAll('.schedule-it__form--login__user-login__input')[0]);
           console.log(document.querySelectorAll('.schedule-it__form--login__user-login__input')[0].value);
           const token = document.querySelectorAll('.schedule-it__form--login__user-login__input')[0].value;
+
+          console.log(token);
+          if (token.length !== 8) return;
+
           try {
             const response = await axios({
               method: 'POST',
@@ -167,10 +172,14 @@ function button(buttonType, text, theme, container, info, user) {
             console.error(error);
           }
         }
-        let headerTwo = e.target.closest('.schedule-it__form--login').firstChild.nextSibling.firstChild;
+        let headerTwo = e.target.closest('.schedule-it__form--login').firstChild.nextSibling.firstChild.nextSibling.firstChild;
         if (headerTwo.textContent === 'Client Login') {
           const email = document.querySelectorAll('.schedule-it__form--login__user-login__input')[1].value;
           info.clientEmail = email;
+
+          console.log(/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(email));
+          if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(email) === false) return;
+
           try {
             const response = await axios({
               method: 'POST',

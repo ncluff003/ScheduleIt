@@ -165,10 +165,11 @@ function errorContainer(theme, container, info, errors) {
   style.flexFlow = 'column nowrap';
   style.justifyContent = 'flex-start';
   style.alignItems = 'center';
-  style.padding = '2em';
+  style.padding = '1em';
   style.fontFamily = theme.text;
   style.fontSize = '.53em';
   style.color = theme.error;
+  style.textAlign = 'center';
   insertElement('beforeend', container, errorContainer);
 }
 

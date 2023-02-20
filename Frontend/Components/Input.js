@@ -12,6 +12,7 @@ function loginFormInput(theme, container, info) {
   const style = input.style;
   style.position = 'relative';
   style.height = '30%';
+  style.minHeight = '4em';
   style.width = '70%';
   style.padding = '.5rem 1rem';
   style.margin = '.25rem 0';
@@ -98,6 +99,26 @@ function formSelect(type, theme, container, info, elNum) {
       start++;
     }
     select.selectedIndex = DateTime.now().day - 1;
+
+    select.addEventListener('change', (e) => {
+      e.preventDefault();
+      const errorContainers = document.querySelectorAll('.error-container');
+      const errorContainer = errorContainers[2];
+      const dateSelects = document.querySelectorAll('.schedule-it__form--date-selection__select-container__select');
+
+      const year = Number(dateSelects[2].value);
+      const month = Number(dateSelects[1].value);
+      const day = Number(dateSelects[0].value);
+      const selectedDate = DateTime.local(year, month, day);
+
+      if (selectedDate.day < DateTime.now().day) {
+        addError(info, 'date', 'Please select a date that is either today or in the future.');
+        renderErrors(errorContainer, info.errors);
+      } else if (selectedDate.day >= DateTime.now().day) {
+        addError(info, 'date', '');
+        renderErrors(errorContainer, info.errors);
+      }
+    });
   } else if (type === 'month') {
     addClasses(select, ['schedule-it__form--date-selection__select-container__select']);
     style.position = 'relative';
@@ -130,6 +151,8 @@ function formSelect(type, theme, container, info, elNum) {
     select.selectedIndex = DateTime.now().month - 1;
     select.addEventListener('change', (e) => {
       e.preventDefault();
+      const errorContainers = document.querySelectorAll('.error-container');
+      const errorContainer = errorContainers[2];
       const day = e.target.closest('.schedule-it__form--date-selection__select-container').firstChild;
       const month = e.target.closest('.schedule-it__form--date-selection__select-container').firstChild.nextSibling.nextSibling;
       const year = e.target.closest('.schedule-it__form--date-selection__select-container').firstChild.nextSibling.nextSibling.nextSibling.nextSibling;
@@ -162,6 +185,24 @@ function formSelect(type, theme, container, info, elNum) {
         day.selectedIndex = daysInMonth - 1;
       } else {
         day.selectedIndex = dayValue - 1;
+      }
+      let selectedDate = DateTime.local(yearValue, monthValue, dayValue);
+
+      console.log(selectedDate, DateTime.now());
+      console.log(selectedDate < DateTime.now());
+
+      if (selectedDate < DateTime.now()) {
+        addError(info, 'date', 'Please select a date that is either today or in the future.');
+        renderErrors(errorContainer, info.errors);
+
+        if (selectedDate.day === DateTime.now().day && selectedDate.month === DateTime.now().month && selectedDate.year === DateTime.now().year) {
+          selectedDate = selectedDate.set({ hour: 23, minute: 59, second: 59 });
+          console.log(selectedDate < DateTime.now());
+          if (selectedDate >= DateTime.now()) {
+            addError(info, 'date', '');
+            renderErrors(errorContainer, info.errors);
+          }
+        }
       }
     });
   } else if (type === 'year') {
@@ -190,6 +231,8 @@ function formSelect(type, theme, container, info, elNum) {
 
     select.addEventListener('change', (e) => {
       e.preventDefault();
+      const errorContainers = document.querySelectorAll('.error-container');
+      const errorContainer = errorContainers[2];
       const day = e.target.closest('.schedule-it__form--date-selection__select-container').firstChild;
       const month = e.target.closest('.schedule-it__form--date-selection__select-container').firstChild.nextSibling.nextSibling;
       const year = e.target.closest('.schedule-it__form--date-selection__select-container').firstChild.nextSibling.nextSibling.nextSibling.nextSibling;
@@ -222,6 +265,19 @@ function formSelect(type, theme, container, info, elNum) {
         day.selectedIndex = daysInMonth - 1;
       } else {
         day.selectedIndex = dayValue - 1;
+      }
+
+      let selectedDate = DateTime.local(yearValue, monthValue, dayValue);
+
+      if (selectedDate < DateTime.now()) {
+        addError(info, 'date', 'Please select a date that is either today or in the future.');
+        renderErrors(errorContainer, info.errors);
+      } else if (selectedDate.day >= DateTime.now().day) {
+        selectedDate = selectedDate.set({ hour: 23, minute: 59, second: 59 });
+        if (selectedDate >= DateTime.now()) {
+          addError(info, 'date', '');
+          renderErrors(errorContainer, info.errors);
+        }
       }
     });
   } else if (type === 'hour') {

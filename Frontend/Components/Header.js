@@ -42,6 +42,7 @@ function loginFormHeader(theme, container) {
   addClasses(heading, ['schedule-it__form--login__heading']);
   const style = heading.style;
   style.height = '33%';
+  style.minHeight = '1.25em';
   style.width = '100%';
   style.display = 'flex';
   style.flexFlow = 'row nowrap';
