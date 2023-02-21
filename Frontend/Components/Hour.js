@@ -41,14 +41,12 @@ function hour(theme, container, info, index) {
   let start = 0;
   let numOfIntervals;
   if (theme.intervals === 15) {
-    console.log(theme.intervals);
     numOfIntervals = 4;
     while (start < numOfIntervals) {
       interval(theme, hour);
       start++;
     }
   } else if (theme.intervals === 30) {
-    console.log(theme.intervals);
     numOfIntervals = 2;
     while (start < numOfIntervals) {
       interval(theme, hour);
@@ -57,7 +55,7 @@ function hour(theme, container, info, index) {
   }
 
   if (hour.classList.contains('disabled')) {
-    style.backgroundColor = theme.grayScale.darkCharcoal;
+    style.backgroundColor = theme.timeOfDay === 'day' ? theme.grayScale.darkCharcoal : theme.grayScale.sonicSilver;
   }
 }
 

@@ -54,15 +54,16 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
   style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
   style.borderRadius = '.5rem';
   input.placeholder = placeholder;
+  input.required = true;
 
   if (placeholder === 'First Name') {
     input.addEventListener('keyup', (e) => {
       e.preventDefault();
       const errorContainer = document.querySelectorAll('.error-container')[3];
       const firstnameRegex = new RegExp(/^[A-Z][A-Za-z]*$/);
-      console.log(firstnameRegex.test(input.value) === true || input.value === '');
       if (firstnameRegex.test(input.value) === true) {
         info.errors = addError(info, 'firstname', '');
+        delete info.errors['firstname'];
         renderErrors(errorContainer, info.errors);
       } else if (firstnameRegex.test(input.value) === false) {
         info.errors = addError(info, 'firstname', 'First name should start with a capital, and only be letters.');
@@ -77,6 +78,7 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
       if (/^[A-Z][A-Za-z]*$/.test(input.value) === true || input.value === '') {
         info.errors = addError(info, 'lastname', '');
         renderErrors(errorContainer, info.errors);
+        delete info.errors['lastname'];
       } else if (/^[A-Z][A-Za-z]*$/.test(input.value) === false) {
         info.errors = addError(info, 'lastname', 'Last name should start with a capital, and only be letters.');
         renderErrors(errorContainer, info.errors);
@@ -90,6 +92,7 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
       if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(input.value) === true || input.value === '') {
         info.errors = addError(info, 'email', '');
         renderErrors(errorContainer, info.errors);
+        delete info.errors['email'];
       } else if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(input.value) === false) {
         info.errors = addError(info, 'email', 'Please Provide A Valid Email Address');
         renderErrors(errorContainer, info.errors);
@@ -102,10 +105,10 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
       e.preventDefault();
       const errorContainer = document.querySelectorAll('.error-container')[3];
       input.value = input.value.replace(/[^\d]/g, '');
-      console.log(input.value);
       if (input.value.length !== 10) {
         info.errors = addError(info, 'phone', 'Phone numbers must be at least ten digits long.');
         renderErrors(errorContainer, info.errors);
+        delete info.errors['phone'];
       } else {
         info.errors = addError(info, 'phone', '');
         renderErrors(errorContainer, info.errors);
@@ -240,16 +243,12 @@ function formSelect(type, theme, container, info, elNum) {
       }
       let selectedDate = DateTime.local(yearValue, monthValue, dayValue);
 
-      console.log(selectedDate, DateTime.now());
-      console.log(selectedDate < DateTime.now());
-
       if (selectedDate < DateTime.now()) {
         addError(info, 'date', 'Please select a date that is either today or in the future.');
         renderErrors(errorContainer, info.errors);
 
         if (selectedDate.day === DateTime.now().day && selectedDate.month === DateTime.now().month && selectedDate.year === DateTime.now().year) {
           selectedDate = selectedDate.set({ hour: 23, minute: 59, second: 59 });
-          console.log(selectedDate < DateTime.now());
           if (selectedDate >= DateTime.now()) {
             addError(info, 'date', '');
             renderErrors(errorContainer, info.errors);
@@ -374,14 +373,14 @@ function formSelect(type, theme, container, info, elNum) {
           : DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour;
       option.value = start;
       if (info.scheduleIsOvernight === false) {
-        if (start < info.scheduleStart.hour || start > info.scheduleEnd.hour - 1) {
+        if (start < info.scheduleStart.hour || start > info.scheduleEnd.hour) {
           option.disabled = true;
           addClasses(option, ['disabled']);
           style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
           style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}80` : `${theme.grayScale.raisinBlack}80`;
         }
       } else if (info.scheduleIsOvernight === true) {
-        if (start > info.scheduleEnd.hour - 1 && start < info.scheduleStart.hour) {
+        if (start > info.scheduleEnd.hour && start < info.scheduleStart.hour) {
           option.disabled = true;
           addClasses(option, ['disabled']);
           style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
@@ -400,6 +399,19 @@ function formSelect(type, theme, container, info, elNum) {
       } else if (select.classList.contains('second-hour')) {
         const meridiem = document.querySelector('.second-meridiem');
         meridiem.textContent = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, Number(select.value), 0, 0).toFormat('a');
+
+        const secondMinute = document.querySelector('.second-minute');
+        if (Number(select.value) === Number(info.scheduleEnd.hour)) {
+          [...secondMinute.childNodes].forEach((minute) => {
+            console.log(minute);
+            if (Number(minute.value) > 0) minute.disabled = true;
+          });
+        } else if (Number(select.value) !== Number(info.scheduleEnd.hour)) {
+          [...secondMinute.childNodes].forEach((minute) => {
+            console.log(minute);
+            minute.disabled = false;
+          });
+        }
       }
     });
   } else if (type === 'minute') {
@@ -482,6 +494,7 @@ function formSelect(type, theme, container, info, elNum) {
 function textArea(theme, container, info, settings) {
   const textarea = document.createElement('textarea');
   addClasses(textarea, ['schedule-it__form--request-appointment__textarea']);
+  textarea.required = true;
   const style = textarea.style;
   style.width = '80%';
   style.resize = 'none';
@@ -538,7 +551,6 @@ function textArea(theme, container, info, settings) {
   textarea.addEventListener('keyup', (e) => {
     e.preventDefault();
     const label = document.querySelector('.schedule-it__form--request-appointment__textarea__label');
-    console.log(textarea.value.length, maxLength);
     label.textContent = `Characters Left: ${Number(maxLength) - Number(textarea.value.length)}`;
   });
 

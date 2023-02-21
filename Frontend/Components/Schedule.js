@@ -18,7 +18,7 @@ function renderSchedule(user, theme, info) {
   if (theme.timeOfDay === 'day') {
     style.backgroundColor = theme.grayScale.offWhite;
   } else if (theme.timeOfDay === 'night') {
-    style.backgroundColor = theme.grayScale.raisinBlack;
+    style.backgroundColor = theme.grayScale.darkCharcoal;
   }
   insertElement('beforeend', display, schedule);
 

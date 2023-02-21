@@ -52,18 +52,18 @@ function button(buttonType, text, theme, container, info, user) {
 
         loginInput.addEventListener('keyup', (e) => {
           e.preventDefault();
-          console.log(info.errors);
           if (loginInput.value.length !== 8) {
             info.errors = addError(info, 'token', 'Token given is not the correct length.');
             renderErrors(errorContainer, info.errors);
             if (loginInput.value.length === 0) {
               info.errors = addError(info, 'token', '');
               renderErrors(errorContainer, info.errors);
+              delete info.errors['token'];
             }
           } else if (/[A-Za-z0-9]+$/.test(loginInput.value) === true || loginInput.value === '') {
             info.errors = addError(info, 'token', '');
             renderErrors(errorContainer, info.errors);
-            console.log(loginInput.value.length !== 8);
+            delete info.errors['token'];
           } else if (/[A-Za-z0-9]+$/.test(loginInput.value) === false) {
             info.errors = addError(info, 'token', 'Tokens should only be numbers and letters.');
             renderErrors(errorContainer, info.errors);
@@ -96,12 +96,11 @@ function button(buttonType, text, theme, container, info, user) {
 
         loginInput.addEventListener('keyup', (e) => {
           e.preventDefault();
-          console.log(info.errors);
           if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(loginInput.value) === true || loginInput.value === '') {
             info.errors = addError(info, 'email', '');
             renderErrors(errorContainer, info.errors);
+            delete info.errors['email'];
           } else if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(loginInput.value) === false) {
-            console.log('Error');
             info.errors = addError(info, 'email', 'Please Provide A Valid Email Address');
             renderErrors(errorContainer, info.errors);
           }
@@ -133,13 +132,9 @@ function button(buttonType, text, theme, container, info, user) {
       button.addEventListener('click', async (e) => {
         e.preventDefault();
         let header = e.target.closest('.schedule-it__form--login').firstChild.nextSibling.firstChild;
-        console.log(header);
         if (header.textContent === 'Owner Login') {
-          console.log(document.querySelectorAll('.schedule-it__form--login__user-login__input')[0]);
-          console.log(document.querySelectorAll('.schedule-it__form--login__user-login__input')[0].value);
           const token = document.querySelectorAll('.schedule-it__form--login__user-login__input')[0].value;
 
-          console.log(token);
           if (token.length !== 8) return;
 
           try {
@@ -177,7 +172,6 @@ function button(buttonType, text, theme, container, info, user) {
           const email = document.querySelectorAll('.schedule-it__form--login__user-login__input')[1].value;
           info.clientEmail = email;
 
-          console.log(/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(email));
           if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(email) === false) return;
 
           try {
@@ -198,11 +192,8 @@ function button(buttonType, text, theme, container, info, user) {
               loginContainers.forEach((container) => (container.style.display = 'none'));
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
-              console.log('Appointments Have Been Verified! 😄');
               renderSchedule(userType, theme, info);
-              console.log(response.data.data);
               const { results, currentAppointments } = await getTodaysAppointments(info);
-              console.log(currentAppointments);
               info.appointments = currentAppointments;
 
               const schedule = document.querySelector('.schedule-it__display__schedule__planner');
@@ -257,7 +248,6 @@ function button(buttonType, text, theme, container, info, user) {
       button.addEventListener('click', (e) => {
         e.preventDefault();
         const form = document.querySelector('.schedule-it__form--request-appointment');
-        console.log(form);
         form.style.display = 'flex';
         const formHeader = document.querySelector('.schedule-it__form--request-appointment__heading').firstChild;
         formHeader.textContent = 'Request Appointment';
@@ -281,9 +271,7 @@ function button(buttonType, text, theme, container, info, user) {
           'a',
         );
 
-        console.log(startHourValue, startMinuteValue, startMeridiemValue);
-        console.log(endHourValue, endMinuteValue, endMeridiemValue);
-        console.log(DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, startHourValue, startMinuteValue, 0).toFormat('A'));
+        console.log(info.appointments);
       });
     }
   } else if (buttonType === 'Date Selection') {
@@ -313,6 +301,10 @@ function button(buttonType, text, theme, container, info, user) {
       const year = Number(dateSelects[2].value);
       const month = Number(dateSelects[1].value);
       const day = Number(dateSelects[0].value);
+      const yearIndex = Number(dateSelects[2].selectedIndex);
+      const monthIndex = Number(dateSelects[1].selectedIndex);
+      const dayIndex = Number(dateSelects[0].selectedIndex);
+      console.log(year, month, day, yearIndex, monthIndex, dayIndex);
       const selectedDate = DateTime.local(year, month, day);
 
       if (selectedDate.day < DateTime.now().day) return console.error('You need to select today or a day in the future.');
@@ -387,12 +379,88 @@ function button(buttonType, text, theme, container, info, user) {
         }
       });
 
+      if (!communicationPreference || communicationPreference === '') {
+        const errorContainer = document.querySelectorAll('.error-container')[3];
+        info.errors = addError(info, 'appointment', 'Please provide your preference for communications.');
+        return renderErrors(errorContainer, info.errors);
+      }
+
+      if (!firstname || firstname === '') {
+        const errorContainer = document.querySelectorAll('.error-container')[3];
+        info.errors = addError(info, 'appointment', 'Please provide your first name.');
+        return renderErrors(errorContainer, info.errors);
+      }
+
+      if (!lastname || lastname === '') {
+        const errorContainer = document.querySelectorAll('.error-container')[3];
+        info.errors = addError(info, 'appointment', 'Please provide last name.');
+        return renderErrors(errorContainer, info.errors);
+      }
+
+      if (!email || email === '') {
+        const errorContainer = document.querySelectorAll('.error-container')[3];
+        info.errors = addError(info, 'appointment', 'Please provide email address.');
+        return renderErrors(errorContainer, info.errors);
+      }
+
+      if (!phone || phone === '') {
+        const errorContainer = document.querySelectorAll('.error-container')[3];
+        info.errors = addError(info, 'appointment', 'Please provide your phone number.');
+        return renderErrors(errorContainer, info.errors);
+      }
+
       let appointmentStart = DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, startHour, startMinute, 0);
       let appointmentEnd = DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, endHour, endMinute, 0);
-      console.log(Number(appointmentEnd.hour), Number(appointmentStart.hour));
+
+      const difference = appointmentEnd.diff(appointmentStart, ['days', 'hours', 'minutes']).toObject();
+
       if (info.scheduleIsOvernight === true && Number(appointmentEnd.hour) < Number(appointmentStart.hour)) {
         appointmentEnd = appointmentEnd.plus({ days: 1 });
-        console.log(appointmentStart, appointmentEnd);
+      }
+
+      if (difference.hours < 1 || difference.hours < info.minimumAppointmentLength) {
+        console.log(info.errors);
+        const errorContainer = document.querySelectorAll('.error-container')[3];
+        info.errors = addError(
+          info,
+          'appointment',
+          `Appointments must be at least ${info.minimumAppointmentLength} hour${info.minimumAppointmentLength > 1 ? 's' : ''} in length.`,
+        );
+        return renderErrors(errorContainer, info.errors);
+      }
+
+      if (difference.hours > info.maxAppointmentLength) {
+        console.log(info.errors);
+        const errorContainer = document.querySelectorAll('.error-container')[3];
+        info.errors = addError(
+          info,
+          'appointment',
+          `Appointments must not be longer than ${info.maxAppointmentLength} hour${info.maxAppointmentLength > 1 ? 's' : ''} in length.`,
+        );
+        return renderErrors(errorContainer, info.errors);
+      }
+
+      const appointments = document.querySelectorAll('.schedule-it__display__schedule__planner__appointment');
+
+      console.log(appointments);
+      appointments.forEach((appointment) => {
+        console.log(appointment, appointment.dataset.start, appointment.dataset.end);
+      });
+
+      const conflictingAppointments = [...appointments].filter((appointment) => {
+        if (
+          (appointmentStart.hour > DateTime.fromISO(appointment.dataset.start).hour &&
+            appointmentStart.hour < DateTime.fromISO(appointment.dataset.end).hour) ||
+          (appointmentEnd.hour > DateTime.fromISO(appointment.dataset.start).hour && appointmentEnd.hour < DateTime.fromISO(appointment.dataset.end).hour)
+        ) {
+          return appointment;
+        }
+      });
+
+      if (conflictingAppointments.length > 0) {
+        const errorContainer = document.querySelectorAll('.error-container')[3];
+        info.errors = addError(info, 'appointment', 'There is a conflict with the time of an existing appointment.');
+        return renderErrors(errorContainer, info.errors);
       }
 
       const request = {

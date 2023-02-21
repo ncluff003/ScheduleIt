@@ -84,7 +84,6 @@ function selectDateFormHeader(formType, theme, container) {
 
 function scheduleHeader(user, theme, container, info) {
   // Parent font size = 3rem or 30px.
-  console.log(info);
   const header = document.createElement('header');
   addClasses(header, ['schedule-it__display__schedule__header']);
   const style = header.style;

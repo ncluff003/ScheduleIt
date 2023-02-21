@@ -30,6 +30,7 @@ export default class Calendar {
       !this.info.minimumAppointmentLength // This is set by hours.
         ? (this.info.minimumAppointmentLength = 1)
         : (this.info.minimumAppointmentLength = this.info.minimumAppointmentLength);
+      !this.info.appointmentBuffer ? (this.info.appointmentBuffer = 0) : (this.info.appointmentBuffer = this.info.appointmentBuffer);
       console.log(this.info, this.info.minimumAppointmentLength);
       this.theme.error = '#cf352e';
       this.info.errors = {};

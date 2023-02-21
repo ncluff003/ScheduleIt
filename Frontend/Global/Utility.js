@@ -1,7 +1,6 @@
 import { get, getAll, set, remove, useNamespace } from './Cache';
 
 export const renderErrors = (container, errors) => {
-  console.log(container);
   [...container.childNodes].forEach((child) => child.remove());
 
   const errorKeys = Object.keys(errors);
@@ -17,6 +16,14 @@ export const renderErrors = (container, errors) => {
 export const addError = (info, key, error) => {
   info.errors[key] = error;
   return info.errors;
+};
+
+export const calculateBuffer = (time) => {
+  const quotient = time / 60;
+  const hours = Math.floor(quotient);
+  const minutes = time - hours * 60;
+  const buffer = { hours: hours, minutes: minutes };
+  return buffer;
 };
 
 export const replaceClassName = (element, classReplaced, replacementClass) => {
@@ -85,7 +92,6 @@ export const reloadPage = () => {
 
 export const clearIntervalInstigator = (interval) => {
   clearInterval(interval);
-  console.log(`cleared`);
 };
 
 export const watchScreen = () => {
