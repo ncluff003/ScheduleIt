@@ -447,15 +447,25 @@ function button(buttonType, text, theme, container, info, user) {
         console.log(appointment, appointment.dataset.start, appointment.dataset.end);
       });
 
+      // const originalStart = DateTime.fromISO(appointment.appointmentStart);
+      // const originalEnd = DateTime.fromISO(appointment.appointmentEnd);
+
+      // appointment.appointmentStart = DateTime.fromISO(appointment.appointmentStart).minus({ hours: buffer.hours, minutes: buffer.minutes }).toISO();
+      // appointment.appointmentEnd = DateTime.fromISO(appointment.appointmentEnd).plus({ hours: buffer.hours, minutes: buffer.minutes }).toISO();
+
+      // const start = DateTime.fromISO(appointment.appointmentStart);
+      // const end = DateTime.fromISO(appointment.appointmentEnd);
+
       const conflictingAppointments = [...appointments].filter((appointment) => {
         if (
-          (appointmentStart.hour > DateTime.fromISO(appointment.dataset.start).hour &&
-            appointmentStart.hour < DateTime.fromISO(appointment.dataset.end).hour) ||
-          (appointmentEnd.hour > DateTime.fromISO(appointment.dataset.start).hour && appointmentEnd.hour < DateTime.fromISO(appointment.dataset.end).hour)
+          (appointmentStart > DateTime.fromISO(appointment.dataset.start) && appointmentStart < DateTime.fromISO(appointment.dataset.end)) ||
+          (appointmentEnd > DateTime.fromISO(appointment.dataset.start) && appointmentEnd < DateTime.fromISO(appointment.dataset.end))
         ) {
           return appointment;
         }
       });
+
+      console.log(conflictingAppointments);
 
       if (conflictingAppointments.length > 0) {
         const errorContainer = document.querySelectorAll('.error-container')[3];
