@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 import { DateTime } from 'luxon';
-import { addClasses, insertElement, addError, renderErrors, getDateAppointments } from '../Global/Utility';
+import { addClasses, insertElement, addError, renderErrors, getDateAppointments, calculateBuffer } from '../Global/Utility';
 import { renderSchedule } from './Schedule';
 import { closeForm } from './FormCloser';
 import { getTodaysAppointments } from '../Global/Methods.js/getCurrentAppointments';
@@ -455,8 +455,8 @@ function button(buttonType, text, theme, container, info, user) {
 
       const conflictingAppointments = [...appointments].filter((appointment) => {
         if (
-          (appointmentStart > DateTime.fromISO(appointment.dataset.start) && appointmentStart < DateTime.fromISO(appointment.dataset.end)) ||
-          (appointmentEnd > DateTime.fromISO(appointment.dataset.start) && appointmentEnd < DateTime.fromISO(appointment.dataset.end))
+          (appointmentStart >= DateTime.fromISO(appointment.dataset.start) && appointmentStart < DateTime.fromISO(appointment.dataset.end)) ||
+          (appointmentEnd > DateTime.fromISO(appointment.dataset.start) && appointmentEnd <= DateTime.fromISO(appointment.dataset.end))
         ) {
           return appointment;
         }
@@ -520,6 +520,25 @@ function button(buttonType, text, theme, container, info, user) {
       const appointment = e.target.closest('.schedule-it__display__schedule__planner__appointment');
       const form = document.querySelector('.schedule-it__form--update-appointment');
       form.style.display = 'flex';
+
+      const startHourValue = Number(document.querySelector('.third-hour').value);
+      const endHourValue = Number(document.querySelector('.fourth-hour').value);
+      const startMinuteValue = Number(document.querySelector('.third-minute').value);
+      const endMinuteValue = Number(document.querySelector('.fourth-minute').value);
+      const startMeridiemValue = document.querySelector('.third-meridiem');
+      const endMeridiemValue = document.querySelector('.fourth-meridiem');
+
+      startMeridiemValue.textContent = DateTime.local(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day,
+        startHourValue,
+        startMinuteValue,
+        0,
+      ).toFormat('a');
+      endMeridiemValue.textContent = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, endHourValue, endMinuteValue, 0).toFormat(
+        'a',
+      );
 
       let results;
       try {
@@ -684,16 +703,26 @@ function button(buttonType, text, theme, container, info, user) {
         const appointmentId = formHeading[1].firstChild.dataset.current;
 
         const conflictingAppointments = [...currentAppointments].filter((appointment) => {
+          const buffer = calculateBuffer(info.appointmentBuffer);
+          const bufferAdjustedStart = DateTime.fromISO(appointment.appointmentStart).minus({ hours: buffer.hours, minutes: buffer.minutes }).toISO();
+          const bufferAdjustedEnd = DateTime.fromISO(appointment.appointmentEnd).plus({ hours: buffer.hours, minutes: buffer.minutes }).toISO();
+
+          console.log(appointmentStart, appointmentEnd, DateTime.fromISO(bufferAdjustedStart), DateTime.fromISO(bufferAdjustedEnd));
+
           if (String(appointment._id) !== appointmentId) {
             if (
-              (appointmentStart = DateTime.fromISO(appointment.appointmentStart) && appointmentStart < DateTime.fromISO(appointment.appointmentEnd)) ||
-              (appointmentEnd > DateTime.fromISO(appointment.appointmentStart) && appointmentEnd < DateTime.fromISO(appointment.appointmentEnd)) ||
-              appointmentStart === DateTime.fromISO(appointment.appointmentStart && appointmentEnd === DateTime.fromISO(appointment.appointmentEnd))
+              (appointmentStart >= DateTime.fromISO(bufferAdjustedStart) && appointmentStart < DateTime.fromISO(bufferAdjustedEnd)) ||
+              (appointmentEnd > DateTime.fromISO(bufferAdjustedStart) && appointmentEnd < DateTime.fromISO(bufferAdjustedEnd)) ||
+              appointmentStart === DateTime.fromISO(bufferAdjustedStart && appointmentEnd === DateTime.fromISO(bufferAdjustedEnd)) ||
+              (appointmentStart >= DateTime.fromISO(appointment.appointmentEnd) && appointmentStart < DateTime.fromISO(bufferAdjustedEnd)) ||
+              (appointmentEnd > DateTime.fromISO(bufferAdjustedStart) && appointmentEnd <= DateTime.fromISO(appointment.appointmentStart))
             ) {
               return appointment;
             }
           }
         });
+
+        console.log(conflictingAppointments);
 
         if (conflictingAppointments.length > 0) {
           const errorContainer = document.querySelectorAll('.error-container')[4];

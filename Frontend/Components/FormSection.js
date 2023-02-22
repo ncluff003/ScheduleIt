@@ -28,7 +28,7 @@ function flexSection(sectionstyle, sectionType, theme, container, info, settings
   } else if (sectionstyle === 'column' && sectionType === 'time') {
     timeFlexSection('time', theme, flex, info, settings.type, 'first');
     timeFlexSection('to', theme, flex, info);
-    timeFlexSection('time', theme, flex, info);
+    timeFlexSection('time', theme, flex, info, settings.type, 'second');
   } else if (sectionType === 'email') {
     appointmentRequestInput('full', 'Email Address', theme, flex, info);
   } else if (sectionType === 'phone') {
@@ -40,7 +40,7 @@ function flexSection(sectionstyle, sectionType, theme, container, info, settings
     style.justifyContent = 'flex-start';
     style.paddingTop = '1em';
     style.marginBottom = '4em';
-    textArea(theme, flex, info, { size: 'extra-large' });
+    textArea(theme, flex, info, { type: settings.type, size: 'extra-large' });
     characterCountLabel(theme, flex, { size: 'extra-large' });
   } else if (sectionType === 'request') {
     if (settings.type === 'request-appointment') {
@@ -51,7 +51,7 @@ function flexSection(sectionstyle, sectionType, theme, container, info, settings
   }
 }
 
-function timeFlexSection(type, theme, container, info, elNum) {
+function timeFlexSection(type, theme, container, info, formType, elNum) {
   const timeFlex = document.createElement('section');
   addClasses(timeFlex, ['schedule-it__form--request-appointment__flex-section__time']);
   const style = timeFlex.style;
@@ -64,24 +64,34 @@ function timeFlexSection(type, theme, container, info, elNum) {
   style.alignItems = 'center';
   if (type === 'time') {
     if (elNum !== undefined && elNum !== null && elNum === 'first') {
-      formSelect('hour', theme, timeFlex, info, elNum);
+      formSelect('hour', theme, timeFlex, info, formType, elNum);
     } else {
-      formSelect('hour', theme, timeFlex, info);
+      formSelect('hour', theme, timeFlex, info, formType, 'second');
     }
     if (elNum !== undefined && elNum !== null && elNum === 'first') {
-      formSelect('minute', theme, timeFlex, info, elNum);
+      formSelect('minute', theme, timeFlex, info, formType, elNum);
     } else {
-      formSelect('minute', theme, timeFlex, info);
+      formSelect('minute', theme, timeFlex, info, formType, 'second');
     }
-    if (elNum !== undefined && elNum !== null && elNum === 'first') {
+    if (elNum !== undefined && elNum !== null && elNum === 'first' && formType === 'request-appointment') {
       const meridiem = document.createElement('p');
       addClasses(meridiem, ['schedule-it__form--request-appointment__flex-section__time__meridiem', 'first-meridiem']);
       meridiem.style.margin = '1em 0 0';
       insertElement('beforeend', timeFlex, meridiem);
-    } else {
+    } else if (elNum !== undefined && elNum !== null && elNum === 'second' && formType === 'request-appointment') {
       const meridiem = document.createElement('p');
       meridiem.style.margin = '0 0 1em';
       addClasses(meridiem, ['schedule-it__form--request-appointment__flex-section__time__meridiem', 'second-meridiem']);
+      insertElement('beforeend', timeFlex, meridiem);
+    } else if (elNum !== undefined && elNum !== null && elNum === 'first' && formType === 'update-appointment') {
+      const meridiem = document.createElement('p');
+      meridiem.style.margin = '1em 0 0';
+      addClasses(meridiem, ['schedule-it__form--request-appointment__flex-section__time__meridiem', 'third-meridiem']);
+      insertElement('beforeend', timeFlex, meridiem);
+    } else if (elNum !== undefined && elNum !== null && elNum === 'second' && formType === 'update-appointment') {
+      const meridiem = document.createElement('p');
+      meridiem.style.margin = '0 0 1em';
+      addClasses(meridiem, ['schedule-it__form--request-appointment__flex-section__time__meridiem', 'fourth-meridiem']);
       insertElement('beforeend', timeFlex, meridiem);
     }
 

@@ -63,9 +63,9 @@ function communicationPreferenceLabel(value, theme, container, info) {
     });
 
     if (radioFor.checked === true) {
-      style.backgroundColor = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
-      style.borderColor = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
-      style.color = theme.timeOfDay === 'day' ? theme.primary : theme.primary;
+      style.backgroundColor = theme.timeOfDay === 'day' ? theme.tertiary : theme.tertiary;
+      style.borderColor = theme.timeOfDay === 'day' ? theme.tertiary : theme.tertiary;
+      style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
     }
   });
 

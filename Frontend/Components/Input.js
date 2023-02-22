@@ -26,7 +26,7 @@ function loginFormInput(theme, container, info) {
     e.preventDefault();
     style.outline = 'none';
     style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`;
-    style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`}`;
+    style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.secondary}` : `${theme.tertiary}`}`;
     style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}` : `${theme.grayScale.offWhite}`;
   });
   input.addEventListener('blur', (e) => {
@@ -116,6 +116,20 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
       input.value = formatPhoneNumber(input.value);
     });
   }
+
+  input.addEventListener('focus', (e) => {
+    e.preventDefault();
+    style.outline = 'none';
+    style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`;
+    style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.secondary}` : `${theme.tertiary}`}`;
+    style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}` : `${theme.grayScale.offWhite}`;
+  });
+  input.addEventListener('blur', (e) => {
+    e.preventDefault();
+    style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
+    style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
+    style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+  });
 
   insertElement('beforeend', container, input);
 }
@@ -360,11 +374,17 @@ function formSelect(type, theme, container, info, formType, elNum) {
     style.margin = '0';
     style.backgroundColor = 'transparent';
     style.border = 'none';
-    if (elNum !== undefined && elNum !== null && elNum === 'first') {
+    if (elNum !== undefined && elNum !== null && elNum === 'first' && formType === 'request-appointment') {
       style.margin = '1em 0 0';
       addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'first-hour']);
-    } else {
+    } else if (elNum !== undefined && elNum !== null && elNum === 'second' && formType === 'request-appointment') {
       addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'second-hour']);
+      style.margin = '0 0 1em';
+    } else if (elNum !== undefined && elNum !== null && elNum === 'first' && formType === 'update-appointment') {
+      addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'third-hour']);
+      style.margin = '1em 0 0';
+    } else if (elNum !== undefined && elNum !== null && elNum === 'second' && formType === 'update-appointment') {
+      addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'fourth-hour']);
       style.margin = '0 0 1em';
     }
 
@@ -431,6 +451,23 @@ function formSelect(type, theme, container, info, formType, elNum) {
             minute.disabled = false;
           });
         }
+      } else if (select.classList.contains('third-hour')) {
+        const meridiem = document.querySelector('.third-meridiem');
+        meridiem.textContent = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, Number(select.value), 0, 0).toFormat('a');
+      } else if (select.classList.contains('fourth-hour')) {
+        const meridiem = document.querySelector('.fourth-meridiem');
+        meridiem.textContent = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, Number(select.value), 0, 0).toFormat('a');
+
+        const fourthMinute = document.querySelector('.fourth-minute');
+        if (Number(select.value) === Number(info.scheduleEnd.hour)) {
+          [...fourthMinute.childNodes].forEach((minute) => {
+            if (Number(minute.value) > 0) minute.disabled = true;
+          });
+        } else if (Number(select.value) !== Number(info.scheduleEnd.hour)) {
+          [...fourthMinute.childNodes].forEach((minute) => {
+            minute.disabled = false;
+          });
+        }
       }
     });
   } else if (type === 'minute') {
@@ -442,12 +479,18 @@ function formSelect(type, theme, container, info, formType, elNum) {
     style.backgroundColor = 'transparent';
     style.border = 'none';
 
-    if (elNum !== undefined && elNum !== null && elNum === 'first') {
+    if (elNum !== undefined && elNum !== null && elNum === 'first' && formType === 'request-appointment') {
       style.margin = '1em 0 0';
       addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'first-minute']);
-    } else {
+    } else if (elNum !== undefined && elNum !== null && elNum === 'second' && formType === 'request-appointment') {
       style.margin = '0 0 1em';
       addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'second-minute']);
+    } else if (elNum !== undefined && elNum !== null && elNum === 'first' && formType === 'update-appointment') {
+      style.margin = '1em 0 0';
+      addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'third-minute']);
+    } else if (elNum !== undefined && elNum !== null && elNum === 'second' && formType === 'update-appointment') {
+      style.margin = '0 0 1em';
+      addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'fourth-minute']);
     }
 
     let start = 0;
@@ -555,8 +598,9 @@ function textArea(theme, container, info, settings) {
 
   textarea.addEventListener('focus', (e) => {
     e.preventDefault();
+    style.outline = 'none';
     style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}` : `${theme.grayScale.offWhite}`;
-    style.borderColor = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`;
+    style.borderColor = theme.timeOfDay === 'day' ? `${theme.secondary}` : `${theme.tertiary}`;
     style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`;
   });
 
@@ -569,8 +613,13 @@ function textArea(theme, container, info, settings) {
 
   textarea.addEventListener('keyup', (e) => {
     e.preventDefault();
-    const label = document.querySelector('.schedule-it__form--request-appointment__textarea__label');
-    label.textContent = `Characters Left: ${Number(maxLength) - Number(textarea.value.length)}`;
+    const labels = document.querySelectorAll('.schedule-it__form--request-appointment__textarea__label');
+
+    if (settings.type === 'request-appointment') {
+      labels[0].textContent = `Characters Left: ${Number(maxLength) - Number(textarea.value.length)}`;
+    } else if (settings.type === 'update-appointment') {
+      labels[1].textContent = `Characters Left: ${Number(maxLength) - Number(textarea.value.length)}`;
+    }
   });
 
   insertElement('beforeend', container, textarea);
