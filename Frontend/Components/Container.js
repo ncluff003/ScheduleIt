@@ -109,7 +109,7 @@ function scheduleContainer(theme, container, info) {
   insertElement('beforeend', container, scheduleContainer);
 }
 
-function dateSelectContainer(theme, container, info) {
+function dateSelectContainer(theme, container, info, formType) {
   const dateSelectContainer = document.createElement('section');
   addClasses(dateSelectContainer, ['schedule-it__form--date-selection__select-container']);
   const style = dateSelectContainer.style;
@@ -121,9 +121,23 @@ function dateSelectContainer(theme, container, info) {
   style.justifyContent = 'center';
   style.alignItems = 'center';
 
-  formSelect('day', theme, dateSelectContainer, info);
-  formSelect('month', theme, dateSelectContainer, info);
-  formSelect('year', theme, dateSelectContainer, info);
+  if (formType && formType === 'update-appointment') {
+    const updateHeading = document.createElement('h4');
+    addClasses(updateHeading, ['update-appointment-header']);
+    updateHeading.textContent = 'Select Updated Date';
+    const updateStyle = updateHeading.style;
+    updateStyle.fontFamily = theme.text;
+    updateStyle.fontSize = '1em';
+    updateStyle.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+    updateStyle.margin = '.5em 0 0';
+    insertElement('beforeend', container, updateHeading);
+
+    style.margin = '1em 0';
+  }
+
+  formSelect('day', theme, dateSelectContainer, info, formType);
+  formSelect('month', theme, dateSelectContainer, info, formType);
+  formSelect('year', theme, dateSelectContainer, info, formType);
   insertElement('beforeend', container, dateSelectContainer);
 }
 
@@ -154,7 +168,7 @@ function appointmentButtons(theme, container, info, appointment) {
   }
 }
 
-function errorContainer(theme, container, info, errors) {
+function errorContainer(theme, container, info, errors, formType) {
   const errorContainer = document.createElement('div');
   addClasses(errorContainer, ['error-container']);
   const style = errorContainer.style;
@@ -170,6 +184,9 @@ function errorContainer(theme, container, info, errors) {
   style.fontSize = '.53em';
   style.color = theme.error;
   style.textAlign = 'center';
+  if (formType && formType === 'update-appointment') {
+    style.margin = '1em 0 2em';
+  }
   insertElement('beforeend', container, errorContainer);
 }
 

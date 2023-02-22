@@ -51,7 +51,7 @@ function form(formType, user, theme, container, info) {
     } else if (formType === 'update-appointment') {
       addClasses(form, ['schedule-it__form--update-appointment']);
     }
-    errorContainer(theme, form, info, info.errors);
+    errorContainer(theme, form, info, info.errors, formType);
     const style = form.style;
     style.position = 'absolute';
     style.top = 0;
@@ -72,14 +72,15 @@ function form(formType, user, theme, container, info) {
     } else if (formType === 'update-appointment') {
       formCloser('update-appointment', theme, form);
       selectDateFormHeader('update-appointment', theme, form);
+      dateSelectContainer(theme, form, info, formType);
     }
-    flexSection('flexing', 'names', theme, form, info, { minHeight: '2em' });
-    flexSection('column', 'time', theme, form, info, { minHeight: '4em' });
-    flexSection('column', 'email', theme, form, info, { minHeight: '3em' });
-    flexSection('column', 'phone', theme, form, info, { minHeight: '3em' });
-    flexSection('column', 'communication', theme, form, info, { minHeight: '4em' });
-    flexSection('column', 'message', theme, form, info, { minHeight: '6em' });
-    flexSection('column', 'request', theme, form, info, { minHeight: '3em' });
+    flexSection('flexing', 'names', theme, form, info, { type: formType, minHeight: '2em' });
+    flexSection('column', 'time', theme, form, info, { type: formType, minHeight: '4em' });
+    flexSection('column', 'email', theme, form, info, { type: formType, minHeight: '3em' });
+    flexSection('column', 'phone', theme, form, info, { type: formType, minHeight: '3em' });
+    flexSection('column', 'communication', theme, form, info, { type: formType, minHeight: '4em' });
+    flexSection('column', 'message', theme, form, info, { type: formType, minHeight: '6em' });
+    flexSection('column', 'request', theme, form, info, { type: formType, minHeight: '3em' });
   }
 
   insertElement('beforeend', container, form);

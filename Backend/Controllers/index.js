@@ -10,6 +10,7 @@ const findOwner = require('./findOwner');
 const getClientFilteredAppointments = require('./getClientFilteredAppointments');
 
 // Appointments
+const getAppointment = require('./getAppointment');
 const getDateFilteredAppointments = require('./getDateFilteredAppointments');
 const requestAppointment = require('./requestAppointment');
 const denyAppointment = require('./denyAppointment');
@@ -33,6 +34,7 @@ module.exports = {
     getClientFilteredAppointments: getClientFilteredAppointments,
   },
   appointments: {
+    getAppointment: getAppointment,
     getDateFilteredAppointments: getDateFilteredAppointments,
     requestAppointment: requestAppointment,
     addAppointment: addAppointment,

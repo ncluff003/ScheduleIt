@@ -120,7 +120,7 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
   insertElement('beforeend', container, input);
 }
 
-function formSelect(type, theme, container, info, elNum) {
+function formSelect(type, theme, container, info, formType, elNum) {
   const select = document.createElement('select');
   const style = select.style;
   style.fontFamily = theme.text;
@@ -184,7 +184,6 @@ function formSelect(type, theme, container, info, elNum) {
     style.backgroundColor = 'transparent';
     style.border = 'none';
     dividerNeeded = true;
-    // style.borderRight = `.2em solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}cc`;
 
     let start = 0;
     let end = 12;
@@ -403,12 +402,10 @@ function formSelect(type, theme, container, info, elNum) {
         const secondMinute = document.querySelector('.second-minute');
         if (Number(select.value) === Number(info.scheduleEnd.hour)) {
           [...secondMinute.childNodes].forEach((minute) => {
-            console.log(minute);
             if (Number(minute.value) > 0) minute.disabled = true;
           });
         } else if (Number(select.value) !== Number(info.scheduleEnd.hour)) {
           [...secondMinute.childNodes].forEach((minute) => {
-            console.log(minute);
             minute.disabled = false;
           });
         }

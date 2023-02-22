@@ -20,10 +20,13 @@ function flexSection(sectionstyle, sectionType, theme, container, info, settings
   insertElement('beforeend', container, flex);
 
   if (sectionstyle === 'flexing' && sectionType === 'names') {
+    if (settings.type === 'update-appointment') {
+      style.marginBottom = '1em';
+    }
     appointmentRequestInput('half', 'First Name', theme, flex, info);
     appointmentRequestInput('half', 'Last Name', theme, flex, info);
   } else if (sectionstyle === 'column' && sectionType === 'time') {
-    timeFlexSection('time', theme, flex, info, 'first');
+    timeFlexSection('time', theme, flex, info, settings.type, 'first');
     timeFlexSection('to', theme, flex, info);
     timeFlexSection('time', theme, flex, info);
   } else if (sectionType === 'email') {
@@ -32,7 +35,7 @@ function flexSection(sectionstyle, sectionType, theme, container, info, settings
     appointmentRequestInput('full', 'Phone Number', theme, flex, info);
   } else if (sectionstyle === 'column' && sectionType === 'communication') {
     communicationPreferenceHeader(theme, flex);
-    communicationFlexSection(theme, flex, info);
+    communicationFlexSection(theme, flex, info, settings.type);
   } else if (sectionType === 'message') {
     style.justifyContent = 'flex-start';
     style.paddingTop = '1em';
@@ -40,7 +43,11 @@ function flexSection(sectionstyle, sectionType, theme, container, info, settings
     textArea(theme, flex, info, { size: 'extra-large' });
     characterCountLabel(theme, flex, { size: 'extra-large' });
   } else if (sectionType === 'request') {
-    button('Request Appointment', 'Request Appointment', theme, flex, info, '');
+    if (settings.type === 'request-appointment') {
+      button('Request Appointment', 'Request Appointment', theme, flex, info, '');
+    } else if (settings.type === 'update-appointment') {
+      button('Update Appointment', 'Request Appointment Update', theme, flex, info, '');
+    }
   }
 }
 
@@ -94,7 +101,7 @@ function timeFlexSection(type, theme, container, info, elNum) {
   insertElement('beforeend', container, timeFlex);
 }
 
-function communicationFlexSection(theme, container, info) {
+function communicationFlexSection(theme, container, info, type) {
   const flex = document.createElement('section');
   addClasses(flex, ['schedule-it__form--request-appointment__flex-section__communication']);
   const style = flex.style;
@@ -105,10 +112,10 @@ function communicationFlexSection(theme, container, info) {
   style.flexFlow = 'row nowrap';
   style.justifyContent = 'center';
   style.alignItems = 'center';
-  InvisibleRadio('Video Chat', theme, flex, info);
-  communicationPreferenceLabel('Video Chat', theme, flex, info);
-  InvisibleRadio('Phone Call', theme, flex, info);
-  communicationPreferenceLabel('Phone Call', theme, flex, info);
+  InvisibleRadio(`Video Chat${type && type === 'update-appointment' ? '-- Update' : ''}`, theme, flex, info);
+  communicationPreferenceLabel(`Video Chat${type && type === 'update-appointment' ? '-- Update' : ''}`, theme, flex, info);
+  InvisibleRadio(`Phone Call${type && type === 'update-appointment' ? '-- Update' : ''}`, theme, flex, info);
+  communicationPreferenceLabel(`Phone Call${type && type === 'update-appointment' ? '-- Update' : ''}`, theme, flex, info);
   insertElement('beforeend', container, flex);
 }
 

@@ -30,13 +30,16 @@ function communicationPreferenceLabel(value, theme, container, info) {
   style.fontSize = '.7em';
   style.transition = 'background-color .5s, color .5s, border .5s';
 
-  if (value.split(' ').join('').toLowerCase() === 'videochat') {
+  if (value.split(' ').join('').toLowerCase() === 'videochat' || value.split(' ').join('').toLowerCase() === 'videochat--update') {
     style.borderRadius = '.5em 0 0 .5em';
-  } else if (value.split(' ').join('').toLowerCase() === 'phonecall') {
+  } else if (value.split(' ').join('').toLowerCase() === 'phonecall' || value.split(' ').join('').toLowerCase() === 'phonecall--update') {
     style.borderRadius = '0 .5em .5em 0';
   }
 
   label.textContent = value;
+  if (value === `Video Chat-- Update` || value === 'Phone Call-- Update') {
+    label.textContent = value.replace('-- Update', '');
+  }
 
   label.htmlFor = value.split(' ').join('').toLowerCase();
 

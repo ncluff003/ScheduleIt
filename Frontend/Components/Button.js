@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 import { DateTime } from 'luxon';
-import { addClasses, insertElement, addError, renderErrors } from '../Global/Utility';
+import { addClasses, insertElement, addError, renderErrors, getDateAppointments } from '../Global/Utility';
 import { renderSchedule } from './Schedule';
 import { closeForm } from './FormCloser';
 import { getTodaysAppointments } from '../Global/Methods.js/getCurrentAppointments';
@@ -361,6 +361,7 @@ function button(buttonType, text, theme, container, info, user) {
       const textareas = document.querySelectorAll('.schedule-it__form--request-appointment__textarea');
       const selects = document.querySelectorAll('.schedule-it__form--date-selection__select-container__select');
       const radios = document.querySelectorAll('.schedule-it__form--request-appointment__flex-section__radio');
+      const requestRadios = [radios[0], radios[1]];
       const firstname = inputs[0].value;
       const lastname = inputs[1].value;
       const email = inputs[2].value;
@@ -373,17 +374,11 @@ function button(buttonType, text, theme, container, info, user) {
       const endHour = Number(selects[5].value);
       const endMinute = Number(selects[6].value);
 
-      radios.forEach((radio) => {
+      requestRadios.forEach((radio) => {
         if (radio.checked === true) {
           communicationPreference = radio.value;
         }
       });
-
-      if (!communicationPreference || communicationPreference === '') {
-        const errorContainer = document.querySelectorAll('.error-container')[3];
-        info.errors = addError(info, 'appointment', 'Please provide your preference for communications.');
-        return renderErrors(errorContainer, info.errors);
-      }
 
       if (!firstname || firstname === '') {
         const errorContainer = document.querySelectorAll('.error-container')[3];
@@ -406,6 +401,18 @@ function button(buttonType, text, theme, container, info, user) {
       if (!phone || phone === '') {
         const errorContainer = document.querySelectorAll('.error-container')[3];
         info.errors = addError(info, 'appointment', 'Please provide your phone number.');
+        return renderErrors(errorContainer, info.errors);
+      }
+
+      if (!communicationPreference || communicationPreference === '') {
+        const errorContainer = document.querySelectorAll('.error-container')[3];
+        info.errors = addError(info, 'appointment', 'Please provide your preference for communications.');
+        return renderErrors(errorContainer, info.errors);
+      }
+
+      if (!message || message === '') {
+        const errorContainer = document.querySelectorAll('.error-container')[3];
+        info.errors = addError(info, 'appointment', 'Please send a message or put N/A if nothing to say.');
         return renderErrors(errorContainer, info.errors);
       }
 
@@ -441,20 +448,6 @@ function button(buttonType, text, theme, container, info, user) {
       }
 
       const appointments = document.querySelectorAll('.schedule-it__display__schedule__planner__appointment');
-
-      console.log(appointments);
-      appointments.forEach((appointment) => {
-        console.log(appointment, appointment.dataset.start, appointment.dataset.end);
-      });
-
-      // const originalStart = DateTime.fromISO(appointment.appointmentStart);
-      // const originalEnd = DateTime.fromISO(appointment.appointmentEnd);
-
-      // appointment.appointmentStart = DateTime.fromISO(appointment.appointmentStart).minus({ hours: buffer.hours, minutes: buffer.minutes }).toISO();
-      // appointment.appointmentEnd = DateTime.fromISO(appointment.appointmentEnd).plus({ hours: buffer.hours, minutes: buffer.minutes }).toISO();
-
-      // const start = DateTime.fromISO(appointment.appointmentStart);
-      // const end = DateTime.fromISO(appointment.appointmentEnd);
 
       const conflictingAppointments = [...appointments].filter((appointment) => {
         if (
@@ -516,6 +509,244 @@ function button(buttonType, text, theme, container, info, user) {
     theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
     style.margin = '0.6em 0.3em';
     button.textContent = text;
+
+    button.addEventListener('click', async (e) => {
+      e.preventDefault();
+
+      const appointment = e.target.closest('.schedule-it__display__schedule__planner__appointment');
+      const form = document.querySelector('.schedule-it__form--update-appointment');
+      form.style.display = 'flex';
+
+      let results;
+      try {
+        const response = await axios({
+          method: 'GET',
+          url: `/ScheduleIt/Owners/${info.email}/Appointments/${appointment.dataset.appointment}`,
+          data: {
+            email: info.email,
+            appointmentId: appointment.dataset.appointmentId,
+          },
+        });
+        console.log(response);
+        results = response.data.data.appointment;
+      } catch (error) {
+        console.error(error);
+      }
+
+      console.log(appointment);
+      console.log(results);
+
+      const formHeaders = document.querySelectorAll('.schedule-it__form--request-appointment__heading');
+      const formHeader = formHeaders[1].firstChild;
+      formHeader.textContent = 'Request Appointment Update';
+      formHeader.dataset.current = appointment.dataset.appointment;
+      formHeader.style.textAlign = 'center';
+      formHeader.style.marginBottom = '1em';
+    });
+  } else if (buttonType === 'Update Appointment') {
+    style.position = 'relative';
+    style.height = '3.5em';
+    style.width = 'max-content';
+    style.display = 'flex';
+    style.flexFlow = 'row nowrap';
+    style.justifyContent = 'center';
+    style.alignItems = 'center';
+    style.padding = '.5em 1em';
+    style.backgroundColor = 'transparent';
+    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}`;
+    style.borderRadius = '1rem';
+    style.fontFamily = theme.text;
+    style.fontSize = '.45em';
+    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
+    style.margin = '0.6em 0.3em';
+    button.textContent = text;
+
+    button.addEventListener('click', async (e) => {
+      e.preventDefault();
+
+      const inputs = document.querySelectorAll('.schedule-it__form--request-appointment__input');
+      const textareas = document.querySelectorAll('.schedule-it__form--request-appointment__textarea');
+      const selects = document.querySelectorAll('.schedule-it__form--date-selection__select-container__select');
+      const radios = document.querySelectorAll('.schedule-it__form--request-appointment__flex-section__radio');
+      const updateRadios = [radios[2], radios[3]];
+      const firstname = inputs[4].value;
+      const lastname = inputs[5].value;
+      const email = inputs[6].value;
+      const phone = inputs[7].value;
+      let communicationPreference;
+      const message = textareas[1].value;
+      const date = document.querySelector('.schedule-it__display__schedule__header__date__text').dataset.date;
+
+      const daySelect = selects[7];
+      const monthSelect = selects[8];
+      const yearSelect = selects[9];
+
+      const day = Number(selects[7].value);
+      const month = Number(selects[8].value);
+      const year = Number(selects[9].value);
+      const startHour = Number(selects[10].value);
+      const startMinute = Number(selects[11].value);
+      const endHour = Number(selects[12].value);
+      const endMinute = Number(selects[13].value);
+
+      const selectedDate = DateTime.local(year, month, day);
+
+      if (selectedDate.toISO() < DateTime.now().toISO()) {
+        const errorContainer = document.querySelectorAll('.error-container')[4];
+        info.errors = addError(info, 'appointment', 'Please do not select a date in the past.');
+        return renderErrors(errorContainer, info.errors);
+      }
+
+      const formHeading = document.querySelectorAll('.schedule-it__form--request-appointment__heading');
+      console.log(formHeading);
+
+      try {
+        const response = await axios({
+          method: 'POST',
+          url: `/ScheduleIt/${info.userType}/${info.email}/Appointments/Date`,
+          data: {
+            userType: info.userType,
+            ownerEmail: info.email,
+            clientEmail: info.clientEmail,
+            selectedDate: selectedDate.toISO(),
+          },
+        });
+
+        const currentAppointments = response.data.data.currentAppointments;
+
+        console.log(currentAppointments);
+
+        updateRadios.forEach((radio) => {
+          if (radio.checked === true) {
+            communicationPreference = radio.value;
+          }
+        });
+
+        if (!firstname || firstname === '') {
+          const errorContainer = document.querySelectorAll('.error-container')[4];
+          info.errors = addError(info, 'appointment', 'Please provide your first name.');
+          return renderErrors(errorContainer, info.errors);
+        }
+
+        if (!lastname || lastname === '') {
+          const errorContainer = document.querySelectorAll('.error-container')[4];
+          info.errors = addError(info, 'appointment', 'Please provide last name.');
+          return renderErrors(errorContainer, info.errors);
+        }
+
+        if (!email || email === '') {
+          const errorContainer = document.querySelectorAll('.error-container')[4];
+          info.errors = addError(info, 'appointment', 'Please provide email address.');
+          return renderErrors(errorContainer, info.errors);
+        }
+
+        if (!phone || phone === '') {
+          const errorContainer = document.querySelectorAll('.error-container')[4];
+          info.errors = addError(info, 'appointment', 'Please provide your phone number.');
+          return renderErrors(errorContainer, info.errors);
+        }
+
+        if (!communicationPreference || communicationPreference === '') {
+          const errorContainer = document.querySelectorAll('.error-container')[4];
+          info.errors = addError(info, 'appointment', 'Please provide your preference for communications.');
+          return renderErrors(errorContainer, info.errors);
+        }
+
+        if (!message || message === '') {
+          const errorContainer = document.querySelectorAll('.error-container')[3];
+          info.errors = addError(info, 'appointment', 'Please send a message or put N/A if nothing to say.');
+          return renderErrors(errorContainer, info.errors);
+        }
+
+        let appointmentStart = DateTime.local(year, month, day, startHour, startMinute, 0);
+        let appointmentEnd = DateTime.local(year, month, day, endHour, endMinute, 0);
+
+        const difference = appointmentEnd.diff(appointmentStart, ['days', 'hours', 'minutes']).toObject();
+
+        if (info.scheduleIsOvernight === true && Number(appointmentEnd.hour) < Number(appointmentStart.hour)) {
+          appointmentEnd = appointmentEnd.plus({ days: 1 });
+        }
+
+        if (difference.hours < 1 || difference.hours < info.minimumAppointmentLength) {
+          console.log(info.errors);
+          const errorContainer = document.querySelectorAll('.error-container')[4];
+          info.errors = addError(
+            info,
+            'appointment',
+            `Appointments must be at least ${info.minimumAppointmentLength} hour${info.minimumAppointmentLength > 1 ? 's' : ''} in length.`,
+          );
+          return renderErrors(errorContainer, info.errors);
+        }
+
+        if (difference.hours > info.maxAppointmentLength) {
+          console.log(info.errors);
+          const errorContainer = document.querySelectorAll('.error-container')[4];
+          info.errors = addError(
+            info,
+            'appointment',
+            `Appointments must not be longer than ${info.maxAppointmentLength} hour${info.maxAppointmentLength > 1 ? 's' : ''} in length.`,
+          );
+          return renderErrors(errorContainer, info.errors);
+        }
+
+        const appointmentId = formHeading[1].firstChild.dataset.current;
+
+        const conflictingAppointments = [...currentAppointments].filter((appointment) => {
+          if (String(appointment._id) !== appointmentId) {
+            if (
+              (appointmentStart > DateTime.fromISO(appointment.appointmentStart) && appointmentStart < DateTime.fromISO(appointment.appointmentEnd)) ||
+              (appointmentEnd > DateTime.fromISO(appointment.appointmentStart) && appointmentEnd < DateTime.fromISO(appointment.appointmentEnd))
+            ) {
+              return appointment;
+            }
+          }
+        });
+
+        console.log(conflictingAppointments);
+
+        if (conflictingAppointments.length > 0) {
+          const errorContainer = document.querySelectorAll('.error-container')[3];
+          info.errors = addError(info, 'appointment', 'There is a conflict with the time of an existing appointment.');
+          return renderErrors(errorContainer, info.errors);
+        } else if (conflictingAppointments.length === 0) {
+          const updatedAppointment = [...currentAppointments].filter((appointment) => {
+            if (String(appointment._id === appointmentId)) {
+              return appointment;
+            }
+          });
+
+          const request = {
+            ownerEmail: info.email,
+            firstname: firstname,
+            lastname: lastname,
+            clientEmail: email,
+            clientPhone: phone,
+            appointment: {
+              appointmentType: communicationPreference.replace('-- Update', ''),
+              dateRequested: DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now(date).day, 0, 0, 0).toISO(),
+              appointmentStart: appointmentStart.toISO(),
+              appointmentEnd: appointmentEnd.toISO(),
+            },
+            message: message,
+          };
+
+          try {
+            const response = await axios({
+              method: 'POST',
+              url: `/ScheduleIt/Client/${info.email}/Appointments/${updatedAppointment._id}`,
+              data: request,
+            });
+            console.log(response);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+    });
   } else if ((buttonType = 'Delete Appointment')) {
     style.position = 'relative';
     style.height = '2.5em';
