@@ -22,7 +22,7 @@ function formCloser(formType, theme, container) {
   style.fontSize = '1.5em';
   style.top = '0.5em';
   style.right = '0.6em';
-  style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+  style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
   if (formType === 'select-date') {
     close.addEventListener('click', closeForm.bind(this, close, formType));
   } else if (formType === 'request-appointment') {
@@ -34,13 +34,13 @@ function formCloser(formType, theme, container) {
   close.addEventListener('mouseover', (e) => {
     e.preventDefault();
     style.cursor = 'pointer';
-    style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+    style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
     style.transition = 'background-color .5s, color .5s, border .5s';
   });
 
   close.addEventListener('mouseout', (e) => {
     e.preventDefault();
-    style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+    style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
     style.transition = 'background-color .5s, color .5s, border .5s';
   });
 

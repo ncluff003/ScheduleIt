@@ -77,7 +77,7 @@ function selectDateFormHeader(formType, theme, container) {
   style.alignItems = 'center';
   style.fontFamily = theme.text;
   const headingText = document.createElement('h4');
-  theme.timeOfDay === 'day' ? (headingText.style.color = theme.grayScale.raisinBlack) : (headingText.style.color = theme.grayScale.offWhite);
+  theme.timeOfDay === 'day' ? (headingText.style.color = theme.grayScale.raisinBlack) : (headingText.style.color = theme.grayScale.raisinBlack);
   insertElement('beforeend', heading, headingText);
   insertElement('beforeend', container, heading);
 }
@@ -113,7 +113,7 @@ function communicationPreferenceHeader(theme, container) {
   style.alignItems = 'center';
   style.fontFamily = theme.text;
   style.fontSize = '.6em';
-  style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+  style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
   style.marginBottom = '.6em';
   style.paddingTop = '1em';
 

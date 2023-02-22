@@ -8,6 +8,7 @@ const AppError = require(`../Utilities/appError`);
 const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
+  console.log(request.params);
   const info = request.params;
   const email = info.ownerEmail;
   const id = request.params.appointmentId;

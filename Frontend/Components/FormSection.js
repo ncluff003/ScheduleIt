@@ -20,7 +20,7 @@ function flexSection(sectionstyle, sectionType, theme, container, info, settings
   insertElement('beforeend', container, flex);
 
   if (sectionstyle === 'flexing' && sectionType === 'names') {
-    if (settings.type === 'update-appointment') {
+    if (settings.type === 'update-appointment' || settings.type === 'request-appointment') {
       style.marginBottom = '1em';
     }
     appointmentRequestInput('half', 'First Name', theme, flex, info);
@@ -94,7 +94,7 @@ function timeFlexSection(type, theme, container, info, elNum) {
     to.textContent = 'To';
     style.fontFamily = theme.text;
     style.fontSize = '.75em';
-    style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+    style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
     style.fontVariant = 'small-caps';
     insertElement('beforeend', timeFlex, to);
   }

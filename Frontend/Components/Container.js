@@ -78,6 +78,7 @@ function dateContainer(theme, container, info) {
   style.alignItems = 'center';
   style.fontFamily = theme.text;
   style.fontSize = '.9em';
+  style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
   insertElement('beforeend', container, dateContainer);
 
   const date = document.createElement('h3');

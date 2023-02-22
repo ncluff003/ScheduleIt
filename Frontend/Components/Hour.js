@@ -32,8 +32,15 @@ function hour(theme, container, info, index) {
   label.style.left = '1rem';
   label.style.fontFamily = theme.text;
   label.style.fontSize = '.53em';
-  label.style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
-  label.style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.darkCharcoal}`;
+  // label.style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+  label.style.color = theme.tertiary;
+  if (hour.classList.contains('disabled')) {
+    label.style.color = theme.timeOfDay === 'day' ? theme.grayScale.offWhite : theme.grayScale.offWhite;
+    label.style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.darkCharcoal}` : `${theme.grayScale.sonicSilver}`;
+  } else if (!hour.classList.contains('disabled')) {
+    label.style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+    label.style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.darkCharcoal}`;
+  }
   label.style.zIndex = 5;
   label.textContent = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, index, 0, 0).toLocaleString(DateTime.TIME_SIMPLE);
   insertElement('beforeend', hour, label);

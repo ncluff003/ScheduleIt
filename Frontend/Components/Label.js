@@ -21,7 +21,7 @@ function communicationPreferenceLabel(value, theme, container, info) {
   style.position = 'relative';
   style.height = '3em';
   style.width = '40%';
-  style.border = `.1em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`}`;
+  style.border = `.1em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`}`;
   style.display = 'flex';
   style.flexFlow = 'row nowrap';
   style.justifyContent = 'center';
@@ -58,13 +58,14 @@ function communicationPreferenceLabel(value, theme, container, info) {
     labels.forEach((l) => {
       const style = l.style;
       style.backgroundColor = 'transparent';
-      style.border = `.1em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`}`;
-      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+      style.border = `.1em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`}`;
+      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
     });
+
     if (radioFor.checked === true) {
-      style.backgroundColor = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
-      style.borderColor = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
-      style.color = theme.timeOfDay === 'day' ? theme.primary : theme.grayScale.secondary;
+      style.backgroundColor = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
+      style.borderColor = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
+      style.color = theme.timeOfDay === 'day' ? theme.primary : theme.primary;
     }
   });
 

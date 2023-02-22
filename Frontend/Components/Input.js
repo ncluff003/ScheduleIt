@@ -126,7 +126,9 @@ function formSelect(type, theme, container, info, formType, elNum) {
   style.fontFamily = theme.text;
   let dividerNeeded = false;
   let colonNeeded = false;
+
   if (type === 'day') {
+    console.log(type);
     addClasses(select, ['schedule-it__form--date-selection__select-container__select']);
     style.position = 'relative';
     style.height = 'max-content';
@@ -144,7 +146,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
       addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
       const style = option.style;
       style.fontFamily = theme.text;
-      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
       option.textContent =
         `${DateTime.local(DateTime.now().year, DateTime.now().month, start + 1).day}`.length === 1
           ? `0${DateTime.local(DateTime.now().year, DateTime.now().month, start + 1).day}`
@@ -159,17 +161,28 @@ function formSelect(type, theme, container, info, formType, elNum) {
       e.preventDefault();
       const errorContainers = document.querySelectorAll('.error-container');
       const errorContainer = errorContainers[2];
-      const dateSelects = document.querySelectorAll('.schedule-it__form--date-selection__select-container__select');
 
-      const year = Number(dateSelects[2].value);
-      const month = Number(dateSelects[1].value);
-      const day = Number(dateSelects[0].value);
-      const selectedDate = DateTime.local(year, month, day);
+      const day = e.target.closest('.schedule-it__form--date-selection__select-container').firstChild;
+      const month = e.target.closest('.schedule-it__form--date-selection__select-container').firstChild.nextSibling.nextSibling;
+      const year = e.target.closest('.schedule-it__form--date-selection__select-container').firstChild.nextSibling.nextSibling.nextSibling.nextSibling;
 
-      if (selectedDate.day < DateTime.now().day) {
+      const dayValue = Number(day.value);
+      const monthValue = Number(month.value);
+      const yearValue = Number(year.value);
+
+      const selectedDate = DateTime.local(yearValue, monthValue, dayValue);
+
+      if (selectedDate < DateTime.now()) {
         addError(info, 'date', 'Please select a date that is either today or in the future.');
         renderErrors(errorContainer, info.errors);
-      } else if (selectedDate.day >= DateTime.now().day) {
+
+        if (selectedDate.day === DateTime.now().day && selectedDate.month === DateTime.now().month && selectedDate.year === DateTime.now().year) {
+          if (DateTime.local(yearValue, monthValue, dayValue, 23, 59, 59) >= DateTime.now()) {
+            addError(info, 'date', '');
+            renderErrors(errorContainer, info.errors);
+          }
+        }
+      } else if (selectedDate > DateTime.now()) {
         addError(info, 'date', '');
         renderErrors(errorContainer, info.errors);
       }
@@ -192,7 +205,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
       addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
       const style = option.style;
       style.fontFamily = theme.text;
-      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
       option.textContent =
         `${DateTime.local(DateTime.now().year, start + 1, 1).month}`.length === 1
           ? `0${DateTime.local(DateTime.now().year, start + 1, 1).month}`
@@ -225,7 +238,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
         addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
         const style = option.style;
         style.fontFamily = theme.text;
-        style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+        style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
         option.textContent =
           `${DateTime.local(yearValue, monthValue, dayStart + 1).day}`.length === 1
             ? `0${DateTime.local(yearValue, monthValue, dayStart + 1).day}`
@@ -248,11 +261,15 @@ function formSelect(type, theme, container, info, formType, elNum) {
 
         if (selectedDate.day === DateTime.now().day && selectedDate.month === DateTime.now().month && selectedDate.year === DateTime.now().year) {
           selectedDate = selectedDate.set({ hour: 23, minute: 59, second: 59 });
+          console.log(selectedDate);
           if (selectedDate >= DateTime.now()) {
             addError(info, 'date', '');
             renderErrors(errorContainer, info.errors);
           }
         }
+      } else if (selectedDate > DateTime.now()) {
+        addError(info, 'date', '');
+        renderErrors(errorContainer, info.errors);
       }
     });
   } else if (type === 'year') {
@@ -272,7 +289,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
       addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
       const style = option.style;
       style.fontFamily = theme.text;
-      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
       option.textContent = DateTime.now().year + start;
       option.value = DateTime.now().year + start;
       insertElement('beforeend', select, option);
@@ -301,7 +318,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
         addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
         const style = option.style;
         style.fontFamily = theme.text;
-        style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+        style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
         option.textContent =
           `${DateTime.local(yearValue, monthValue, dayStart + 1).day}`.length === 1
             ? `0${DateTime.local(yearValue, monthValue, dayStart + 1).day}`
@@ -322,12 +339,17 @@ function formSelect(type, theme, container, info, formType, elNum) {
       if (selectedDate < DateTime.now()) {
         addError(info, 'date', 'Please select a date that is either today or in the future.');
         renderErrors(errorContainer, info.errors);
-      } else if (selectedDate.day >= DateTime.now().day) {
-        selectedDate = selectedDate.set({ hour: 23, minute: 59, second: 59 });
-        if (selectedDate >= DateTime.now()) {
-          addError(info, 'date', '');
-          renderErrors(errorContainer, info.errors);
+
+        if (selectedDate.day === DateTime.now().day && selectedDate.month === DateTime.now().month && selectedDate.year === DateTime.now().year) {
+          selectedDate = selectedDate.set({ hour: 23, minute: 59, second: 59 });
+          if (selectedDate >= DateTime.now()) {
+            addError(info, 'date', '');
+            renderErrors(errorContainer, info.errors);
+          }
         }
+      } else if (selectedDate > DateTime.now()) {
+        addError(info, 'date', '');
+        renderErrors(errorContainer, info.errors);
       }
     });
   } else if (type === 'hour') {
@@ -355,7 +377,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
       addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
       const style = option.style;
       style.fontFamily = theme.text;
-      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
       option.textContent =
         `${DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour}`.length === 1 &&
         DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour === 0
@@ -455,7 +477,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
       style.position = 'relative';
       style.height = '1.4em';
       style.width = 'max-content';
-      style.border = `.075em groove ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}cc`;
+      style.border = `.075em groove ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}cc`;
       insertElement('beforeend', container, divider);
     }
   } else if (colonNeeded === true) {
@@ -477,7 +499,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
 
     style.fontFamily = theme.text;
     style.fontSize = '1em';
-    style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+    style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
     insertElement('beforeend', colonDiv, colon);
     insertElement('beforeend', container, colonDiv);
   }
