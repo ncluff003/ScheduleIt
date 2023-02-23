@@ -1,11 +1,12 @@
 import axios from 'axios';
+import { DateTime } from 'luxon';
 import { addClasses, insertElement } from '../Global/Utility';
 import Theme from '../Global/Theme';
 import { calendarHeader } from '../Components/Header';
 import { calendarDisplay } from '../Components/Display';
 
 export default class Calendar {
-  constructor(theme, readyMessage, ownerDetails) {
+  constructor(readyMessage, theme, ownerDetails) {
     if (document.querySelector('#schedule')) {
       this.theme = theme;
       this.info = ownerDetails;
@@ -32,6 +33,8 @@ export default class Calendar {
         : (this.info.minimumAppointmentLength = this.info.minimumAppointmentLength);
       !this.info.appointmentBuffer ? (this.info.appointmentBuffer = 0) : (this.info.appointmentBuffer = this.info.appointmentBuffer);
       console.log(this.info, this.info.minimumAppointmentLength);
+      this.info.scheduleStart = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, this.info.scheduleStart, 0, 0);
+      this.info.scheduleEnd = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, this.info.scheduleEnd, 0, 0);
       this.theme.error = '#cf352e';
       this.info.errors = {};
       this.theme.grayScale = {
