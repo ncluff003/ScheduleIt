@@ -129,7 +129,7 @@ function dateSelectContainer(theme, container, info, formType) {
     const updateStyle = updateHeading.style;
     updateStyle.fontFamily = theme.text;
     updateStyle.fontSize = '1em';
-    updateStyle.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+    updateStyle.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
     updateStyle.margin = '.5em 0 0';
     insertElement('beforeend', container, updateHeading);
 

@@ -25,9 +25,10 @@ const controllers = require('../Controllers');
 
 router.route('/').get(controllers.appointments.addAppointment).post(controllers.appointments.requestAppointment);
 router.route(routes.scheduleIt.appointments.dateFiltered).post(controllers.appointments.getDateFilteredAppointments);
+router.route(routes.scheduleIt.appointments.appointment).post(controllers.appointments.requestAppointmentUpdate);
 router
-  .route(routes.scheduleIt.appointments.appointment)
-  .post(controllers.appointments.requestAppointmentUpdate)
+  .route(`${routes.scheduleIt.appointments.appointment}${routes.scheduleIt.owners.owner}`)
+  .get(controllers.appointments.getAppointment)
   .delete(controllers.appointments.deleteAppointment);
 router.route(routes.scheduleIt.appointments.updateAppointment).get(controllers.appointments.updateAppointment);
 router.route(routes.scheduleIt.appointments.acceptAppointment).get(controllers.appointments.addAppointment);

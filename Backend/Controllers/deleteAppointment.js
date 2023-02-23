@@ -2,13 +2,14 @@
 //  My Middleware
 const catchAsync = require(`../Utilities/catchAsync`);
 const AppError = require(`../Utilities/appError`);
-const Email = require("../Utilities/email");
+const Email = require('../Utilities/email');
 
 ////////////////////////////////////////////
 //  My Models
-const Owner = require("../Models/ownerModel");
+const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
+  console.log(request.params);
   const email = request.params.email;
   const appointmentId = request.params.appointmentId;
 
@@ -43,7 +44,7 @@ module.exports = catchAsync(async (request, response, next) => {
   await owner.save();
 
   response.status(200).json({
-    status: "Success",
-    message: "Appointment Successfully Deleted",
+    status: 'Success',
+    message: 'Appointment Successfully Deleted',
   });
 });

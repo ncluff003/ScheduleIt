@@ -25,10 +25,6 @@ const controllers = require('../Controllers');
 const appointmentRouter = require('./appointmentRoutes');
 
 router.route(routes.scheduleIt.owners.owner).post(controllers.owners.findOwner);
-router
-  .route(`${routes.scheduleIt.owners.owner}${routes.scheduleIt.appointments.all}${routes.scheduleIt.appointments.appointment}`)
-  .get(controllers.appointments.getAppointment)
-  .delete(controllers.appointments.deleteAppointment);
 router.use(`${routes.scheduleIt.owners.owner}${routes.scheduleIt.appointments.all}`, appointmentRouter);
 
 ////////////////////////////////////////////

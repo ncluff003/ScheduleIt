@@ -63,7 +63,7 @@ function appointment(theme, container, info, appointment, clientAppointment) {
   const labelStyle = appointmentLabel.style;
   labelStyle.fontFamily = theme.text;
   labelStyle.fontSize = '.425em';
-  labelStyle.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+  labelStyle.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
 
   if (info.userType === 'Owners') {
     appointmentLabel.textContent = `${appointment.appointmentType.split(' ')[0]} ${appointment.appointmentType.split(' ')[1].toLowerCase()} with ${

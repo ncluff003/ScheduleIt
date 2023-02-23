@@ -19,6 +19,7 @@ const addAppointment = require('./addAppointment');
 const requestAppointmentUpdate = require('./requestAppointmentUpdate');
 const updateAppointment = require('./updateAppointment');
 const deleteAppointment = require('./deleteAppointment');
+const deletePastAppointments = require('./deletePastAppointments');
 
 // Token
 const verifyToken = require('./verifyToken');
@@ -43,6 +44,7 @@ module.exports = {
     updateAppointment: updateAppointment,
     denyAppointmentUpdate: denyAppointmentUpdate,
     deleteAppointment: deleteAppointment,
+    deletePastAppointments: deletePastAppointments,
   },
   token: {
     verifyToken: verifyToken,

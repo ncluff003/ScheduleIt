@@ -506,11 +506,11 @@ function button(buttonType, text, theme, container, info, user) {
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}`;
+    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
     style.fontFamily = theme.text;
     style.fontSize = '.45em';
-    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
+    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
     style.margin = '0.6em 0.3em';
     button.textContent = text;
 
@@ -544,7 +544,7 @@ function button(buttonType, text, theme, container, info, user) {
       try {
         const response = await axios({
           method: 'GET',
-          url: `/ScheduleIt/Owners/${info.email}/Appointments/${appointment.dataset.appointment}`,
+          url: `/ScheduleIt/Owners/${info.email}/Appointments/${appointment.dataset.appointment}/${info.email}`,
           data: {
             email: info.email,
             appointmentId: appointment.dataset.appointmentId,
@@ -572,11 +572,11 @@ function button(buttonType, text, theme, container, info, user) {
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}`;
+    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
     style.fontFamily = theme.text;
     style.fontSize = '.45em';
-    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
+    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
     style.margin = '0.6em 0.3em';
     button.textContent = text;
 
@@ -775,13 +775,35 @@ function button(buttonType, text, theme, container, info, user) {
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}`;
+    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
     style.fontFamily = theme.text;
     style.fontSize = '.45em';
-    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
+    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
     style.margin = '0.6em 0.3em';
     button.textContent = text;
+
+    button.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const appointment = e.target.closest('.schedule-it__display__schedule__planner__appointment');
+      const appointmentId = appointment.dataset.appointment;
+
+      try {
+        const response = await axios({
+          method: 'DELETE',
+          url: `/ScheduleIt/${info.userType}/${info.email}/Appointments/${appointmentId}/${info.email}`,
+        });
+        console.log(response);
+
+        appointment.remove();
+      } catch (error) {
+        console.error(error);
+      }
+
+      /*
+        ROUTE -- Delete --> /ScheduleIt/userType/:email/Appointments/:appointmentId
+      */
+    });
   }
 
   button.addEventListener('mouseover', (e) => {
