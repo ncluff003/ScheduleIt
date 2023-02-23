@@ -34,6 +34,17 @@ function button(buttonType, text, theme, container, info, user) {
         e.preventDefault();
         user = 'Owner';
         info.userType = `${user}s`;
+
+        try {
+          const response = await axios({
+            method: 'DELETE',
+            url: `/ScheduleIt/${info.userType}/${info.email}/Appointments/${info.email}`,
+          });
+          console.log(response);
+        } catch (error) {
+          console.error(error);
+        }
+
         const form = document.querySelector('.schedule-it__form--login');
         const loginContainer = document.querySelectorAll('.schedule-it__form--login__user-login')[0];
         const loginHeading = document.querySelectorAll('.schedule-it__form--login__heading')[0];
@@ -79,10 +90,21 @@ function button(buttonType, text, theme, container, info, user) {
         console.log(response);
       });
     } else if (text === 'Client Login') {
-      button.addEventListener('click', (e) => {
+      button.addEventListener('click', async (e) => {
         e.preventDefault();
         user = 'Client';
         info.userType = user;
+
+        try {
+          const response = await axios({
+            method: 'DELETE',
+            url: `/ScheduleIt/${info.userType}/${info.email}/Appointments/${info.email}`,
+          });
+          console.log(response);
+        } catch (error) {
+          console.error(error);
+        }
+
         const form = document.querySelector('.schedule-it__form--login');
         const loginContainer = document.querySelectorAll('.schedule-it__form--login__user-login')[1];
         const loginHeading = document.querySelectorAll('.schedule-it__form--login__heading')[1];

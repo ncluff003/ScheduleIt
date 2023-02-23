@@ -24,6 +24,7 @@ const controllers = require('../Controllers');
 //  Routing Middleware
 
 router.route('/').get(controllers.appointments.addAppointment).post(controllers.appointments.requestAppointment);
+router.route(routes.scheduleIt.owners.owner).delete(controllers.appointments.deletePastAppointments);
 router.route(routes.scheduleIt.appointments.dateFiltered).post(controllers.appointments.getDateFilteredAppointments);
 router.route(routes.scheduleIt.appointments.appointment).post(controllers.appointments.requestAppointmentUpdate);
 router
