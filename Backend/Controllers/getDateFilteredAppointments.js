@@ -14,7 +14,8 @@ const Owner = require('../Models/ownerModel');
 module.exports = catchAsync(async (request, response) => {
   const userType = request.body.userType;
   const email = request.body.ownerEmail;
-  const selectedDate = request.body.selectedDate;
+  let selectedDate = request.body.selectedDate;
+  selectedDate = DateTime.fromISO(selectedDate).set({ hours: 0, minutes: 0, seconds: 0 }).toISO();
 
   // THIS IS FOR IF IT IS A CLIENT SELECTING THE DATE.
   let clientEmail;

@@ -7,6 +7,7 @@ import { DateTime } from 'luxon';
 import { hour } from './Hour';
 
 function loginContainer(user, theme, container, info) {
+  // Parent Font Size: 3rem
   const loginContainer = document.createElement('section');
   addClasses(loginContainer, ['schedule-it__form--login__user-login']);
   const style = loginContainer.style;
@@ -29,6 +30,7 @@ function loginContainer(user, theme, container, info) {
 }
 
 function loginButtonContainer(user, theme, container, info) {
+  // Parent Font Size: 3rem
   const buttonContainer = document.createElement('section');
   addClasses(buttonContainer, ['schedule-it__form--login__user-login__buttons']);
   const style = buttonContainer.style;
@@ -47,6 +49,7 @@ function loginButtonContainer(user, theme, container, info) {
 }
 
 function scheduleButtonContainer(user, theme, container, info) {
+  // Parent Font Size: 3rem
   const buttonContainer = document.createElement('section');
   addClasses(buttonContainer, ['schedule-it__display__schedule__header__buttons']);
   const style = buttonContainer.style;
@@ -65,7 +68,7 @@ function scheduleButtonContainer(user, theme, container, info) {
 }
 
 function dateContainer(theme, container, info) {
-  // Parent font size = 3rem or 30px.
+  // Parent Font Size: 3rem
   const dateContainer = document.createElement('section');
   addClasses(dateContainer, ['schedule-it__display__schedule__header__date']);
   const style = dateContainer.style;
@@ -77,7 +80,7 @@ function dateContainer(theme, container, info) {
   style.justifyContent = 'center';
   style.alignItems = 'center';
   style.fontFamily = theme.text;
-  style.fontSize = '.9em';
+  style.fontSize = '.9em'; // 2.7rem
   style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
   insertElement('beforeend', container, dateContainer);
 
@@ -89,6 +92,7 @@ function dateContainer(theme, container, info) {
 }
 
 function scheduleContainer(theme, container, info) {
+  // Parent Font Size: 3rem
   const scheduleContainer = document.createElement('section');
   addClasses(scheduleContainer, ['schedule-it__display__schedule__planner']);
   const style = scheduleContainer.style;
@@ -111,6 +115,7 @@ function scheduleContainer(theme, container, info) {
 }
 
 function dateSelectContainer(theme, container, info, formType) {
+  // Parent Font Size: 3rem
   const dateSelectContainer = document.createElement('section');
   addClasses(dateSelectContainer, ['schedule-it__form--date-selection__select-container']);
   const style = dateSelectContainer.style;
@@ -128,7 +133,7 @@ function dateSelectContainer(theme, container, info, formType) {
     updateHeading.textContent = 'Select Updated Date';
     const updateStyle = updateHeading.style;
     updateStyle.fontFamily = theme.text;
-    updateStyle.fontSize = '1em';
+    updateStyle.fontSize = '1em'; // 3rem
     updateStyle.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
     updateStyle.margin = '.5em 0 0';
     insertElement('beforeend', container, updateHeading);
@@ -170,6 +175,11 @@ function appointmentButtons(theme, container, info, appointment) {
 }
 
 function errorContainer(theme, container, info, errors, formType) {
+  /*
+    * Login Container: // Parent Font Size: 3rem
+    * Select Date Form: // Parent Font Size: 3rem
+  
+  */
   const errorContainer = document.createElement('div');
   addClasses(errorContainer, ['error-container']);
   const style = errorContainer.style;

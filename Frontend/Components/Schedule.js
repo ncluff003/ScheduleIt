@@ -4,6 +4,7 @@ import { form } from './Form';
 import { scheduleHeader } from './Header';
 
 function renderSchedule(user, theme, info) {
+  // Parent Font Size: 3rem
   const display = document.querySelector('.schedule-it__display');
   console.log(user);
 

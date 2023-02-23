@@ -7,6 +7,7 @@ function clearSelect(select) {
 }
 
 function loginFormInput(theme, container, info) {
+  // Parent Font Size: 3rem
   const input = document.createElement('input');
   addClasses(input, ['schedule-it__form--login__user-login__input']);
   const style = input.style;
@@ -17,7 +18,7 @@ function loginFormInput(theme, container, info) {
   style.padding = '.5rem 1rem';
   style.margin = '.25rem 0';
   style.fontFamily = theme.text;
-  style.fontSize = '.6em';
+  style.fontSize = '.6em'; // 1.8rem
   style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
   style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
   style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
@@ -40,6 +41,7 @@ function loginFormInput(theme, container, info) {
 }
 
 function appointmentRequestInput(type, placeholder, theme, container, info) {
+  // Parent Font Size: 3rem
   const input = document.createElement('input');
   addClasses(input, ['schedule-it__form--request-appointment__input']);
   const style = input.style;
@@ -48,7 +50,7 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
   type === 'half' ? (style.width = '40%') : (style.width = '80%');
   style.padding = '.5em';
   style.fontFamily = theme.text;
-  style.fontSize = '.53em';
+  style.fontSize = '.53em'; // 1.59rem
   style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
   style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
   style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
@@ -135,6 +137,7 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
 }
 
 function formSelect(type, theme, container, info, formType, elNum) {
+  // Parent Font Size: 3rem
   const select = document.createElement('select');
   const style = select.style;
   style.fontFamily = theme.text;
@@ -541,7 +544,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
     colon.style.padding = '0 .5em';
 
     style.fontFamily = theme.text;
-    style.fontSize = '1em';
+    style.fontSize = '1em'; // 3rem
     style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
     insertElement('beforeend', colonDiv, colon);
     insertElement('beforeend', container, colonDiv);
@@ -554,6 +557,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
 }
 
 function textArea(theme, container, info, settings) {
+  // Parent Font Size: 3rem
   const textarea = document.createElement('textarea');
   addClasses(textarea, ['schedule-it__form--request-appointment__textarea']);
   textarea.required = true;
@@ -565,7 +569,7 @@ function textArea(theme, container, info, settings) {
   style.borderRadius = '.25em';
   style.padding = '1em';
   style.fontFamily = theme.text;
-  style.fontSize = '.53em';
+  style.fontSize = '.53em'; // 1.59rem
   style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
   textarea.placeholder = `Enter Your Message For ${info.firstname} ${info.lastname}`;
   let maxLength;

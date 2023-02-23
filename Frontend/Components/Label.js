@@ -1,6 +1,7 @@
 import { addClasses, insertElement } from '../Global/Utility';
 
 function loginFormLabel(theme, container) {
+  // Parent Font Size: 3rem
   const label = document.createElement('label');
   addClasses(label, ['schedule-it__form--login__user-login__label']);
   const style = label.style;
@@ -10,11 +11,12 @@ function loginFormLabel(theme, container) {
   style.left = '1rem';
   style.margin = '.25rem 0';
   style.fontFamily = theme.text;
-  style.fontSize = '.6em';
+  style.fontSize = '.6em'; // 1.8rem
   insertElement('beforeend', container, label);
 }
 
 function communicationPreferenceLabel(value, theme, container, info) {
+  // Parent Font Size: 3rem
   const label = document.createElement('label');
   addClasses(label, ['schedule-it__form--request-appointment__flex-section__radio__label']);
   const style = label.style;
@@ -27,7 +29,7 @@ function communicationPreferenceLabel(value, theme, container, info) {
   style.justifyContent = 'center';
   style.alignItems = 'center';
   style.fontFamily = theme.text;
-  style.fontSize = '.7em';
+  style.fontSize = '.7em'; // 2.1rem
   style.transition = 'background-color .5s, color .5s, border .5s';
 
   if (value.split(' ').join('').toLowerCase() === 'videochat' || value.split(' ').join('').toLowerCase() === 'videochat--update') {

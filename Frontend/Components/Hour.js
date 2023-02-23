@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { addClasses, insertElement } from '../Global/Utility';
 
 function hour(theme, container, info, index) {
+  // Parent Font Size: 3rem
   const hour = document.createElement('section');
   addClasses(hour, ['schedule-it__display__schedule__planner__hour']);
   if ((info.scheduleIsOvernight === false && info.scheduleStart.hour > index) || (info.scheduleIsOvernight === false && info.scheduleEnd.hour <= index)) {
@@ -31,8 +32,7 @@ function hour(theme, container, info, index) {
   label.style.top = '1rem';
   label.style.left = '1rem';
   label.style.fontFamily = theme.text;
-  label.style.fontSize = '.53em';
-  // label.style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+  label.style.fontSize = '.53em'; // 1.59rem
   label.style.color = theme.tertiary;
   if (hour.classList.contains('disabled')) {
     label.style.color = theme.timeOfDay === 'day' ? theme.grayScale.offWhite : theme.grayScale.offWhite;

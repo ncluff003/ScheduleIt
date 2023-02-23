@@ -19,7 +19,7 @@ function formCloser(formType, theme, container) {
   addClasses(close, ['fas', 'fa-window-close', 'schedule-it__form__close']);
   const style = close.style;
   style.position = 'absolute';
-  style.fontSize = '1.5em';
+  style.fontSize = '1.5em'; // 4.5rem
   style.top = '0.5em';
   style.right = '0.6em';
   style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;

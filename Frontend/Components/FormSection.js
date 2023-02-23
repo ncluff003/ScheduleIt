@@ -6,6 +6,7 @@ import { characterCountLabel, communicationPreferenceLabel } from './Label';
 import { InvisibleRadio } from './Radio';
 
 function flexSection(sectionstyle, sectionType, theme, container, info, settings) {
+  // Parent Font Size: 3rem
   const flex = document.createElement('section');
   addClasses(flex, ['schedule-it__form--request-appointment__flex-section']);
   const style = flex.style;
@@ -52,6 +53,7 @@ function flexSection(sectionstyle, sectionType, theme, container, info, settings
 }
 
 function timeFlexSection(type, theme, container, info, formType, elNum) {
+  // Parent Font Size: 3rem
   const timeFlex = document.createElement('section');
   addClasses(timeFlex, ['schedule-it__form--request-appointment__flex-section__time']);
   const style = timeFlex.style;
@@ -95,15 +97,14 @@ function timeFlexSection(type, theme, container, info, formType, elNum) {
       insertElement('beforeend', timeFlex, meridiem);
     }
 
-    // meridiem.textContent = DateTime.local();
     style.fontFamily = theme.text;
-    style.fontSize = '.75em';
+    style.fontSize = '.75em'; // 2.25rem
   } else if (type === 'to') {
     const to = document.createElement('p');
     const style = to.style;
     to.textContent = 'To';
     style.fontFamily = theme.text;
-    style.fontSize = '.75em';
+    style.fontSize = '.75em'; // 2.25rem
     style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
     style.fontVariant = 'small-caps';
     insertElement('beforeend', timeFlex, to);
@@ -112,6 +113,7 @@ function timeFlexSection(type, theme, container, info, formType, elNum) {
 }
 
 function communicationFlexSection(theme, container, info, type) {
+  // Parent Font Size: 3rem
   const flex = document.createElement('section');
   addClasses(flex, ['schedule-it__form--request-appointment__flex-section__communication']);
   const style = flex.style;

@@ -13,6 +13,7 @@ function button(buttonType, text, theme, container, info, user) {
   addClasses(button, ['schedule-it__button']);
 
   if (buttonType === 'primary--overlay') {
+    // Parent Font Size: 3rem
     style.position = 'relative';
     style.height = '5rem';
     style.width = '20rem';
@@ -24,7 +25,7 @@ function button(buttonType, text, theme, container, info, user) {
     style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
     style.fontFamily = theme.text;
-    style.fontSize = '.53em';
+    style.fontSize = '.53em'; // 1.59rem
     theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
     style.margin = '1rem 0';
     button.textContent = text;
@@ -146,7 +147,7 @@ function button(buttonType, text, theme, container, info, user) {
     style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
     style.fontFamily = theme.text;
-    style.fontSize = '.53em';
+    style.fontSize = '.53em'; // 1.59rem
     theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
     style.margin = '0.3em';
     button.textContent = text;
@@ -244,6 +245,7 @@ function button(buttonType, text, theme, container, info, user) {
       });
     }
   } else if (buttonType === 'schedule-outside') {
+    // Parent Font Size: 3rem
     addClasses(button, ['in-app']);
     style.position = 'relative';
     style.height = '4rem';
@@ -257,7 +259,7 @@ function button(buttonType, text, theme, container, info, user) {
     style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}`;
     style.borderRadius = '2rem';
     style.fontFamily = theme.text;
-    style.fontSize = '.53em';
+    style.fontSize = '.53em'; // 1.59rem
     theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
     style.margin = '0.3em';
     button.textContent = text;
@@ -301,6 +303,7 @@ function button(buttonType, text, theme, container, info, user) {
       });
     }
   } else if (buttonType === 'Date Selection') {
+    // Parent Font Size: 3rem
     style.position = 'relative';
     style.height = '5rem';
     style.width = 'max-content';
@@ -313,7 +316,7 @@ function button(buttonType, text, theme, container, info, user) {
     style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
     style.borderRadius = '2rem';
     style.fontFamily = theme.text;
-    style.fontSize = '.53em';
+    style.fontSize = '.53em'; // 1.59rem
     theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
     style.margin = '0.3em';
     button.textContent = text;
@@ -364,6 +367,7 @@ function button(buttonType, text, theme, container, info, user) {
       closeForm(document.querySelector('.schedule-it__form__close'), 'select-date');
     });
   } else if (buttonType === 'Request Appointment') {
+    // Parent Font Size: 3rem
     style.position = 'relative';
     style.height = '5rem';
     style.width = 'max-content';
@@ -376,7 +380,7 @@ function button(buttonType, text, theme, container, info, user) {
     style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
     style.borderRadius = '2rem';
     style.fontFamily = theme.text;
-    style.fontSize = '.53em';
+    style.fontSize = '.53em'; // 1.59rem
     theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
     style.margin = '0.6em 0.3em';
     button.textContent = text;
@@ -452,7 +456,6 @@ function button(buttonType, text, theme, container, info, user) {
       }
 
       if (difference.hours < 1 || difference.hours < info.minimumAppointmentLength) {
-        console.log(info.errors);
         const errorContainer = document.querySelectorAll('.error-container')[3];
         info.errors = addError(
           info,
@@ -463,7 +466,6 @@ function button(buttonType, text, theme, container, info, user) {
       }
 
       if (difference.hours > info.maxAppointmentLength) {
-        console.log(info.errors);
         const errorContainer = document.querySelectorAll('.error-container')[3];
         info.errors = addError(
           info,
@@ -483,8 +485,6 @@ function button(buttonType, text, theme, container, info, user) {
           return appointment;
         }
       });
-
-      console.log(conflictingAppointments);
 
       if (conflictingAppointments.length > 0) {
         const errorContainer = document.querySelectorAll('.error-container')[3];
@@ -506,7 +506,6 @@ function button(buttonType, text, theme, container, info, user) {
         },
         message: message,
       };
-      console.log(request);
 
       try {
         const response = await axios({
@@ -514,11 +513,13 @@ function button(buttonType, text, theme, container, info, user) {
           url: `/ScheduleIt/Client/${info.email}/Appointments`,
           data: request,
         });
+        console.log(response);
       } catch (error) {
         console.error(error);
       }
     });
   } else if (buttonType === 'Request Appointment Update') {
+    // Parent Font Size: 3rem
     style.position = 'relative';
     style.height = '2.5em';
     style.width = 'max-content';
@@ -531,7 +532,7 @@ function button(buttonType, text, theme, container, info, user) {
     style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
     style.fontFamily = theme.text;
-    style.fontSize = '.45em';
+    style.fontSize = '.45em'; // 1.35rem
     theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
     style.margin = '0.6em 0.3em';
     button.textContent = text;
@@ -585,6 +586,7 @@ function button(buttonType, text, theme, container, info, user) {
       formHeader.style.marginBottom = '1em';
     });
   } else if (buttonType === 'Update Appointment') {
+    // Parent Font Size: 3rem
     style.position = 'relative';
     style.height = '3.5em';
     style.width = 'max-content';
@@ -597,7 +599,7 @@ function button(buttonType, text, theme, container, info, user) {
     style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
     style.fontFamily = theme.text;
-    style.fontSize = '.45em';
+    style.fontSize = '.45em'; // 1.35rem
     theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
     style.margin = '0.6em 0.3em';
     button.textContent = text;

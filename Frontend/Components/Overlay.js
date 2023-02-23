@@ -3,7 +3,7 @@ import { button, Button } from './Button';
 import { form } from './Form';
 
 function loginOverlay(theme, container, info) {
-  // Parent font size = 3rem or 30px.
+  // Parent Font Size: 3rem
   const overlay = document.createElement('section');
   const style = overlay.style;
   const user = '';
