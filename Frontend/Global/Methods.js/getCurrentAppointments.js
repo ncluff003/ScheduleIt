@@ -2,13 +2,13 @@ import axios from 'axios';
 import { DateTime } from 'luxon';
 import { appointment } from '../../Components/Appointment';
 
-async function getTodaysAppointments(info) {
+async function getTodaysAppointments(details, schedule) {
   try {
     const response = await axios({
       method: 'POST',
-      url: `/ScheduleIt/Owners/${info.email}/Appointments/Date`,
+      url: `/ScheduleIt/Owners/${details.email}/Appointments/Date`,
       data: {
-        ownerEmail: info.email,
+        ownerEmail: details.email,
         selectedDate: DateTime.now().toISO(),
         userType: 'Owner',
       },
@@ -16,7 +16,7 @@ async function getTodaysAppointments(info) {
 
     const currentAppointments = response.data.data.currentAppointments;
     const results = response.data.data;
-    info.currentAppointments = currentAppointments;
+    schedule.currentAppointments = currentAppointments;
 
     return { results, currentAppointments };
   } catch (error) {

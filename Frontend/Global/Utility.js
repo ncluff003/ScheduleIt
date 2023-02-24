@@ -26,6 +26,13 @@ export const calculateBuffer = (time) => {
   return buffer;
 };
 
+export const calculateTime = (limit) => {
+  const hours = Math.floor(limit / 60);
+  const minutes = limit - hours * 60;
+  const time = { hours: hours, minutes: minutes };
+  return time;
+};
+
 export const replaceClassName = (element, classReplaced, replacementClass) => {
   element.classList.remove(classReplaced);
   element.classList.add(replacementClass);

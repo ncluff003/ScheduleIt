@@ -10,7 +10,7 @@ function loginFormLabel(theme, container) {
   style.width = '70%';
   style.left = '1rem';
   style.margin = '.25rem 0';
-  style.fontFamily = theme.text;
+  style.fontFamily = theme.font;
   style.fontSize = '.6em'; // 1.8rem
   insertElement('beforeend', container, label);
 }
@@ -23,12 +23,12 @@ function communicationPreferenceLabel(value, theme, container, info) {
   style.position = 'relative';
   style.height = '3em';
   style.width = '40%';
-  style.border = `.1em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`}`;
+  style.border = `.1em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
   style.display = 'flex';
   style.flexFlow = 'row nowrap';
   style.justifyContent = 'center';
   style.alignItems = 'center';
-  style.fontFamily = theme.text;
+  style.fontFamily = theme.font;
   style.fontSize = '.7em'; // 2.1rem
   style.transition = 'background-color .5s, color .5s, border .5s';
 
@@ -60,14 +60,14 @@ function communicationPreferenceLabel(value, theme, container, info) {
     labels.forEach((l) => {
       const style = l.style;
       style.backgroundColor = 'transparent';
-      style.border = `.1em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`}`;
-      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
+      style.border = `.1em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
+      style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
     });
 
     if (radioFor.checked === true) {
-      style.backgroundColor = theme.timeOfDay === 'day' ? theme.tertiary : theme.tertiary;
-      style.borderColor = theme.timeOfDay === 'day' ? theme.tertiary : theme.tertiary;
-      style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+      style.backgroundColor = theme.timeOfDay.setting === 'Day' ? theme.colors.tertiary : theme.colors.tertiary;
+      style.borderColor = theme.timeOfDay.setting === 'Day' ? theme.colors.tertiary : theme.colors.tertiary;
+      style.color = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.offWhite;
     }
   });
 
@@ -81,10 +81,10 @@ function characterCountLabel(theme, container, settings) {
   style.position = 'absolute';
   style.bottom = '-7em';
   style.right = '4.5em';
-  style.fontFamily = theme.text;
+  style.fontFamily = theme.font;
   style.fontSize = '.53em';
-  style.color = theme.timeOfDay === 'day' ? theme.grayScale.offWhite : theme.grayScale.raisinBlack;
-  style.backgroundColor = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+  style.color = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.offWhite : theme.colors.grayScale.raisinBlack;
+  style.backgroundColor = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.offWhite;
   style.borderRadius = '.5em';
   style.padding = '.5em';
 

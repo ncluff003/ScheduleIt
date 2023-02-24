@@ -1,13 +1,13 @@
 import axios from 'axios';
 import qs from 'qs';
 import { DateTime } from 'luxon';
-import { addClasses, insertElement, addError, renderErrors, getDateAppointments, calculateBuffer } from '../Global/Utility';
+import { addClasses, insertElement, addError, renderErrors, getDateAppointments, calculateBuffer, calculateTime } from '../Global/Utility';
 import { renderSchedule } from './Schedule';
 import { closeForm } from './FormCloser';
 import { getTodaysAppointments } from '../Global/Methods.js/getCurrentAppointments';
 import { appointment } from './Appointment';
 
-function button(buttonType, text, theme, container, info, user) {
+function button(buttonType, text, theme, container, details, schedule, info, user) {
   const button = document.createElement('button');
   const style = button.style;
   addClasses(button, ['schedule-it__button']);
@@ -22,11 +22,11 @@ function button(buttonType, text, theme, container, info, user) {
     style.justifyContent = 'center';
     style.alignItems = 'center';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
+    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
-    style.fontFamily = theme.text;
+    style.fontFamily = theme.font;
     style.fontSize = '.53em'; // 1.59rem
-    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
+    theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
     style.margin = '1rem 0';
     button.textContent = text;
 
@@ -39,7 +39,7 @@ function button(buttonType, text, theme, container, info, user) {
         try {
           const response = await axios({
             method: 'DELETE',
-            url: `/ScheduleIt/${info.userType}/${info.email}/Appointments/${info.email}`,
+            url: `/ScheduleIt/${info.userType}/${details.email}/Appointments/${details.email}`,
           });
           console.log(response);
         } catch (error) {
@@ -49,7 +49,6 @@ function button(buttonType, text, theme, container, info, user) {
         const form = document.querySelector('.schedule-it__form--login');
         const loginContainer = document.querySelectorAll('.schedule-it__form--login__user-login')[0];
         const loginHeading = document.querySelectorAll('.schedule-it__form--login__heading')[0];
-        console.log(loginHeading);
         const loginLabel = document.querySelectorAll('.schedule-it__form--login__user-login__label')[0];
         const loginInput = document.querySelectorAll('.schedule-it__form--login__user-login__input')[0];
         loginContainer.style.display = 'flex';
@@ -85,8 +84,11 @@ function button(buttonType, text, theme, container, info, user) {
 
         const response = await axios({
           method: 'POST',
-          url: `/ScheduleIt/Owners/${info.email}`,
-          data: info,
+          url: `/ScheduleIt/Owners/${details.email}`,
+          data: {
+            details: details,
+            schedule: schedule,
+          },
         });
         console.log(response);
       });
@@ -99,7 +101,7 @@ function button(buttonType, text, theme, container, info, user) {
         try {
           const response = await axios({
             method: 'DELETE',
-            url: `/ScheduleIt/${info.userType}/${info.email}/Appointments/${info.email}`,
+            url: `/ScheduleIt/${info.userType}/${details.email}/Appointments/${details.email}`,
           });
           console.log(response);
         } catch (error) {
@@ -144,11 +146,11 @@ function button(buttonType, text, theme, container, info, user) {
     style.justifyContent = 'center';
     style.alignItems = 'center';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
+    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
-    style.fontFamily = theme.text;
+    style.fontFamily = theme.font;
     style.fontSize = '.53em'; // 1.59rem
-    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
+    theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
     style.margin = '0.3em';
     button.textContent = text;
 
@@ -159,7 +161,6 @@ function button(buttonType, text, theme, container, info, user) {
         console.log(header);
         if (header.textContent === 'Owner Login') {
           const token = document.querySelectorAll('.schedule-it__form--login__user-login__input')[0].value;
-          console.log(token, token.length);
 
           if (token.length !== 8) return;
 
@@ -169,7 +170,7 @@ function button(buttonType, text, theme, container, info, user) {
               url: '/ScheduleIt/Token',
               data: {
                 token: token,
-                email: info.email,
+                email: details.email,
               },
             });
             if (response.data.status === 'Success') {
@@ -180,13 +181,14 @@ function button(buttonType, text, theme, container, info, user) {
               loginContainers.forEach((container) => (container.style.display = 'none'));
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
-              renderSchedule(userType, theme, info);
-              info.appointments = response.data.data.currentAppointments;
-              info.currentAppointments = response.data.data.currentAppointments;
+              console.log(schedule);
+              renderSchedule(userType, theme, details, schedule, info);
+              schedule.appointments = response.data.data.currentAppointments;
+              schedule.currentAppointments = response.data.data.currentAppointments;
 
-              const schedule = document.querySelector('.schedule-it__display__schedule__planner');
-              info.currentAppointments.forEach((app) => {
-                appointment(theme, schedule, info, app);
+              const planner = document.querySelector('.schedule-it__display__schedule__planner');
+              schedule.currentAppointments.forEach((app) => {
+                appointment(theme, planner, details, schedule, info, app);
               });
             }
           } catch (error) {
@@ -195,10 +197,17 @@ function button(buttonType, text, theme, container, info, user) {
         }
         let headerTwo = e.target.closest('.schedule-it__form--login').firstChild.nextSibling.firstChild.nextSibling.firstChild;
         if (headerTwo.textContent === 'Client Login') {
+          const errorContainer = document.querySelectorAll('.error-container')[0];
           const email = document.querySelectorAll('.schedule-it__form--login__user-login__input')[1].value;
-          info.clientEmail = email;
+          if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(email) === false) {
+            info.errors = addError(info, 'email', 'Please provide a valid email address.');
+            return renderErrors(errorContainer, info.errors);
+          } else {
+            info.errors = addError(info, 'email', '');
+            renderErrors(errorContainer, info.errors);
+          }
 
-          if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(email) === false) return;
+          info.clientEmail = email;
 
           try {
             const response = await axios({
@@ -206,7 +215,7 @@ function button(buttonType, text, theme, container, info, user) {
               url: '/ScheduleIt/Client/Appointments',
               data: {
                 email: email,
-                ownerEmail: info.email,
+                ownerEmail: details.email,
               },
             });
             console.log(response);
@@ -218,13 +227,13 @@ function button(buttonType, text, theme, container, info, user) {
               loginContainers.forEach((container) => (container.style.display = 'none'));
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
-              renderSchedule(userType, theme, info);
-              const { results, currentAppointments } = await getTodaysAppointments(info);
-              info.appointments = currentAppointments;
+              renderSchedule(userType, theme, details, schedule, info);
+              const { results, currentAppointments } = await getTodaysAppointments(details, schedule);
+              schedule.appointments = currentAppointments;
 
-              const schedule = document.querySelector('.schedule-it__display__schedule__planner');
-              info.currentAppointments.forEach((app) => {
-                appointment(theme, schedule, info, app);
+              const planner = document.querySelector('.schedule-it__display__schedule__planner');
+              schedule.currentAppointments.forEach((app) => {
+                appointment(theme, planner, details, schedule, info, app);
               });
             }
           } catch (error) {
@@ -256,11 +265,11 @@ function button(buttonType, text, theme, container, info, user) {
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}`;
+    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.offWhite}`;
     style.borderRadius = '2rem';
-    style.fontFamily = theme.text;
+    style.fontFamily = theme.font;
     style.fontSize = '.53em'; // 1.59rem
-    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.offWhite);
+    theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.offWhite);
     style.margin = '0.3em';
     button.textContent = text;
 
@@ -299,7 +308,7 @@ function button(buttonType, text, theme, container, info, user) {
           'a',
         );
 
-        console.log(info.appointments);
+        console.log(schedule.appointments);
       });
     }
   } else if (buttonType === 'Date Selection') {
@@ -313,11 +322,11 @@ function button(buttonType, text, theme, container, info, user) {
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
+    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
     style.borderRadius = '2rem';
-    style.fontFamily = theme.text;
+    style.fontFamily = theme.font;
     style.fontSize = '.53em'; // 1.59rem
-    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
+    theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
     style.margin = '0.3em';
     button.textContent = text;
 
@@ -333,7 +342,6 @@ function button(buttonType, text, theme, container, info, user) {
       const yearIndex = Number(dateSelects[2].selectedIndex);
       const monthIndex = Number(dateSelects[1].selectedIndex);
       const dayIndex = Number(dateSelects[0].selectedIndex);
-      console.log(year, month, day, yearIndex, monthIndex, dayIndex);
       const selectedDate = DateTime.local(year, month, day, 23, 59, 59);
 
       if (selectedDate < DateTime.now()) return console.error('You need to select today or a day in the future.');
@@ -341,13 +349,15 @@ function button(buttonType, text, theme, container, info, user) {
       date.textContent = selectedDate.toLocaleString(DateTime.DATE_HUGE);
       date.dataset.date = selectedDate.toISO();
 
+      console.log(info);
+
       try {
         const response = await axios({
           method: 'POST',
-          url: `/ScheduleIt/${info.userType}/${info.email}/Appointments/Date`,
+          url: `/ScheduleIt/${info.userType}/${details.email}/Appointments/Date`,
           data: {
             userType: info.userType,
-            ownerEmail: info.email,
+            ownerEmail: details.email,
             clientEmail: info.clientEmail,
             selectedDate: selectedDate.toISO(),
           },
@@ -356,9 +366,9 @@ function button(buttonType, text, theme, container, info, user) {
         const appointments = document.querySelectorAll('.schedule-it__display__schedule__planner__appointment');
         appointments.forEach((child) => child.remove());
         const currentAppointments = response.data.data.currentAppointments;
-        const schedule = document.querySelector('.schedule-it__display__schedule__planner');
+        const planner = document.querySelector('.schedule-it__display__schedule__planner');
         currentAppointments.forEach((app) => {
-          appointment(theme, schedule, info, app);
+          appointment(theme, planner, details, schedule, info, app);
         });
       } catch (error) {
         console.error(error);
@@ -377,11 +387,11 @@ function button(buttonType, text, theme, container, info, user) {
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
+    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
     style.borderRadius = '2rem';
-    style.fontFamily = theme.text;
+    style.fontFamily = theme.font;
     style.fontSize = '.53em'; // 1.59rem
-    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
+    theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
     style.margin = '0.6em 0.3em';
     button.textContent = text;
 
@@ -403,6 +413,9 @@ function button(buttonType, text, theme, container, info, user) {
       const startMinute = Number(selects[4].value);
       const endHour = Number(selects[5].value);
       const endMinute = Number(selects[6].value);
+
+      const minTime = calculateTime(schedule.minimumAppointmentLength);
+      const maxTime = calculateTime(schedule.maximumAppointmentLength);
 
       requestRadios.forEach((radio) => {
         if (radio.checked === true) {
@@ -451,26 +464,38 @@ function button(buttonType, text, theme, container, info, user) {
 
       const difference = appointmentEnd.diff(appointmentStart, ['days', 'hours', 'minutes']).toObject();
 
-      if (info.scheduleIsOvernight === true && Number(appointmentEnd.hour) < Number(appointmentStart.hour)) {
+      if (schedule.overnight === true && Number(appointmentEnd.hour) < Number(appointmentStart.hour)) {
         appointmentEnd = appointmentEnd.plus({ days: 1 });
       }
 
-      if (difference.hours < 1 || difference.hours < info.minimumAppointmentLength) {
-        const errorContainer = document.querySelectorAll('.error-container')[3];
-        info.errors = addError(
-          info,
-          'appointment',
-          `Appointments must be at least ${info.minimumAppointmentLength} hour${info.minimumAppointmentLength > 1 ? 's' : ''} in length.`,
-        );
-        return renderErrors(errorContainer, info.errors);
+      if (difference.minutes < minTime.minutes) {
+        if (difference.hours < minTime.hours && difference.days === 0) {
+          const errorContainer = document.querySelectorAll('.error-container')[3];
+          info.errors = addError(
+            info,
+            'appointment',
+            `Appointments must be at least ${minTime.hours} hour${minTime.hours > 1 ? 's' : ''} and ${minTime.minutes} in length.`,
+          );
+          return renderErrors(errorContainer, info.errors);
+        }
       }
 
-      if (difference.hours > info.maxAppointmentLength) {
+      if (difference.hours === maxTime.hours) {
+        if (difference.minutes > maxTime.minutes) {
+          const errorContainer = document.querySelectorAll('.error-container')[3];
+          info.errors = addError(
+            info,
+            'appointment',
+            `Appointments must not be longer than ${maxTime.hours} hour${maxTime.hours > 1 ? 's' : ''} and ${maxTime.minutes} in length.`,
+          );
+          return renderErrors(errorContainer, info.errors);
+        }
+      } else if (difference.hours > maxTime.hours) {
         const errorContainer = document.querySelectorAll('.error-container')[3];
         info.errors = addError(
           info,
           'appointment',
-          `Appointments must not be longer than ${info.maxAppointmentLength} hour${info.maxAppointmentLength > 1 ? 's' : ''} in length.`,
+          `Appointments must not be longer than ${maxTime.hours} hour${maxTime.hours > 1 ? 's' : ''} and ${maxTime.minutes} in length.`,
         );
         return renderErrors(errorContainer, info.errors);
       }
@@ -493,7 +518,7 @@ function button(buttonType, text, theme, container, info, user) {
       }
 
       const request = {
-        ownerEmail: info.email,
+        ownerEmail: details.email,
         firstname: firstname,
         lastname: lastname,
         clientEmail: email,
@@ -510,7 +535,7 @@ function button(buttonType, text, theme, container, info, user) {
       try {
         const response = await axios({
           method: 'POST',
-          url: `/ScheduleIt/Client/${info.email}/Appointments`,
+          url: `/ScheduleIt/Client/${details.email}/Appointments`,
           data: request,
         });
         console.log(response);
@@ -529,11 +554,11 @@ function button(buttonType, text, theme, container, info, user) {
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
+    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
-    style.fontFamily = theme.text;
+    style.fontFamily = theme.font;
     style.fontSize = '.45em'; // 1.35rem
-    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
+    theme.timeOfDay === 'day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
     style.margin = '0.6em 0.3em';
     button.textContent = text;
 
@@ -567,9 +592,9 @@ function button(buttonType, text, theme, container, info, user) {
       try {
         const response = await axios({
           method: 'GET',
-          url: `/ScheduleIt/Owners/${info.email}/Appointments/${appointment.dataset.appointment}/${info.email}`,
+          url: `/ScheduleIt/Owners/${details.email}/Appointments/${appointment.dataset.appointment}/${details.email}`,
           data: {
-            email: info.email,
+            email: details.email,
             appointmentId: appointment.dataset.appointmentId,
           },
         });
@@ -596,11 +621,11 @@ function button(buttonType, text, theme, container, info, user) {
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
+    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
-    style.fontFamily = theme.text;
+    style.fontFamily = theme.font;
     style.fontSize = '.45em'; // 1.35rem
-    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
+    theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
     style.margin = '0.6em 0.3em';
     button.textContent = text;
 
@@ -636,6 +661,8 @@ function button(buttonType, text, theme, container, info, user) {
       });
 
       const selectedDate = DateTime.local(year, month, day);
+      const minTime = calculateTime(schedule.minimumAppointmentLength);
+      const maxTime = calculateTime(schedule.maximumAppointmentLength);
 
       if (selectedDate.toISO() < DateTime.now().toISO()) {
         const errorContainer = document.querySelectorAll('.error-container')[4];
@@ -646,10 +673,10 @@ function button(buttonType, text, theme, container, info, user) {
       try {
         const response = await axios({
           method: 'POST',
-          url: `/ScheduleIt/${info.userType}/${info.email}/Appointments/Date`,
+          url: `/ScheduleIt/${info.userType}/${details.email}/Appointments/Date`,
           data: {
             userType: info.userType,
-            ownerEmail: info.email,
+            ownerEmail: details.email,
             clientEmail: info.clientEmail,
             selectedDate: selectedDate.toISO(),
           },
@@ -700,26 +727,37 @@ function button(buttonType, text, theme, container, info, user) {
 
         const difference = appointmentEnd.diff(appointmentStart, ['days', 'hours', 'minutes']).toObject();
 
-        if (info.scheduleIsOvernight === true && Number(appointmentEnd.hour) < Number(appointmentStart.hour)) {
+        if (schedule.overnight === true && Number(appointmentEnd.hour) < Number(appointmentStart.hour)) {
           appointmentEnd = appointmentEnd.plus({ days: 1 });
         }
-
-        if (difference.hours < 1 || difference.hours < info.minimumAppointmentLength) {
-          const errorContainer = document.querySelectorAll('.error-container')[4];
-          info.errors = addError(
-            info,
-            'appointment',
-            `Appointments must be at least ${info.minimumAppointmentLength} hour${info.minimumAppointmentLength > 1 ? 's' : ''} in length.`,
-          );
-          return renderErrors(errorContainer, info.errors);
+        if (difference.minutes < minTime.minutes) {
+          if (difference.hours < minTime.hours && difference.days === 0) {
+            const errorContainer = document.querySelectorAll('.error-container')[3];
+            info.errors = addError(
+              info,
+              'appointment',
+              `Appointments must be at least ${minTime.hours} hour${minTime.hours > 1 ? 's' : ''} and ${minTime.minutes} in length.`,
+            );
+            return renderErrors(errorContainer, info.errors);
+          }
         }
 
-        if (difference.hours > info.maxAppointmentLength) {
-          const errorContainer = document.querySelectorAll('.error-container')[4];
+        if (difference.hours === maxTime.hours) {
+          if (difference.minutes > maxTime.minutes) {
+            const errorContainer = document.querySelectorAll('.error-container')[3];
+            info.errors = addError(
+              info,
+              'appointment',
+              `Appointments must not be longer than ${maxTime.hours} hour${maxTime.hours > 1 ? 's' : ''} and ${maxTime.minutes} in length.`,
+            );
+            return renderErrors(errorContainer, info.errors);
+          }
+        } else if (difference.hours > maxTime.hours) {
+          const errorContainer = document.querySelectorAll('.error-container')[3];
           info.errors = addError(
             info,
             'appointment',
-            `Appointments must not be longer than ${info.maxAppointmentLength} hour${info.maxAppointmentLength > 1 ? 's' : ''} in length.`,
+            `Appointments must not be longer than ${maxTime.hours} hour${maxTime.hours > 1 ? 's' : ''} and ${maxTime.minutes} in length.`,
           );
           return renderErrors(errorContainer, info.errors);
         }
@@ -727,7 +765,7 @@ function button(buttonType, text, theme, container, info, user) {
         const appointmentId = formHeading[1].firstChild.dataset.current;
 
         const conflictingAppointments = [...currentAppointments].filter((appointment) => {
-          const buffer = calculateBuffer(info.appointmentBuffer);
+          const buffer = calculateBuffer(schedule.appointmentBuffer);
           const bufferAdjustedStart = DateTime.fromISO(appointment.appointmentStart).minus({ hours: buffer.hours, minutes: buffer.minutes }).toISO();
           const bufferAdjustedEnd = DateTime.fromISO(appointment.appointmentEnd).plus({ hours: buffer.hours, minutes: buffer.minutes }).toISO();
 
@@ -760,7 +798,7 @@ function button(buttonType, text, theme, container, info, user) {
           });
 
           const request = {
-            ownerEmail: info.email,
+            ownerEmail: details.email,
             firstname: firstname,
             lastname: lastname,
             clientEmail: email,
@@ -777,7 +815,7 @@ function button(buttonType, text, theme, container, info, user) {
           try {
             const response = await axios({
               method: 'POST',
-              url: `/ScheduleIt/Client/${info.email}/Appointments/${updatedAppointment[0]._id}`,
+              url: `/ScheduleIt/Client/${details.email}/Appointments/${updatedAppointment[0]._id}`,
               data: request,
             });
             console.log(response);
@@ -799,11 +837,11 @@ function button(buttonType, text, theme, container, info, user) {
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}`;
+    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
-    style.fontFamily = theme.text;
+    style.fontFamily = theme.font;
     style.fontSize = '.45em';
-    theme.timeOfDay === 'day' ? (style.color = theme.grayScale.raisinBlack) : (style.color = theme.grayScale.raisinBlack);
+    theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
     style.margin = '0.6em 0.3em';
     button.textContent = text;
 
@@ -815,7 +853,7 @@ function button(buttonType, text, theme, container, info, user) {
       try {
         const response = await axios({
           method: 'DELETE',
-          url: `/ScheduleIt/${info.userType}/${info.email}/Appointments/${appointmentId}/${info.email}`,
+          url: `/ScheduleIt/${info.userType}/${details.email}/Appointments/${appointmentId}/${details.email}`,
         });
         console.log(response);
 
@@ -833,22 +871,20 @@ function button(buttonType, text, theme, container, info, user) {
   button.addEventListener('mouseover', (e) => {
     e.preventDefault();
     style.cursor = 'pointer';
-    // style.color = theme.timeOfDay === 'day' ? theme.primary : theme.primary;
-    style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
-    // style.backgroundColor = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
-    style.backgroundColor = theme.secondary;
-    style.borderColor = theme.secondary;
+    style.color = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.offWhite;
+    style.backgroundColor = theme.colors.secondary;
+    style.borderColor = theme.colors.secondary;
     style.transition = 'background-color .5s, color .5s, border .5s';
   });
 
   button.addEventListener('mouseout', (e) => {
     e.preventDefault();
-    style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
+    style.color = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack;
     style.backgroundColor = 'transparent';
-    style.borderColor = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
+    style.borderColor = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack;
     if (button.classList.contains('in-app')) {
-      style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
-      style.borderColor = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite;
+      style.color = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.offWhite;
+      style.borderColor = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.offWhite;
     }
     style.transition = 'background-color .5s, color .5s, border .5s';
   });

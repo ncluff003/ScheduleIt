@@ -5,7 +5,7 @@ import { formCloser } from './FormCloser';
 import { flexSection } from './FormSection';
 import { selectDateFormHeader } from './Header';
 
-function form(formType, user, theme, container, info) {
+function form(formType, user, theme, container, details, schedule, info) {
   const form = document.createElement('form');
   if (formType === 'login') {
     // Parent Font Size: 3rem
@@ -19,14 +19,14 @@ function form(formType, user, theme, container, info) {
     style.justifyContent = 'center';
     style.alignItems = 'center';
     style.zIndex = 5;
-    style.backgroundColor = `${theme.primary}f2`;
+    style.backgroundColor = `${theme.colors.primary}f2`;
 
-    loginContainer(user, theme, form, info);
-    loginContainer(user, theme, form, info);
+    loginContainer(user, theme, form, details, schedule, info);
+    loginContainer(user, theme, form, details, schedule, info);
   } else if (formType === 'select-date') {
     // Parent Font Size: 3rem
     addClasses(form, ['schedule-it__form--date-selection']);
-    errorContainer(theme, form, info, info.errors);
+    errorContainer(theme, form, details, schedule, info.errors);
     const style = form.style;
     style.position = 'absolute';
     style.top = 0;
@@ -38,19 +38,19 @@ function form(formType, user, theme, container, info) {
     style.justifyContent = 'center';
     style.alignItems = 'center';
     style.zIndex = 5;
-    style.backgroundColor = `${theme.primary}f2`;
+    style.backgroundColor = `${theme.colors.primary}f2`;
     formCloser('select-date', theme, form);
 
     selectDateFormHeader('select-date', theme, form);
-    dateSelectContainer(theme, form, info);
-    button('Date Selection', 'Select Date', theme, form, info, '');
+    dateSelectContainer(theme, form, details, schedule, info);
+    button('Date Selection', 'Select Date', theme, form, details, schedule, info, '');
   } else if (formType === 'request-appointment' || formType === 'update-appointment') {
     if (formType === 'request-appointment') {
       addClasses(form, ['schedule-it__form--request-appointment']);
     } else if (formType === 'update-appointment') {
       addClasses(form, ['schedule-it__form--update-appointment']);
     }
-    errorContainer(theme, form, info, info.errors, formType);
+    errorContainer(theme, form, formType);
     const style = form.style;
     style.position = 'absolute';
     style.top = 0;
@@ -63,7 +63,7 @@ function form(formType, user, theme, container, info) {
     style.alignItems = 'center';
     style.paddingTop = '2.5em';
     style.zIndex = 5;
-    style.backgroundColor = `${theme.primary}f2`;
+    style.backgroundColor = `${theme.colors.primary}f2`;
     style.overflowY = 'auto';
     if (formType === 'request-appointment') {
       formCloser('request-appointment', theme, form);
@@ -71,15 +71,15 @@ function form(formType, user, theme, container, info) {
     } else if (formType === 'update-appointment') {
       formCloser('update-appointment', theme, form);
       selectDateFormHeader('update-appointment', theme, form);
-      dateSelectContainer(theme, form, info, formType);
+      dateSelectContainer(theme, form, details, schedule, info, formType);
     }
-    flexSection('flexing', 'names', theme, form, info, { type: formType, minHeight: '2em' });
-    flexSection('column', 'time', theme, form, info, { type: formType, minHeight: '4em' });
-    flexSection('column', 'email', theme, form, info, { type: formType, minHeight: '3em' });
-    flexSection('column', 'phone', theme, form, info, { type: formType, minHeight: '3em' });
-    flexSection('column', 'communication', theme, form, info, { type: formType, minHeight: '4em' });
-    flexSection('column', 'message', theme, form, info, { type: formType, minHeight: '6em' });
-    flexSection('column', 'request', theme, form, info, { type: formType, minHeight: '3em' });
+    flexSection(theme, form, details, schedule, info, { sectionStyle: 'flexing', sectionType: 'names', type: formType, minHeight: '2em' });
+    flexSection(theme, form, details, schedule, info, { sectionStyle: 'column', sectionType: 'time', type: formType, minHeight: '4em' });
+    flexSection(theme, form, details, schedule, info, { sectionStyle: 'column', sectionType: 'email', type: formType, minHeight: '3em' });
+    flexSection(theme, form, details, schedule, info, { sectionStyle: 'column', sectionType: 'phone', type: formType, minHeight: '3em' });
+    flexSection(theme, form, details, schedule, info, { sectionStyle: 'column', sectionType: 'communication', type: formType, minHeight: '4em' });
+    flexSection(theme, form, details, schedule, info, { sectionStyle: 'column', sectionType: 'message', type: formType, minHeight: '6em' });
+    flexSection(theme, form, details, schedule, info, { sectionStyle: 'column', sectionType: 'request', type: formType, minHeight: '3em' });
   }
 
   insertElement('beforeend', container, form);

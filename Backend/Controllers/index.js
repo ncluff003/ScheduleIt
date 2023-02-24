@@ -1,6 +1,7 @@
 ///////////////////////////////
 // Individual Controllers
 // Application
+const goHome = require('./renderHome');
 const getReady = require('./getReady');
 
 // Owners
@@ -26,6 +27,7 @@ const verifyToken = require('./verifyToken');
 
 module.exports = {
   app: {
+    goHome: goHome,
     getReady: getReady,
   },
   owners: {

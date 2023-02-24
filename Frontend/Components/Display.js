@@ -1,7 +1,7 @@
 import { addClasses, insertElement } from '../Global/Utility';
 import { loginOverlay } from './Overlay';
 
-function calendarDisplay(theme, container, info) {
+function scheduleDisplay(theme, container, details, schedule, info) {
   // Parent Font Size: 3rem
   const calendarDisplay = document.createElement('section');
   const style = calendarDisplay.style;
@@ -13,11 +13,11 @@ function calendarDisplay(theme, container, info) {
   style.flexFlow = 'column nowrap';
   style.justifyContent = 'center';
   style.alignItems = 'center';
-  theme.timeOfDay === 'day' ? (style.backgroundColor = theme.grayScale.offWhite) : (style.backgroundColor = theme.grayScale.raisinBlack);
+  theme.timeOfDay === 'day' ? (style.backgroundColor = theme.colors.grayScale.offWhite) : (style.backgroundColor = theme.colors.grayScale.raisinBlack);
   style.borderRadius = '0 0 .5rem .5rem';
   style.overflowY = 'auto';
   insertElement('beforeend', container, calendarDisplay);
-  loginOverlay(theme, calendarDisplay, info);
+  loginOverlay(theme, calendarDisplay, details, schedule, info);
 }
 
-export { calendarDisplay };
+export { scheduleDisplay };

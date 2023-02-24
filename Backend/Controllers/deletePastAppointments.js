@@ -15,10 +15,13 @@ module.exports = catchAsync(async (request, response, next) => {
   const email = request.params.email;
   const owner = await Owner.findOne({ email });
 
+  console.log(owner.appointments);
+
   owner.appointments = owner.appointments.filter((appointment) => {
     return DateTime.fromJSDate(appointment.appointmentDate).day >= DateTime.now().day;
   });
 
+  console.log(owner.appointments);
   await owner.save();
 
   response.status(200).json({

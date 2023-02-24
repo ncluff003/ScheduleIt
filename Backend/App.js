@@ -17,6 +17,7 @@ const App = express();
 
 ////////////////////////////////////////////
 //  My Modules
+const controllers = require('./Controllers');
 
 ////////////////////////////////////////////
 //  Third Party Config Files
@@ -43,6 +44,9 @@ const scheduleItRouter = require(`./Routes/scheduleItRoutes`);
 
 ////////////////////////////////////////////
 //  My Middleware
+if (process.env.STATIC_FOLDER) {
+  App.use(express.static(process.env.STATIC_FOLDER));
+}
 App.use(routes.scheduleIt.app, scheduleItRouter); // CONFIGURATION IN DOCUMENTATION NEEDS TO LET USERS KNOW ABOUT THIS.
 
 ////////////////////////////////////////////

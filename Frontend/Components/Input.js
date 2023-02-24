@@ -17,24 +17,24 @@ function loginFormInput(theme, container, info) {
   style.width = '70%';
   style.padding = '.5rem 1rem';
   style.margin = '.25rem 0';
-  style.fontFamily = theme.text;
+  style.fontFamily = theme.font;
   style.fontSize = '.6em'; // 1.8rem
-  style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
-  style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
-  style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+  style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
+  style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
+  style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
   style.borderRadius = '.5rem';
   input.addEventListener('focus', (e) => {
     e.preventDefault();
     style.outline = 'none';
-    style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`;
-    style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.secondary}` : `${theme.tertiary}`}`;
-    style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}` : `${theme.grayScale.offWhite}`;
+    style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}` : `${theme.colors.grayScale.raisinBlack}`;
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.secondary}` : `${theme.colors.tertiary}`}`;
+    style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}` : `${theme.colors.grayScale.offWhite}`;
   });
   input.addEventListener('blur', (e) => {
     e.preventDefault();
-    style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
-    style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
-    style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+    style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
+    style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
   });
 
   insertElement('beforeend', container, input);
@@ -49,11 +49,11 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
   style.height = '3em';
   type === 'half' ? (style.width = '40%') : (style.width = '80%');
   style.padding = '.5em';
-  style.fontFamily = theme.text;
+  style.fontFamily = theme.font;
   style.fontSize = '.53em'; // 1.59rem
-  style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
-  style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
-  style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+  style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
+  style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
+  style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
   style.borderRadius = '.5rem';
   input.placeholder = placeholder;
   input.required = true;
@@ -122,25 +122,25 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
   input.addEventListener('focus', (e) => {
     e.preventDefault();
     style.outline = 'none';
-    style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`;
-    style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.secondary}` : `${theme.tertiary}`}`;
-    style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}` : `${theme.grayScale.offWhite}`;
+    style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}` : `${theme.colors.grayScale.raisinBlack}`;
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.secondary}` : `${theme.colors.tertiary}`}`;
+    style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}` : `${theme.colors.grayScale.offWhite}`;
   });
   input.addEventListener('blur', (e) => {
     e.preventDefault();
-    style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
-    style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
-    style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+    style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
+    style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
   });
 
   insertElement('beforeend', container, input);
 }
 
-function formSelect(type, theme, container, info, formType, elNum) {
+function formSelect(type, theme, container, details, schedule, info, formType, elNum) {
   // Parent Font Size: 3rem
   const select = document.createElement('select');
   const style = select.style;
-  style.fontFamily = theme.text;
+  style.fontFamily = theme.font;
   let dividerNeeded = false;
   let colonNeeded = false;
 
@@ -155,15 +155,15 @@ function formSelect(type, theme, container, info, formType, elNum) {
     style.backgroundColor = 'transparent';
     style.border = 'none';
     dividerNeeded = true;
-    // style.borderRight = `.2em solid ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.offWhite}cc`;
+
     let start = 0;
     let end = DateTime.now().daysInMonth;
     while (start < end) {
       const option = document.createElement('option');
       addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
       const style = option.style;
-      style.fontFamily = theme.text;
-      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
+      style.fontFamily = theme.font;
+      style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
       option.textContent =
         `${DateTime.local(DateTime.now().year, DateTime.now().month, start + 1).day}`.length === 1
           ? `0${DateTime.local(DateTime.now().year, DateTime.now().month, start + 1).day}`
@@ -221,8 +221,8 @@ function formSelect(type, theme, container, info, formType, elNum) {
       const option = document.createElement('option');
       addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
       const style = option.style;
-      style.fontFamily = theme.text;
-      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
+      style.fontFamily = theme.font;
+      style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
       option.textContent =
         `${DateTime.local(DateTime.now().year, start + 1, 1).month}`.length === 1
           ? `0${DateTime.local(DateTime.now().year, start + 1, 1).month}`
@@ -254,8 +254,8 @@ function formSelect(type, theme, container, info, formType, elNum) {
         const option = document.createElement('option');
         addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
         const style = option.style;
-        style.fontFamily = theme.text;
-        style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
+        style.fontFamily = theme.font;
+        style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
         option.textContent =
           `${DateTime.local(yearValue, monthValue, dayStart + 1).day}`.length === 1
             ? `0${DateTime.local(yearValue, monthValue, dayStart + 1).day}`
@@ -278,7 +278,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
 
         if (selectedDate.day === DateTime.now().day && selectedDate.month === DateTime.now().month && selectedDate.year === DateTime.now().year) {
           selectedDate = selectedDate.set({ hour: 23, minute: 59, second: 59 });
-          console.log(selectedDate);
+
           if (selectedDate >= DateTime.now()) {
             addError(info, 'date', '');
             renderErrors(errorContainer, info.errors);
@@ -305,8 +305,8 @@ function formSelect(type, theme, container, info, formType, elNum) {
       const option = document.createElement('option');
       addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
       const style = option.style;
-      style.fontFamily = theme.text;
-      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
+      style.fontFamily = theme.font;
+      style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
       option.textContent = DateTime.now().year + start;
       option.value = DateTime.now().year + start;
       insertElement('beforeend', select, option);
@@ -334,8 +334,8 @@ function formSelect(type, theme, container, info, formType, elNum) {
         const option = document.createElement('option');
         addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
         const style = option.style;
-        style.fontFamily = theme.text;
-        style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
+        style.fontFamily = theme.font;
+        style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
         option.textContent =
           `${DateTime.local(yearValue, monthValue, dayStart + 1).day}`.length === 1
             ? `0${DateTime.local(yearValue, monthValue, dayStart + 1).day}`
@@ -399,8 +399,8 @@ function formSelect(type, theme, container, info, formType, elNum) {
       const option = document.createElement('option');
       addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
       const style = option.style;
-      style.fontFamily = theme.text;
-      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.raisinBlack}cc`;
+      style.fontFamily = theme.font;
+      style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
       option.textContent =
         `${DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour}`.length === 1 &&
         DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour === 0
@@ -416,19 +416,20 @@ function formSelect(type, theme, container, info, formType, elNum) {
           ? DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour - 12
           : DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, start, 0, 0).hour;
       option.value = start;
-      if (info.scheduleIsOvernight === false) {
-        if (start < info.scheduleStart.hour || start > info.scheduleEnd.hour) {
+
+      if (schedule.overnight === false) {
+        if (start < schedule.start.hour || start > schedule.end.hour) {
           option.disabled = true;
           addClasses(option, ['disabled']);
-          style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
-          style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}80` : `${theme.grayScale.raisinBlack}80`;
+          style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
+          style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}80` : `${theme.colors.grayScale.raisinBlack}80`;
         }
-      } else if (info.scheduleIsOvernight === true) {
-        if (start > info.scheduleEnd.hour && start < info.scheduleStart.hour) {
+      } else if (schedule.overnight === true) {
+        if (start > schedule.end.hour && start < schedule.start.hour) {
           option.disabled = true;
           addClasses(option, ['disabled']);
-          style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
-          style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}80` : `${theme.grayScale.raisinBlack}80`;
+          style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
+          style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}80` : `${theme.colors.grayScale.raisinBlack}80`;
         }
       }
       insertElement('beforeend', select, option);
@@ -445,11 +446,11 @@ function formSelect(type, theme, container, info, formType, elNum) {
         meridiem.textContent = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, Number(select.value), 0, 0).toFormat('a');
 
         const secondMinute = document.querySelector('.second-minute');
-        if (Number(select.value) === Number(info.scheduleEnd.hour)) {
+        if (Number(select.value) === Number(schedule.end.hour)) {
           [...secondMinute.childNodes].forEach((minute) => {
             if (Number(minute.value) > 0) minute.disabled = true;
           });
-        } else if (Number(select.value) !== Number(info.scheduleEnd.hour)) {
+        } else if (Number(select.value) !== Number(schedule.end.hour)) {
           [...secondMinute.childNodes].forEach((minute) => {
             minute.disabled = false;
           });
@@ -462,11 +463,11 @@ function formSelect(type, theme, container, info, formType, elNum) {
         meridiem.textContent = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, Number(select.value), 0, 0).toFormat('a');
 
         const fourthMinute = document.querySelector('.fourth-minute');
-        if (Number(select.value) === Number(info.scheduleEnd.hour)) {
+        if (Number(select.value) === Number(schedule.end.hour)) {
           [...fourthMinute.childNodes].forEach((minute) => {
             if (Number(minute.value) > 0) minute.disabled = true;
           });
-        } else if (Number(select.value) !== Number(info.scheduleEnd.hour)) {
+        } else if (Number(select.value) !== Number(schedule.end.hour)) {
           [...fourthMinute.childNodes].forEach((minute) => {
             minute.disabled = false;
           });
@@ -502,8 +503,8 @@ function formSelect(type, theme, container, info, formType, elNum) {
       const option = document.createElement('option');
       addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
       const style = option.style;
-      style.fontFamily = theme.text;
-      style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
+      style.fontFamily = theme.font;
+      style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
       option.textContent =
         `${DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, start, 0).minute}`.length === 1
           ? `0${DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, start, 0).minute}`
@@ -523,7 +524,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
       style.position = 'relative';
       style.height = '1.4em';
       style.width = 'max-content';
-      style.border = `.075em groove ${theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack}cc`;
+      style.border = `.075em groove ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}cc`;
       insertElement('beforeend', container, divider);
     }
   } else if (colonNeeded === true) {
@@ -543,9 +544,9 @@ function formSelect(type, theme, container, info, formType, elNum) {
     colon.textContent = ':';
     colon.style.padding = '0 .5em';
 
-    style.fontFamily = theme.text;
+    style.fontFamily = theme.font;
     style.fontSize = '1em'; // 3rem
-    style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
+    style.color = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack;
     insertElement('beforeend', colonDiv, colon);
     insertElement('beforeend', container, colonDiv);
   }
@@ -556,7 +557,7 @@ function formSelect(type, theme, container, info, formType, elNum) {
   });
 }
 
-function textArea(theme, container, info, settings) {
+function textArea(theme, container, details, schedule, info, settings) {
   // Parent Font Size: 3rem
   const textarea = document.createElement('textarea');
   addClasses(textarea, ['schedule-it__form--request-appointment__textarea']);
@@ -564,14 +565,14 @@ function textArea(theme, container, info, settings) {
   const style = textarea.style;
   style.width = '80%';
   style.resize = 'none';
-  style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
-  style.border = `.2em solid ${theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`}`;
+  style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
+  style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
   style.borderRadius = '.25em';
   style.padding = '1em';
-  style.fontFamily = theme.text;
+  style.fontFamily = theme.font;
   style.fontSize = '.53em'; // 1.59rem
-  style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
-  textarea.placeholder = `Enter Your Message For ${info.firstname} ${info.lastname}`;
+  style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
+  textarea.placeholder = `Enter Your Message For ${details.firstname} ${details.lastname}`;
   let maxLength;
 
   if (settings.size === 'small') {
@@ -603,16 +604,16 @@ function textArea(theme, container, info, settings) {
   textarea.addEventListener('focus', (e) => {
     e.preventDefault();
     style.outline = 'none';
-    style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}` : `${theme.grayScale.offWhite}`;
-    style.borderColor = theme.timeOfDay === 'day' ? `${theme.secondary}` : `${theme.tertiary}`;
-    style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}` : `${theme.grayScale.raisinBlack}`;
+    style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}` : `${theme.colors.grayScale.offWhite}`;
+    style.borderColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.secondary}` : `${theme.colors.tertiary}`;
+    style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}` : `${theme.colors.grayScale.raisinBlack}`;
   });
 
   textarea.addEventListener('blur', (e) => {
     e.preventDefault();
-    style.backgroundColor = theme.timeOfDay === 'day' ? `${theme.grayScale.raisinBlack}cc` : `${theme.grayScale.offWhite}cc`;
-    style.borderColor = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
-    style.color = theme.timeOfDay === 'day' ? `${theme.grayScale.offWhite}cc` : `${theme.grayScale.raisinBlack}cc`;
+    style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
+    style.borderColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
+    style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
   });
 
   textarea.addEventListener('keyup', (e) => {

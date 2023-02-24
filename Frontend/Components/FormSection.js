@@ -5,7 +5,7 @@ import { appointmentRequestInput, formSelect, textArea } from './Input';
 import { characterCountLabel, communicationPreferenceLabel } from './Label';
 import { InvisibleRadio } from './Radio';
 
-function flexSection(sectionstyle, sectionType, theme, container, info, settings) {
+function flexSection(theme, container, details, schedule, info, settings) {
   // Parent Font Size: 3rem
   const flex = document.createElement('section');
   addClasses(flex, ['schedule-it__form--request-appointment__flex-section']);
@@ -15,44 +15,48 @@ function flexSection(sectionstyle, sectionType, theme, container, info, settings
   style.minHeight = settings.minHeight;
   style.width = '100%';
   style.display = 'flex';
-  sectionstyle === 'flexing' ? (style.flexFlow = 'row wrap') : sectionstyle === 'column' ? (style.flexFlow = 'column nowrap') : (style.flexFlow = 'row nowrap');
-  style.justifyContent = sectionstyle === 'flexing' ? 'space-evenly' : 'center';
+  settings.sectionStyle === 'flexing'
+    ? (style.flexFlow = 'row wrap')
+    : settings.sectionStyle === 'column'
+    ? (style.flexFlow = 'column nowrap')
+    : (style.flexFlow = 'row nowrap');
+  style.justifyContent = settings.sectionStyle === 'flexing' ? 'space-evenly' : 'center';
   style.alignItems = 'center';
   insertElement('beforeend', container, flex);
 
-  if (sectionstyle === 'flexing' && sectionType === 'names') {
+  if (settings.sectionStyle === 'flexing' && settings.sectionType === 'names') {
     if (settings.type === 'update-appointment' || settings.type === 'request-appointment') {
       style.marginBottom = '1em';
     }
     appointmentRequestInput('half', 'First Name', theme, flex, info);
     appointmentRequestInput('half', 'Last Name', theme, flex, info);
-  } else if (sectionstyle === 'column' && sectionType === 'time') {
-    timeFlexSection('time', theme, flex, info, settings.type, 'first');
-    timeFlexSection('to', theme, flex, info);
-    timeFlexSection('time', theme, flex, info, settings.type, 'second');
-  } else if (sectionType === 'email') {
+  } else if (settings.sectionStyle === 'column' && settings.sectionType === 'time') {
+    timeFlexSection('time', theme, flex, details, schedule, info, settings.type, 'first');
+    timeFlexSection('to', theme, flex, details, schedule, info);
+    timeFlexSection('time', theme, flex, details, schedule, info, settings.type, 'second');
+  } else if (settings.sectionType === 'email') {
     appointmentRequestInput('full', 'Email Address', theme, flex, info);
-  } else if (sectionType === 'phone') {
+  } else if (settings.sectionType === 'phone') {
     appointmentRequestInput('full', 'Phone Number', theme, flex, info);
-  } else if (sectionstyle === 'column' && sectionType === 'communication') {
+  } else if (settings.sectionStyle === 'column' && settings.sectionType === 'communication') {
     communicationPreferenceHeader(theme, flex);
     communicationFlexSection(theme, flex, info, settings.type);
-  } else if (sectionType === 'message') {
+  } else if (settings.sectionType === 'message') {
     style.justifyContent = 'flex-start';
     style.paddingTop = '1em';
     style.marginBottom = '4em';
-    textArea(theme, flex, info, { type: settings.type, size: 'extra-large' });
+    textArea(theme, flex, details, schedule, info, { type: settings.type, size: 'extra-large' });
     characterCountLabel(theme, flex, { size: 'extra-large' });
-  } else if (sectionType === 'request') {
+  } else if (settings.sectionType === 'request') {
     if (settings.type === 'request-appointment') {
-      button('Request Appointment', 'Request Appointment', theme, flex, info, '');
+      button('Request Appointment', 'Request Appointment', theme, flex, details, schedule, info, '');
     } else if (settings.type === 'update-appointment') {
-      button('Update Appointment', 'Request Appointment Update', theme, flex, info, '');
+      button('Update Appointment', 'Request Appointment Update', theme, flex, details, schedule, info, '');
     }
   }
 }
 
-function timeFlexSection(type, theme, container, info, formType, elNum) {
+function timeFlexSection(type, theme, container, details, schedule, info, formType, elNum) {
   // Parent Font Size: 3rem
   const timeFlex = document.createElement('section');
   addClasses(timeFlex, ['schedule-it__form--request-appointment__flex-section__time']);
@@ -66,14 +70,14 @@ function timeFlexSection(type, theme, container, info, formType, elNum) {
   style.alignItems = 'center';
   if (type === 'time') {
     if (elNum !== undefined && elNum !== null && elNum === 'first') {
-      formSelect('hour', theme, timeFlex, info, formType, elNum);
+      formSelect('hour', theme, timeFlex, details, schedule, info, formType, elNum);
     } else {
-      formSelect('hour', theme, timeFlex, info, formType, 'second');
+      formSelect('hour', theme, timeFlex, details, schedule, info, formType, 'second');
     }
     if (elNum !== undefined && elNum !== null && elNum === 'first') {
-      formSelect('minute', theme, timeFlex, info, formType, elNum);
+      formSelect('minute', theme, timeFlex, details, schedule, info, formType, elNum);
     } else {
-      formSelect('minute', theme, timeFlex, info, formType, 'second');
+      formSelect('minute', theme, timeFlex, details, schedule, info, formType, 'second');
     }
     if (elNum !== undefined && elNum !== null && elNum === 'first' && formType === 'request-appointment') {
       const meridiem = document.createElement('p');
@@ -97,15 +101,15 @@ function timeFlexSection(type, theme, container, info, formType, elNum) {
       insertElement('beforeend', timeFlex, meridiem);
     }
 
-    style.fontFamily = theme.text;
+    style.fontFamily = theme.font;
     style.fontSize = '.75em'; // 2.25rem
   } else if (type === 'to') {
     const to = document.createElement('p');
     const style = to.style;
     to.textContent = 'To';
-    style.fontFamily = theme.text;
+    style.fontFamily = theme.font;
     style.fontSize = '.75em'; // 2.25rem
-    style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
+    style.color = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack;
     style.fontVariant = 'small-caps';
     insertElement('beforeend', timeFlex, to);
   }

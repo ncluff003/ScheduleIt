@@ -1,4 +1,4 @@
-import Calendar from './Classes/Calendar.js';
+import Schedule from './Classes/Schedule.js';
 import Methods from './Global/Methods.js';
 
-export { Calendar, Methods };
+export { Schedule, Methods };

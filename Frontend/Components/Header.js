@@ -2,29 +2,29 @@ import chroma from 'chroma-js';
 import { addClasses, insertElement } from '../Global/Utility';
 import { dateContainer, scheduleButtonContainer } from './Container';
 
-function calendarHeader(theme, container) {
+function planningHeader(theme, container) {
   // Parent Font Size: 3rem
   const header = document.createElement('section');
   addClasses(header, ['schedule-it__header']);
   header.style.position = 'relative';
   header.style.height = '10%';
   header.style.width = '100%';
-  header.style.backgroundColor = theme.timeOfDay === 'day' ? chroma(theme.primary).darken(0.4).hex() : theme.primary;
+  header.style.backgroundColor = theme.timeOfDay.setting === 'Day' ? chroma(theme.colors.primary).darken(0.4).hex() : theme.colors.primary;
   header.style.padding = '1rem 2rem';
   header.style.display = 'flex';
   header.style.flexFlow = 'row nowrap';
   header.style.justifyContent = 'flex-start';
   header.style.alignItems = 'center';
-  header.style.borderBottom = `.3rem groove ${chroma(theme.primary).darken(0.4).hex()}`;
+  header.style.borderBottom = `.3rem groove ${chroma(theme.colors.primary).darken(0.4).hex()}`;
   insertElement('beforeend', container, header);
 
   const title = document.createElement('h2');
   title.textContent = 'ScheduleIt';
   addClasses(title, ['schedule-it__header__title']);
-  title.style.fontFamily = theme.text;
+  title.style.fontFamily = theme.font;
   title.style.fontSize = '1em'; // 3rem
   title.style.fontWeight = '300';
-  title.style.color = theme.grayScale.raisinBlack;
+  title.style.color = theme.colors.grayScale.raisinBlack;
   insertElement('beforeend', header, title);
 }
 
@@ -41,7 +41,7 @@ function loginFormHeader(theme, container) {
   style.justifyContent = 'center';
   style.alignItems = 'center';
   style.margin = '.25rem 0';
-  style.fontFamily = theme.text;
+  style.fontFamily = theme.font;
   style.fontSize = '1em'; // 3rem
   const headingText = document.createElement('h4');
   insertElement('beforeend', heading, headingText);
@@ -68,14 +68,16 @@ function selectDateFormHeader(formType, theme, container) {
   style.flexFlow = 'row nowrap';
   style.justifyContent = 'center';
   style.alignItems = 'center';
-  style.fontFamily = theme.text;
+  style.fontFamily = theme.font;
   const headingText = document.createElement('h4');
-  theme.timeOfDay === 'day' ? (headingText.style.color = theme.grayScale.raisinBlack) : (headingText.style.color = theme.grayScale.raisinBlack);
+  theme.timeOfDay.setting === 'Day'
+    ? (headingText.style.color = theme.colors.grayScale.raisinBlack)
+    : (headingText.style.color = theme.colors.grayScale.raisinBlack);
   insertElement('beforeend', heading, headingText);
   insertElement('beforeend', container, heading);
 }
 
-function scheduleHeader(user, theme, container, info) {
+function scheduleHeader(user, theme, container, details, schedule, info) {
   // Parent Font Size: 3rem
   const header = document.createElement('header');
   addClasses(header, ['schedule-it__display__schedule__header']);
@@ -87,9 +89,9 @@ function scheduleHeader(user, theme, container, info) {
   style.flexFlow = 'column nowrap';
   style.justifyContent = 'space-evenly';
   style.alignItems = 'center';
-  style.borderBottom = `.3rem groove ${chroma(theme.primary).darken(0.4).hex()}`;
+  style.borderBottom = `.3rem groove ${chroma(theme.colors.primary).darken(0.4).hex()}`;
   insertElement('beforeend', container, header);
-  scheduleButtonContainer(user, theme, header, info);
+  scheduleButtonContainer(user, theme, header, details, schedule, info);
   dateContainer(theme, header, info);
 }
 
@@ -105,9 +107,9 @@ function communicationPreferenceHeader(theme, container) {
   style.flexFlow = 'column nowrap';
   style.justifyContent = 'center';
   style.alignItems = 'center';
-  style.fontFamily = theme.text;
+  style.fontFamily = theme.font;
   style.fontSize = '.6em'; // 1.8rem
-  style.color = theme.timeOfDay === 'day' ? theme.grayScale.raisinBlack : theme.grayScale.raisinBlack;
+  style.color = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack;
   style.marginBottom = '.6em';
   style.paddingTop = '1em';
 
@@ -119,4 +121,4 @@ function communicationPreferenceHeader(theme, container) {
   insertElement('beforeend', container, header);
 }
 
-export { calendarHeader, loginFormHeader, scheduleHeader, selectDateFormHeader, communicationPreferenceHeader };
+export { planningHeader, loginFormHeader, scheduleHeader, selectDateFormHeader, communicationPreferenceHeader };

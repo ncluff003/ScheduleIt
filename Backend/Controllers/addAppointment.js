@@ -30,6 +30,7 @@ module.exports = catchAsync(async (request, response) => {
   };
 
   const owner = await Owner.findOne({ email });
+  console.log(owner.appointments);
 
   const host = {
     attendeeFirstname: owner.firstname,
@@ -47,11 +48,17 @@ module.exports = catchAsync(async (request, response) => {
   });
 
   owner.appointments.push(appointment);
+  // owner.appointments = [...owner.appointments, appointment];
+
+  console.log(owner.appointments);
+
   await owner.save();
 
-  if (process.env.NODE_ENV === 'development') {
-    response.redirect(301, process.env.DEV_URL);
-  } else if (process.env.NODE_ENV === 'production') {
-    response.redirect(301, process.env.PROD_URL);
-  }
+  setTimeout(() => {
+    if (process.env.NODE_ENV === 'development') {
+      response.redirect(301, process.env.DEV_URL);
+    } else if (process.env.NODE_ENV === 'production') {
+      response.redirect(301, process.env.PROD_URL);
+    }
+  }, 2000);
 });

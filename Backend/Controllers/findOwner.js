@@ -14,7 +14,10 @@ const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response) => {
   // THIS MUST BE UPDATED TO REFLECT THE UPDATE REGARDING THE NEED FOR THE FREELANCER'S AND OWNER'S NEED TO PROVIDE THE ENVIRONMENT VARIABLES AND DATABASE CONNECTION STRING.
-  const email = request.body.email;
+  console.log(request.body);
+  const details = request.body.details;
+  const schedule = request.body.schedule;
+  const email = details.email;
   const owner = await Owner.findOne({ email });
   const token = randomToken(8);
   let newOwner;
@@ -22,13 +25,13 @@ module.exports = catchAsync(async (request, response) => {
 
   if (owner === null) {
     newOwner = await Owner.create({
-      firstname: request.body.firstname,
-      lastname: request.body.lastname,
-      company: request.body.company,
-      email: request.body.email,
-      scheduleStart: request.body.scheduleStart,
-      scheduleEnd: request.body.scheduleEnd,
-      appointments: request.body.appointments,
+      firstname: details.firstname,
+      lastname: details.lastname,
+      company: details.company,
+      email: details.email,
+      scheduleStart: schedule.start,
+      scheduleEnd: schedule.end,
+      appointments: schedule.appointments,
       token: token,
     });
     firstTime = true;
