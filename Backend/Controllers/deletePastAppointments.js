@@ -16,6 +16,8 @@ module.exports = catchAsync(async (request, response, next) => {
   const owner = await Owner.findOne({ email });
 
   console.log(owner.appointments);
+  // console.log(owner.appointments[0]);
+  // console.log(DateTime.fromJSDate(owner.appointments[0].appointmentDate));
 
   owner.appointments = owner.appointments.filter((appointment) => {
     return DateTime.fromJSDate(appointment.appointmentDate).day >= DateTime.now().day;

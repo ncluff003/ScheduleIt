@@ -19,6 +19,9 @@ const Owner = require('../Models/ownerModel');
 module.exports = catchAsync(async (request, response) => {
   const info = request.params;
   const email = info.ownerEmail;
+  const owner = await Owner.findOne({ email });
+
+  console.log(owner);
 
   const appointment = {
     appointmentType: info.communicationPreference,
@@ -29,7 +32,6 @@ module.exports = catchAsync(async (request, response) => {
     attendees: [],
   };
 
-  const owner = await Owner.findOne({ email });
   console.log(owner.appointments);
 
   const host = {
@@ -54,11 +56,9 @@ module.exports = catchAsync(async (request, response) => {
 
   await owner.save();
 
-  setTimeout(() => {
-    if (process.env.NODE_ENV === 'development') {
-      response.redirect(301, process.env.DEV_URL);
-    } else if (process.env.NODE_ENV === 'production') {
-      response.redirect(301, process.env.PROD_URL);
-    }
-  }, 2000);
+  if (process.env.NODE_ENV === 'development') {
+    response.redirect(301, process.env.DEV_URL);
+  } else if (process.env.NODE_ENV === 'production') {
+    response.redirect(301, process.env.PROD_URL);
+  }
 });
