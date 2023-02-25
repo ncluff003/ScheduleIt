@@ -181,7 +181,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
               loginContainers.forEach((container) => (container.style.display = 'none'));
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
-              console.log(schedule);
               renderSchedule(userType, theme, details, schedule, info);
               schedule.appointments = response.data.data.currentAppointments;
               schedule.currentAppointments = response.data.data.currentAppointments;
@@ -566,6 +565,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       e.preventDefault();
 
       const appointment = e.target.closest('.schedule-it__display__schedule__planner__appointment');
+      info.appointment = appointment.dataset.appointment;
       const form = document.querySelector('.schedule-it__form--update-appointment');
       form.style.display = 'flex';
 
@@ -632,6 +632,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     button.addEventListener('click', async (e) => {
       e.preventDefault();
 
+      console.log(info);
       const formHeading = document.querySelectorAll('.schedule-it__form--request-appointment__heading');
       const inputs = document.querySelectorAll('.schedule-it__form--request-appointment__input');
       const textareas = document.querySelectorAll('.schedule-it__form--request-appointment__textarea');
@@ -661,6 +662,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       });
 
       const selectedDate = DateTime.local(year, month, day);
+      console.log(selectedDate);
       const minTime = calculateTime(schedule.minimumAppointmentLength);
       const maxTime = calculateTime(schedule.maximumAppointmentLength);
 
@@ -679,6 +681,8 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             ownerEmail: details.email,
             clientEmail: info.clientEmail,
             selectedDate: selectedDate.toISO(),
+            appointmentId: info.appointment,
+            previousAppointmentDate: date,
           },
         });
 

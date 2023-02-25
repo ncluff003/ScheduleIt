@@ -16,11 +16,18 @@ module.exports = catchAsync(async (request, response, next) => {
   const owner = await Owner.findOne({ email });
 
   console.log(owner.appointments);
-  // console.log(owner.appointments[0]);
-  // console.log(DateTime.fromJSDate(owner.appointments[0].appointmentDate));
+  if (owner.appointments[0]) {
+    console.log(DateTime.fromISO(owner.appointments[0].appointmentDate));
+    console.log(DateTime.fromJSDate(owner.appointments[0].appointmentDate));
+  }
 
   owner.appointments = owner.appointments.filter((appointment) => {
-    return DateTime.fromJSDate(appointment.appointmentDate).day >= DateTime.now().day;
+    if (DateTime.fromISO(appointment.appointmentEnd).invalidReason === null) {
+      return DateTime.fromISO(appointment.appointmentEnd).day >= DateTime.now().day;
+    }
+    if (DateTime.fromJSDate(appointment.appointmentEnd).invalidReason === null) {
+      return DateTime.fromJSDate(appointment.appointmentEnd).day >= DateTime.now().day;
+    }
   });
 
   console.log(owner.appointments);

@@ -6,7 +6,7 @@ function clearSelect(select) {
   [...select.childNodes].forEach((child) => child.remove());
 }
 
-function loginFormInput(theme, container, info) {
+function loginFormInput(theme, container) {
   // Parent Font Size: 3rem
   const input = document.createElement('input');
   addClasses(input, ['schedule-it__form--login__user-login__input']);

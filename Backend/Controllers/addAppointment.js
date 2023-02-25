@@ -21,8 +21,6 @@ module.exports = catchAsync(async (request, response) => {
   const email = info.ownerEmail;
   const owner = await Owner.findOne({ email });
 
-  console.log(owner);
-
   const appointment = {
     appointmentType: info.communicationPreference,
     dateRequested: info.requestDate,
@@ -31,8 +29,6 @@ module.exports = catchAsync(async (request, response) => {
     appointmentEnd: info.scheduledEnd,
     attendees: [],
   };
-
-  console.log(owner.appointments);
 
   const host = {
     attendeeFirstname: owner.firstname,
@@ -51,8 +47,6 @@ module.exports = catchAsync(async (request, response) => {
 
   owner.appointments.push(appointment);
   // owner.appointments = [...owner.appointments, appointment];
-
-  console.log(owner.appointments);
 
   await owner.save();
 
