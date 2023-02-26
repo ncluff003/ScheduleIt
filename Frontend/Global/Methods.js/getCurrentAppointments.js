@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { DateTime } from 'luxon';
-import { appointment } from '../../Components/Appointment';
 
 async function getTodaysAppointments(details, schedule) {
   try {
@@ -15,10 +14,9 @@ async function getTodaysAppointments(details, schedule) {
     });
 
     const currentAppointments = response.data.data.currentAppointments;
-    const results = response.data.data;
     schedule.currentAppointments = currentAppointments;
 
-    return { results, currentAppointments };
+    return { currentAppointments };
   } catch (error) {
     console.error(error);
   }

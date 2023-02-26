@@ -23,18 +23,30 @@ const controllers = require('../Controllers');
 ////////////////////////////////////////////
 //  Routing Middleware
 
-router.route('/').post(controllers.appointments.requestAppointment);
-router.route(routes.scheduleIt.appointments.acceptAppointment).get(controllers.appointments.addAppointment);
-router.route(routes.scheduleIt.appointments.dateFiltered).post(controllers.appointments.getDateFilteredAppointments);
-router.route(routes.scheduleIt.appointments.appointment).post(controllers.appointments.requestAppointmentUpdate);
-router.route(routes.scheduleIt.appointments.updateAppointment).get(controllers.appointments.updateAppointment);
+router.route('/').post(controllers.appointments.requestAppointment); //   /ScheduleIt/[Owners, Client]/:email/Appointments
 router
-  .route(`${routes.scheduleIt.appointments.appointment}${routes.scheduleIt.owners.owner}`)
-  .get(controllers.appointments.getAppointment)
-  .delete(controllers.appointments.deleteAppointment);
-router.route(routes.scheduleIt.appointments.declineAppointment).get(controllers.appointments.denyAppointment);
-router.route(routes.scheduleIt.appointments.declineAppointmentUpdate).get(controllers.appointments.denyAppointmentUpdate);
-router.route(routes.scheduleIt.owners.owner).delete(controllers.appointments.deletePastAppointments);
+  .route(
+    `/Accept/:ownerEmail/:communicationPreference/:requestDate/:scheduledDate/:scheduledStart/:scheduledEnd/:clientFirstName/:clientLastName/:clientEmail/:clientPhone`,
+  )
+  .get(controllers.appointments.addAppointment); // /ScheduleIt/[Owners, Client]/:email/Appointments/Accept/:ownerEmail/:communicationPreference/:requestDate/:scheduledDate/:scheduledStart/:scheduledEnd/:clientFirstName/:clientLastName/:clientEmail/:clientPhone
+
+router.route(`/Date`).post(controllers.appointments.getDateFilteredAppointments); // /ScheduleIt/[Owners, Client]/:email/Appointments/Date
+
+router.route(`/:appointmentId`).post(controllers.appointments.requestAppointmentUpdate); ///ScheduleIt/[Owners, Client]/:email/Appointments/:appointmentId
+
+router
+  .route(
+    `/Update/:appointmentId/:ownerEmail/:communicationPreference/:requestDate/:scheduledDate/:scheduledStart/:scheduledEnd/:clientFirstName/:clientLastName/:clientEmail/:clientPhone`,
+  )
+  .get(controllers.appointments.updateAppointment); // /ScheduleIt/[Owners, Client]/:email/Appointments/Update/:appointmentId/:ownerEmail/:communicationPreference/:requestDate/:scheduledDate/:scheduledStart/:scheduledEnd/:clientFirstName/:clientLastName/:clientEmail/:clientPhone
+
+router.route(`/:appointmentId/:email`).get(controllers.appointments.getAppointment).delete(controllers.appointments.deleteAppointment); // /ScheduleIt/[Owners, Client]/:email/Appointments/:appointmentId/:email
+
+router.route(`/Decline/:ownerEmail/:clientFirstName/:clientLastName/:clientEmail`).get(controllers.appointments.denyAppointment); // /ScheduleIt/[Owners, Client]/:email/Appointments/Decline/:ownerEmail/:clientFirstName/:clientLastName/:clientEmai
+
+router.route(`/:appointmentId/Decline/:ownerEmail/:clientFirstName/:clientLastName/:clientEmail`).get(controllers.appointments.denyAppointmentUpdate); // /ScheduleIt/[Owners, Client]/:email/Appointments/:appointmentId/Decline/:ownerEmail/:clientFirstName/:clientLastName/:clientEmail
+
+router.route(`/:email`).delete(controllers.appointments.deletePastAppointments); // /ScheduleIt/[Owners, Client]/:email/Appointments/:email
 
 ////////////////////////////////////////////
 //  Exported Router

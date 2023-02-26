@@ -24,8 +24,9 @@ const controllers = require('../Controllers');
 //  Routing Middleware
 const appointmentRouter = require('./appointmentRoutes');
 
-router.route(routes.scheduleIt.owners.owner).post(controllers.owners.findOwner);
-router.use(`${routes.scheduleIt.owners.owner}${routes.scheduleIt.appointments.all}`, appointmentRouter);
+router.route(`/:email`).post(controllers.owners.findOwner);
+router.route(`/:email/Appointments`).delete(controllers.appointments.deletePastAppointments);
+// router.use(`/:email/Appointments`, appointmentRouter);
 
 ////////////////////////////////////////////
 //  Exported Router

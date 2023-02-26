@@ -12,7 +12,7 @@
   "main": "./src/backend.js",
   "module": "./src/frontend.js",
   "scripts": {
-    "build": "webpack"
+    "build": "npx webpack"
   },
   "author": "Nathan Cluff",
   "license": "ISC",

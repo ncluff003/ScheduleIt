@@ -1,4 +1,8 @@
 ////////////////////////////////////////////
+//  Third Party Modules
+const { DateTime } = require('luxon');
+
+////////////////////////////////////////////
 //  My Middleware
 const catchAsync = require(`../Utilities/catchAsync`);
 const AppError = require(`../Utilities/appError`);
@@ -21,10 +25,10 @@ module.exports = catchAsync(async (request, response, next) => {
   owner.appointments.forEach((appointment) => {
     if (String(appointment._id) === id) {
       appointment.appointmentType = info.communicationPreference;
-      appointment.dateRequested = info.requestDate;
-      appointment.appointmentDate = info.scheduledDateISO;
-      appointment.appointmentStart = info.scheduledStart;
-      appointment.appointmentEnd = info.scheduledEnd;
+      appointment.dateRequested = DateTime.fromISO(info.requestDate).toISO();
+      appointment.appointmentDate = DateTime.fromISO(info.scheduledDateISO).toISO();
+      appointment.appointmentStart = DateTime.fromISO(info.scheduledStart).toISO();
+      appointment.appointmentEnd = DateTime.fromISO(info.scheduledEnd).toISO();
 
       const host = {
         attendeeFirstname: owner.firstname,

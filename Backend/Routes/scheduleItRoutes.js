@@ -27,9 +27,9 @@ const clientRouter = require('./clientRoutes');
 const tokenRouter = require('./tokenRoutes');
 
 router.route('/').post(controllers.app.getReady);
-router.use(routes.scheduleIt.owners.all, ownerRouter);
-router.use(routes.scheduleIt.client.base, clientRouter);
-router.use(routes.scheduleIt.token.base, tokenRouter);
+router.use('/Owners', ownerRouter);
+router.use('/Client', clientRouter);
+router.use('/Token', tokenRouter);
 
 ////////////////////////////////////////////
 //  Exported Router

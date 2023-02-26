@@ -36,15 +36,18 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         user = 'Owner';
         info.userType = `${user}s`;
 
+        // Delete Past Appointments
         try {
           const response = await axios({
             method: 'DELETE',
-            url: `/ScheduleIt/${info.userType}/${details.email}/Appointments/${details.email}`,
+            url: `/ScheduleIt/${info.userType}/${details.email}/Appointments`,
           });
           console.log(response);
         } catch (error) {
           console.error(error);
         }
+
+        info.userType = response.data.data.userType;
 
         const form = document.querySelector('.schedule-it__form--login');
         const loginContainer = document.querySelectorAll('.schedule-it__form--login__user-login')[0];
@@ -70,18 +73,21 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             if (loginInput.value.length === 0) {
               info.errors = addError(info, 'token', '');
               renderErrors(errorContainer, info.errors);
-              delete info.errors['token'];
+              delete info.errors.token;
             }
           } else if (/[A-Za-z0-9]+$/.test(loginInput.value) === true || loginInput.value === '') {
             info.errors = addError(info, 'token', '');
             renderErrors(errorContainer, info.errors);
-            delete info.errors['token'];
+            delete info.errors.token;
           } else if (/[A-Za-z0-9]+$/.test(loginInput.value) === false) {
             info.errors = addError(info, 'token', 'Tokens should only be numbers and letters.');
             renderErrors(errorContainer, info.errors);
           }
         });
 
+        // Find The Owner
+        // If There, Send Token
+        // If NOT There, Create Owner And Send Token
         const response = await axios({
           method: 'POST',
           url: `/ScheduleIt/Owners/${details.email}`,
@@ -101,12 +107,14 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         try {
           const response = await axios({
             method: 'DELETE',
-            url: `/ScheduleIt/${info.userType}/${details.email}/Appointments/${details.email}`,
+            url: `/ScheduleIt/${info.userType}/${details.email}/Appointments`,
           });
           console.log(response);
         } catch (error) {
           console.error(error);
         }
+
+        info.userType = response.data.data.userType;
 
         const form = document.querySelector('.schedule-it__form--login');
         const loginContainer = document.querySelectorAll('.schedule-it__form--login__user-login')[1];
@@ -125,7 +133,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(loginInput.value) === true || loginInput.value === '') {
             info.errors = addError(info, 'email', '');
             renderErrors(errorContainer, info.errors);
-            delete info.errors['email'];
+            delete info.errors.email;
           } else if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(loginInput.value) === false) {
             info.errors = addError(info, 'email', 'Please Provide A Valid Email Address');
             renderErrors(errorContainer, info.errors);
@@ -158,7 +166,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       button.addEventListener('click', async (e) => {
         e.preventDefault();
         let header = e.target.closest('.schedule-it__form--login').firstChild.firstChild.nextSibling.firstChild;
-        console.log(header);
         if (header.textContent === 'Owner Login') {
           const token = document.querySelectorAll('.schedule-it__form--login__user-login__input')[0].value;
 
@@ -194,50 +201,88 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             console.error(error);
           }
         }
+
         let headerTwo = e.target.closest('.schedule-it__form--login').firstChild.nextSibling.firstChild.nextSibling.firstChild;
         if (headerTwo.textContent === 'Client Login') {
           const errorContainer = document.querySelectorAll('.error-container')[0];
           const email = document.querySelectorAll('.schedule-it__form--login__user-login__input')[1].value;
+
+          // IF EMAIL IS NOT IN CORRECT FORMAT SHOW AN ERROR.
           if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(email) === false) {
             info.errors = addError(info, 'email', 'Please provide a valid email address.');
             return renderErrors(errorContainer, info.errors);
           } else {
+            // IF EMAIL IS IN CORRECT FORMAT ERASE THE ERRORS.
             info.errors = addError(info, 'email', '');
             renderErrors(errorContainer, info.errors);
-          }
 
-          info.clientEmail = email;
+            // SET THE EMAIL AS THE CLIENT EMAIL
+            info.clientEmail = email;
 
-          try {
-            const response = await axios({
-              method: 'POST',
-              url: '/ScheduleIt/Client/Appointments',
-              data: {
-                email: email,
-                ownerEmail: details.email,
-              },
-            });
-            console.log(response);
-            if (response.data.status === 'Success') {
+            // GET THE CURRENT DAY'S APPOINTMENTS
+            try {
+              const response = await axios({
+                method: 'POST',
+                url: `/ScheduleIt/Client/${details.email}/Appointments/Date`,
+                data: {
+                  ownerEmail: details.email,
+                  selectedDate: DateTime.now().toISO(),
+                  userType: 'Client',
+                },
+              });
+
+              const currentAppointments = response.data.data.currentAppointments;
+              schedule.currentAppointments = currentAppointments;
               const userType = response.data.data.userType;
+
               const form = document.querySelector('.schedule-it__form--login');
               form.style.display = 'none';
               const loginContainers = document.querySelectorAll('.schedule-it__form--login__user-login');
               loginContainers.forEach((container) => (container.style.display = 'none'));
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
               overlay.style.display = 'none';
+
               renderSchedule(userType, theme, details, schedule, info);
-              const { results, currentAppointments } = await getTodaysAppointments(details, schedule);
-              schedule.appointments = currentAppointments;
 
               const planner = document.querySelector('.schedule-it__display__schedule__planner');
               schedule.currentAppointments.forEach((app) => {
                 appointment(theme, planner, details, schedule, info, app);
               });
+            } catch (error) {
+              console.error(error);
             }
-          } catch (error) {
-            console.error(error);
           }
+
+          // try {
+          //   const response = await axios({
+          //     method: 'POST',
+          //     url: '/ScheduleIt/Client/Appointments',
+          //     data: {
+          //       email: email,
+          //       ownerEmail: details.email,
+          //     },
+          //   });
+          //   console.log(response);
+          //   if (response.data.status === 'Success') {
+          //     const userType = response.data.data.userType;
+          //     const form = document.querySelector('.schedule-it__form--login');
+          //     form.style.display = 'none';
+          //     const loginContainers = document.querySelectorAll('.schedule-it__form--login__user-login');
+          //     loginContainers.forEach((container) => (container.style.display = 'none'));
+          //     const overlay = document.querySelector('.schedule-it__display__overlay--login');
+          //     overlay.style.display = 'none';
+          //     renderSchedule(userType, theme, details, schedule, info);
+          //     const { currentAppointments } = await getTodaysAppointments(details, schedule);
+          //     schedule.appointments = currentAppointments;
+
+          //     const planner = document.querySelector('.schedule-it__display__schedule__planner');
+          //     schedule.currentAppointments.forEach((app) => {
+          //       appointment(theme, planner, details, schedule, info, app);
+          //     });
+          //   }
+          // } catch (error) {
+          //   console.error(error);
+          // }
         }
       });
     }
@@ -457,6 +502,8 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         info.errors = addError(info, 'appointment', 'Please send a message or put N/A if nothing to say.');
         return renderErrors(errorContainer, info.errors);
       }
+
+      console.log(DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, startHour, startMinute, 0));
 
       let appointmentStart = DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, startHour, startMinute, 0);
       let appointmentEnd = DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, endHour, endMinute, 0);
@@ -865,10 +912,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       } catch (error) {
         console.error(error);
       }
-
-      /*
-        ROUTE -- Delete --> /ScheduleIt/userType/:email/Appointments/:appointmentId
-      */
     });
   }
 

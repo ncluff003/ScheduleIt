@@ -46,6 +46,7 @@ module.exports = catchAsync(async (request, response, next) => {
     data: {
       currentAppointments: dateFilteredAppointments,
       tokenVerified: tokenVerified,
+      userType: 'Owners',
     },
   });
 });

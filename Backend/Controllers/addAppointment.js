@@ -1,6 +1,7 @@
 ////////////////////////////////////////////
 //  Third Party Modules
 const dotenv = require('dotenv');
+const { DateTime } = require('luxon');
 
 ////////////////////////////////////////////
 //  Third Party Config Files
@@ -18,15 +19,16 @@ const AppError = require(`../Utilities/appError`);
 const Owner = require('../Models/ownerModel');
 module.exports = catchAsync(async (request, response) => {
   const info = request.params;
+  console.log(info);
   const email = info.ownerEmail;
   const owner = await Owner.findOne({ email });
 
   const appointment = {
     appointmentType: info.communicationPreference,
-    dateRequested: info.requestDate,
-    appointmentDate: info.scheduledDate,
-    appointmentStart: info.scheduledStart,
-    appointmentEnd: info.scheduledEnd,
+    dateRequested: DateTime.fromJSDate(info.requestDate).toISO(),
+    appointmentDate: DateTime.fromJSDate(info.scheduledDate).toISO(),
+    appointmentStart: DateTime.fromJSDate(info.scheduledStart).toISO(),
+    appointmentEnd: DateTime.fromJSDate(info.scheduledEnd).toISO(),
     attendees: [],
   };
 
@@ -45,8 +47,10 @@ module.exports = catchAsync(async (request, response) => {
     attendeePhone: info.clientPhone,
   });
 
+  console.log(owner.appointments);
   owner.appointments.push(appointment);
   // owner.appointments = [...owner.appointments, appointment];
+  console.log(owner.appointments);
 
   await owner.save();
 
