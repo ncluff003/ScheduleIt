@@ -57,7 +57,7 @@ module.exports = catchAsync(async (request, response, next) => {
   }).requestAppointment();
 
   const potentialAppointment = {
-    appointmentType: info.appointment.communicationPreference,
+    appointmentType: info.appointment.appointmentType,
     dateRequested: DateTime.fromISO(info.appointment.dateRequested).toISO(),
     appointmentDate: DateTime.local(
       DateTime.fromISO(info.appointment.appointmentStart).year,

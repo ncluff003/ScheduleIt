@@ -375,8 +375,13 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         const header = document.querySelector('.schedule-it__form--appointment-requests__heading');
         header.textContent = `Potential Appointments`;
 
+        const potentialAppointments = [...document.querySelectorAll('.potential-appointment')];
+        potentialAppointments.forEach((child) => {
+          child.remove();
+        });
+
         schedule.potentialAppointments.forEach((appointment) => {
-          potentialAppointment(theme, form, details, schedule, appointment);
+          potentialAppointment(theme, form, details, schedule, appointment, info, info.userType);
         });
       });
     }
@@ -971,6 +976,23 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         console.error(error);
       }
     });
+  } else if (buttonType === 'potential-appointment') {
+    style.position = 'relative';
+    style.height = '2.5em';
+    style.width = 'max-content';
+    style.display = 'flex';
+    style.flexFlow = 'row nowrap';
+    style.justifyContent = 'center';
+    style.alignItems = 'center';
+    style.padding = '.5em 1em';
+    style.backgroundColor = 'transparent';
+    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
+    style.borderRadius = '1rem';
+    style.fontFamily = theme.font;
+    style.fontSize = '.45em';
+    theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
+    style.margin = '0.6em 0.3em';
+    button.textContent = text;
   }
 
   button.addEventListener('mouseover', (e) => {
