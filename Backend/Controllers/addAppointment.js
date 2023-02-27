@@ -17,18 +17,18 @@ const AppError = require(`../Utilities/appError`);
 ////////////////////////////////////////////
 //  My Models
 const Owner = require('../Models/ownerModel');
-module.exports = catchAsync(async (request, response) => {
+module.exports = catchAsync(async (request, response, next) => {
   const info = request.params;
   console.log(info);
-  const email = info.ownerEmail;
+  const email = info.email;
   const owner = await Owner.findOne({ email });
 
   const appointment = {
     appointmentType: info.communicationPreference,
-    dateRequested: DateTime.fromJSDate(info.requestDate).toISO(),
-    appointmentDate: DateTime.fromJSDate(info.scheduledDate).toISO(),
-    appointmentStart: DateTime.fromJSDate(info.scheduledStart).toISO(),
-    appointmentEnd: DateTime.fromJSDate(info.scheduledEnd).toISO(),
+    dateRequested: DateTime.fromISO(info.requestDate).toISO(),
+    appointmentDate: DateTime.fromISO(info.scheduledDate).toISO(),
+    appointmentStart: DateTime.fromISO(info.scheduledStart).toISO(),
+    appointmentEnd: DateTime.fromISO(info.scheduledEnd).toISO(),
     attendees: [],
   };
 
@@ -54,9 +54,9 @@ module.exports = catchAsync(async (request, response) => {
 
   await owner.save();
 
-  if (process.env.NODE_ENV === 'development') {
-    response.redirect(301, process.env.DEV_URL);
-  } else if (process.env.NODE_ENV === 'production') {
-    response.redirect(301, process.env.PROD_URL);
-  }
+  console.log(owner);
+  response.status(200).json({
+    status: 'Success',
+    message: 'You have successfully added this appointment.  You may close this tab.',
+  });
 });

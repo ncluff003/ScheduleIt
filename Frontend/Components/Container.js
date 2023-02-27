@@ -64,6 +64,8 @@ function scheduleButtonContainer(user, theme, container, details, schedule, info
   button('schedule-outside', 'Select Date', theme, buttonContainer, details, schedule, info);
   if (user === 'Client') {
     button('schedule-outside', 'Request Appointment', theme, buttonContainer, details, schedule, info);
+  } else if (user === 'Owners') {
+    button('schedule-outside', 'Appointment Requests', theme, buttonContainer, details, schedule, info);
   }
 }
 

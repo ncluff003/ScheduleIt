@@ -80,6 +80,25 @@ function form(formType, user, theme, container, details, schedule, info) {
     flexSection(theme, form, details, schedule, info, { sectionStyle: 'column', sectionType: 'communication', type: formType, minHeight: '4em' });
     flexSection(theme, form, details, schedule, info, { sectionStyle: 'column', sectionType: 'message', type: formType, minHeight: '6em' });
     flexSection(theme, form, details, schedule, info, { sectionStyle: 'column', sectionType: 'request', type: formType, minHeight: '3em' });
+  } else if (formType === 'appointment-requests') {
+    addClasses(form, ['schedule-it__form--appointment-requests']);
+    const style = form.style;
+    style.position = 'absolute';
+    style.top = 0;
+    style.left = 0;
+    style.height = '100%';
+    style.width = '100%';
+    style.display = 'none'; // This will be changed later on to aid the functionality of the scheduling application.  It will start as 'none'.
+    style.flexFlow = 'column nowrap';
+    style.justifyContent = 'flex-start';
+    style.alignItems = 'center';
+    style.paddingTop = '2.5em';
+    style.zIndex = 5;
+    style.backgroundColor = `${theme.colors.primary}f2`;
+    style.overflowY = 'auto';
+
+    formCloser('appointment-requests', theme, form);
+    selectDateFormHeader('appointment-requests', theme, form);
   }
 
   insertElement('beforeend', container, form);

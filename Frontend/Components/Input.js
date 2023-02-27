@@ -145,7 +145,6 @@ function formSelect(type, theme, container, details, schedule, info, formType, e
   let colonNeeded = false;
 
   if (type === 'day') {
-    console.log(type);
     addClasses(select, ['schedule-it__form--date-selection__select-container__select']);
     style.position = 'relative';
     style.height = 'max-content';

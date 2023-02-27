@@ -6,8 +6,6 @@ import { scheduleHeader } from './Header';
 function renderSchedule(user, theme, details, schedule, info) {
   // Parent Font Size: 3rem
   const display = document.querySelector('.schedule-it__display');
-  console.log(user);
-
   const planner = document.createElement('section');
   addClasses(planner, ['schedule-it__display__schedule']);
   const style = planner.style;
@@ -29,6 +27,8 @@ function renderSchedule(user, theme, details, schedule, info) {
   form('request-appointment', user, theme, planner, details, schedule, info);
   if (user === 'Client') {
     form('update-appointment', user, theme, planner, details, schedule, info);
+  } else if (user === 'Owners') {
+    form('appointment-requests', user, theme, planner, details, schedule, info);
   }
 }
 

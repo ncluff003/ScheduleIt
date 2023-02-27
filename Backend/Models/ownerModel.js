@@ -73,6 +73,48 @@ const ownerSchema = new mongoose.Schema({
       ],
     },
   ],
+  potentialAppointments: [
+    {
+      appointmentType: {
+        type: String,
+        enum: ['Video Chat', 'Phone Call'],
+      },
+      dateRequested: {
+        type: Date,
+      },
+      appointmentDate: {
+        type: Date,
+      },
+      appointmentStart: {
+        type: Date,
+      },
+      appointmentEnd: {
+        type: Date,
+      },
+      attendees: [
+        {
+          attendeeFirstname: {
+            type: String,
+            trim: true,
+          },
+          attendeeLastname: {
+            type: String,
+            trim: true,
+          },
+          attendeePhone: {
+            type: String,
+            trim: true,
+          },
+          attendeeEmail: {
+            type: String,
+            trim: true,
+            lowercase: true,
+            validate: [validator.isEmail, `Please provide a valid email.`],
+          },
+        },
+      ],
+    },
+  ],
   token: {
     type: String,
     select: false,

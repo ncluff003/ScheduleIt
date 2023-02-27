@@ -15,6 +15,9 @@ function closeForm(close, formType) {
   } else if (formType === 'update-appointment') {
     const form = document.querySelector('.schedule-it__form--update-appointment');
     form.style.display = 'none';
+  } else if (formType === 'appointment-requests') {
+    const form = document.querySelector('.schedule-it__form--appointment-requests');
+    form.style.display = 'none';
   }
   close.removeEventListener('click', closeForm);
 }
@@ -34,6 +37,8 @@ function formCloser(formType, theme, container) {
   } else if (formType === 'request-appointment') {
     close.addEventListener('click', closeForm.bind(this, close, formType));
   } else if (formType === 'update-appointment') {
+    close.addEventListener('click', closeForm.bind(this, close, formType));
+  } else if (formType === 'appointment-requests') {
     close.addEventListener('click', closeForm.bind(this, close, formType));
   }
 

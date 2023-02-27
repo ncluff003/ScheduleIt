@@ -13,9 +13,13 @@ const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response) => {
   console.log(request.body);
+
+  // GET THE ESSENTIAL DATA FROM THE REQUEST
   const userType = request.body.userType;
   const email = request.body.ownerEmail;
   const selectedDate = request.body.selectedDate;
+
+  // THESE ARE FOR LATER ON.
   let appointmentId;
   let previousDate;
 
@@ -24,6 +28,7 @@ module.exports = catchAsync(async (request, response) => {
     previousDate = request.body.previousAppointmentDate;
   }
 
+  // GET THE OWNER WITH THE EMAIL SENT
   const owner = await Owner.findOne({ email });
 
   console.log(DateTime.fromISO(selectedDate));
@@ -32,7 +37,7 @@ module.exports = catchAsync(async (request, response) => {
   console.log('----------------------------------------------------------------------------------------------');
   console.log(owner.appointments);
 
-  // GET THIS DATE'S APPOINTMENTS
+  // FILTER OWNER'S APPOINTMENTS FOR THE DATE SENT
   let dateFilteredAppointments;
   if (!appointmentId) {
     dateFilteredAppointments = owner.appointments.filter((appointment) => {
@@ -62,11 +67,13 @@ module.exports = catchAsync(async (request, response) => {
     });
   }
 
+  // SET DATA TO RESPOND WITH
   let data = {
     userType: userType,
     currentAppointments: dateFilteredAppointments,
   };
 
+  // RESPONSE
   response.status(200).json({
     status: 'Success',
     data: data,

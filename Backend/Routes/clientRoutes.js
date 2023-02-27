@@ -25,7 +25,7 @@ const controllers = require('../Controllers');
 const appointmentRouter = require('./appointmentRoutes');
 
 router.route(`/Appointments`).post(controllers.clients.getClientFilteredAppointments);
-router.route(`/:email/Appointments`).delete(controllers.appointments.deletePastAppointments);
+router.route(`/:email/Appointments`).post(controllers.appointments.requestAppointment).delete(controllers.appointments.deletePastAppointments);
 router.route(`/:email/Appointments/Date`).post(controllers.appointments.getDateFilteredAppointments);
 // router.use(`/:email/Appointments`, appointmentRouter);
 

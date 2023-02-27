@@ -26,7 +26,7 @@ module.exports = catchAsync(async (request, response, next) => {
     console.log(DateTime.fromJSDate(owner.appointments[0].appointmentDate));
 
     owner.appointments = owner.appointments.filter((appointment) => {
-      if (DateTime.fromISO(appointment.appointmentEnd).invalidReason === null && DateTime.fromISO(appointment.appointmentEnd).day > DateTime.now().day) {
+      if (DateTime.fromJSDate(appointment.appointmentEnd).invalidReason === null && DateTime.fromJSDate(appointment.appointmentEnd).day > DateTime.now().day) {
         return appointment;
       }
     });
@@ -40,6 +40,8 @@ module.exports = catchAsync(async (request, response, next) => {
   response.status(200).json({
     status: 'Success',
     message: 'Past Appointments Removed Successfully.',
-    userType: userType,
+    data: {
+      userType: userType,
+    },
   });
 });

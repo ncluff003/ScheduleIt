@@ -6,6 +6,7 @@ import { renderSchedule } from './Schedule';
 import { closeForm } from './FormCloser';
 import { getTodaysAppointments } from '../Global/Methods.js/getCurrentAppointments';
 import { appointment } from './Appointment';
+import { potentialAppointment } from './AppointmentRequest';
 
 function button(buttonType, text, theme, container, details, schedule, info, user) {
   const button = document.createElement('button');
@@ -36,24 +37,44 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         user = 'Owner';
         info.userType = `${user}s`;
 
-        // Delete Past Appointments
+        // FIRST THING IS TO FIND THE OWNER IF THEY EXIST
         try {
           const response = await axios({
-            method: 'DELETE',
-            url: `/ScheduleIt/${info.userType}/${details.email}/Appointments`,
+            method: 'POST',
+            url: `/ScheduleIt/Owners/${details.email}`,
+            data: {
+              details: details,
+              schedule: schedule,
+            },
           });
           console.log(response);
         } catch (error) {
           console.error(error);
         }
 
-        info.userType = response.data.data.userType;
+        // SECOND THING AFTER CLICKING THE BUTTON IS TO DELETE PAST APPOINTMENTS
+        try {
+          const response = await axios({
+            method: 'DELETE',
+            url: `/ScheduleIt/${info.userType}/${details.email}/Appointments`,
+          });
+          console.log(response);
+          info.userType = response.data.data.userType;
+        } catch (error) {
+          console.error(error);
+        }
 
+        // AFTER DELETING PAST APPOINTMENTS -- SETUP THE LOGIN FORM
+
+        // Get each of the necessary elements.
         const form = document.querySelector('.schedule-it__form--login');
         const loginContainer = document.querySelectorAll('.schedule-it__form--login__user-login')[0];
         const loginHeading = document.querySelectorAll('.schedule-it__form--login__heading')[0];
         const loginLabel = document.querySelectorAll('.schedule-it__form--login__user-login__label')[0];
         const loginInput = document.querySelectorAll('.schedule-it__form--login__user-login__input')[0];
+        const errorContainer = document.querySelectorAll('.error-container')[0];
+
+        // Give essential styling to each element.
         loginContainer.style.display = 'flex';
         loginHeading.firstChild.textContent = 'Owner Login';
         loginLabel.textContent = 'Enter Token';
@@ -63,8 +84,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         loginInput.setAttribute('minLength', 8);
         loginInput.setAttribute('pattern', '[A-Za-z0-9]');
 
-        const errorContainer = document.querySelectorAll('.error-container')[0];
-
+        // Listen for each keyup event on the token input.
         loginInput.addEventListener('keyup', (e) => {
           e.preventDefault();
           if (loginInput.value.length !== 8) {
@@ -84,19 +104,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             renderErrors(errorContainer, info.errors);
           }
         });
-
-        // Find The Owner
-        // If There, Send Token
-        // If NOT There, Create Owner And Send Token
-        const response = await axios({
-          method: 'POST',
-          url: `/ScheduleIt/Owners/${details.email}`,
-          data: {
-            details: details,
-            schedule: schedule,
-          },
-        });
-        console.log(response);
       });
     } else if (text === 'Client Login') {
       button.addEventListener('click', async (e) => {
@@ -104,30 +111,37 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         user = 'Client';
         info.userType = user;
 
+        // FIRST THING AFTER CLICKING THE BUTTON IS TO DELETE PAST APPOINTMENTS
         try {
           const response = await axios({
             method: 'DELETE',
             url: `/ScheduleIt/${info.userType}/${details.email}/Appointments`,
           });
           console.log(response);
+          info.userType = response.data.data.userType;
         } catch (error) {
           console.error(error);
         }
 
-        info.userType = response.data.data.userType;
+        // AFTER DELETING PAST APPOINTMENTS -- SETUP THE LOGIN FORM
 
+        // Get each of the necessary elements.
         const form = document.querySelector('.schedule-it__form--login');
         const loginContainer = document.querySelectorAll('.schedule-it__form--login__user-login')[1];
         const loginHeading = document.querySelectorAll('.schedule-it__form--login__heading')[1];
         const loginLabel = document.querySelectorAll('.schedule-it__form--login__user-login__label')[1];
         const loginInput = document.querySelectorAll('.schedule-it__form--login__user-login__input')[1];
+        const errorContainer = document.querySelectorAll('.error-container')[1];
+
+        // Give essential styling to each element.
+        form.style.display = 'flex';
         loginContainer.style.display = 'flex';
         loginHeading.firstChild.textContent = 'Client Login';
         loginLabel.textContent = 'Enter Email Address';
         loginInput.placeholder = 'Enter Email Address';
+        loginInput.setAttribute('pattern', '[^@]+@[^@]+[.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$');
 
-        const errorContainer = document.querySelectorAll('.error-container')[1];
-
+        // Listen for each keyup event on the email input.
         loginInput.addEventListener('keyup', (e) => {
           e.preventDefault();
           if (/[^@]+@[^@]+[\.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$/.test(loginInput.value) === true || loginInput.value === '') {
@@ -139,10 +153,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             renderErrors(errorContainer, info.errors);
           }
         });
-
-        loginInput.setAttribute('pattern', '[^@]+@[^@]+[.]+(com|net|org|io|edu|(co.uk)|me|tech|money|gov)+$');
-
-        form.style.display = 'flex';
       });
     }
   } else if (buttonType === 'login--overlay') {
@@ -163,14 +173,23 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     button.textContent = text;
 
     if (text === 'Login') {
+      // Listen to login button for a click.
       button.addEventListener('click', async (e) => {
         e.preventDefault();
+
+        // GET THE HEADERS FOR EACH LOGIN FORM.
         let header = e.target.closest('.schedule-it__form--login').firstChild.firstChild.nextSibling.firstChild;
-        if (header.textContent === 'Owner Login') {
+        let headerTwo = e.target.closest('.schedule-it__form--login').firstChild.nextSibling.firstChild.nextSibling.firstChild;
+
+        // IF HEADER'S TEXT CONTENT IS NOT AN EMPTY STRING AND IS OWNER LOGIN
+        if (header.textContent !== '' && header.textContent === 'Owner Login') {
+          // SELECT TOKEN INPUT AND GET TOKEN VALUE.
           const token = document.querySelectorAll('.schedule-it__form--login__user-login__input')[0].value;
 
+          // RETURN IF TOKEN VALUE DOES NOT HAVE A LENGTH OF EIGHT.
           if (token.length !== 8) return;
 
+          // IF TOKEN IS EXACTLY EIGHT CHARACTERS IN LENGTH, VERIFY IF IT IS THE ONE SENT TO THE OWNER.
           try {
             const response = await axios({
               method: 'POST',
@@ -180,19 +199,35 @@ function button(buttonType, text, theme, container, details, schedule, info, use
                 email: details.email,
               },
             });
-            if (response.data.status === 'Success') {
-              const userType = response.data.data.userType;
+
+            console.log(response);
+
+            // GET THE REQUIRED DATA FOR THE OWNER TO BE ABLE TO MOVE ON.
+            const status = response.data.status;
+            const verified = response.data.data.tokenVerified;
+
+            // IF EVERYTHING CHECKS OUT -- MOVE THE OWNER ON.
+            if (status === 'Success' && verified === true) {
+              // Get all of the essential elements.
               const form = document.querySelector('.schedule-it__form--login');
-              form.style.display = 'none';
               const loginContainers = document.querySelectorAll('.schedule-it__form--login__user-login');
-              loginContainers.forEach((container) => (container.style.display = 'none'));
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
+              const planner = document.querySelector('.schedule-it__display__schedule__planner');
+
+              // Give essential styling to each element.
+              form.style.display = 'none';
+              loginContainers.forEach((container) => (container.style.display = 'none'));
               overlay.style.display = 'none';
-              renderSchedule(userType, theme, details, schedule, info);
+
+              // Set the schedule's current appointments.
               schedule.appointments = response.data.data.currentAppointments;
               schedule.currentAppointments = response.data.data.currentAppointments;
+              schedule.potentialAppointments = response.data.data.potentialAppointments;
 
-              const planner = document.querySelector('.schedule-it__display__schedule__planner');
+              // RENDER SCHEDULE
+              renderSchedule(info.userType, theme, details, schedule, info);
+
+              // ADD THE APPOINTMENTS TO THE SCHEDULE
               schedule.currentAppointments.forEach((app) => {
                 appointment(theme, planner, details, schedule, info, app);
               });
@@ -202,9 +237,12 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           }
         }
 
-        let headerTwo = e.target.closest('.schedule-it__form--login').firstChild.nextSibling.firstChild.nextSibling.firstChild;
-        if (headerTwo.textContent === 'Client Login') {
+        // IF HEADER TWO'S TEXT CONTENT IS NOT AN EMPTY STRING AND IS CLIENT LOGIN
+        if (headerTwo.textContent !== '' && headerTwo.textContent === 'Client Login') {
+          // GET ESSENTIAL ELEMENTS
           const errorContainer = document.querySelectorAll('.error-container')[0];
+
+          // GET THE EMAIL ELEMENT AND STORE IT'S VALUE
           const email = document.querySelectorAll('.schedule-it__form--login__user-login__input')[1].value;
 
           // IF EMAIL IS NOT IN CORRECT FORMAT SHOW AN ERROR.
@@ -230,21 +268,26 @@ function button(buttonType, text, theme, container, details, schedule, info, use
                   userType: 'Client',
                 },
               });
+              console.log(response);
 
-              const currentAppointments = response.data.data.currentAppointments;
-              schedule.currentAppointments = currentAppointments;
-              const userType = response.data.data.userType;
+              // SET ESSENTIAL DATA IF RESPONSE IS SUCCESSFUL
+              schedule.currentAppointments = response.data.data.currentAppointments;
 
+              // GET ESSENTIAL ELEMENTS
               const form = document.querySelector('.schedule-it__form--login');
-              form.style.display = 'none';
               const loginContainers = document.querySelectorAll('.schedule-it__form--login__user-login');
-              loginContainers.forEach((container) => (container.style.display = 'none'));
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
+              const planner = document.querySelector('.schedule-it__display__schedule__planner');
+
+              // GIVE EACH ELEMENT IT'S STYLING
+              form.style.display = 'none';
+              loginContainers.forEach((container) => (container.style.display = 'none'));
               overlay.style.display = 'none';
 
-              renderSchedule(userType, theme, details, schedule, info);
+              // RENDER SCHEDULE
+              renderSchedule(info.userType, theme, details, schedule, info);
 
-              const planner = document.querySelector('.schedule-it__display__schedule__planner');
+              // ADD APPOINTMENTS TO THE SCHEDULE
               schedule.currentAppointments.forEach((app) => {
                 appointment(theme, planner, details, schedule, info, app);
               });
@@ -252,37 +295,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
               console.error(error);
             }
           }
-
-          // try {
-          //   const response = await axios({
-          //     method: 'POST',
-          //     url: '/ScheduleIt/Client/Appointments',
-          //     data: {
-          //       email: email,
-          //       ownerEmail: details.email,
-          //     },
-          //   });
-          //   console.log(response);
-          //   if (response.data.status === 'Success') {
-          //     const userType = response.data.data.userType;
-          //     const form = document.querySelector('.schedule-it__form--login');
-          //     form.style.display = 'none';
-          //     const loginContainers = document.querySelectorAll('.schedule-it__form--login__user-login');
-          //     loginContainers.forEach((container) => (container.style.display = 'none'));
-          //     const overlay = document.querySelector('.schedule-it__display__overlay--login');
-          //     overlay.style.display = 'none';
-          //     renderSchedule(userType, theme, details, schedule, info);
-          //     const { currentAppointments } = await getTodaysAppointments(details, schedule);
-          //     schedule.appointments = currentAppointments;
-
-          //     const planner = document.querySelector('.schedule-it__display__schedule__planner');
-          //     schedule.currentAppointments.forEach((app) => {
-          //       appointment(theme, planner, details, schedule, info, app);
-          //     });
-          //   }
-          // } catch (error) {
-          //   console.error(error);
-          // }
         }
       });
     }
@@ -354,6 +366,19 @@ function button(buttonType, text, theme, container, details, schedule, info, use
 
         console.log(schedule.appointments);
       });
+    } else if (text === 'Appointment Requests') {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const form = document.querySelector('.schedule-it__form--appointment-requests');
+        const style = form.style;
+        style.display = 'flex';
+        const header = document.querySelector('.schedule-it__form--appointment-requests__heading');
+        header.textContent = `Potential Appointments`;
+
+        schedule.potentialAppointments.forEach((appointment) => {
+          potentialAppointment(theme, form, details, schedule, appointment);
+        });
+      });
     }
   } else if (buttonType === 'Date Selection') {
     // Parent Font Size: 3rem
@@ -376,25 +401,21 @@ function button(buttonType, text, theme, container, details, schedule, info, use
 
     button.addEventListener('click', async (e) => {
       e.preventDefault();
-      const form = document.querySelector('.schedule-it__form--date-selection');
+
+      // GET ALL ESSENTIAL ELEMENTS.
       const date = document.querySelector('.schedule-it__display__schedule__header__date__text');
       const dateSelects = document.querySelectorAll('.schedule-it__form--date-selection__select-container__select');
 
+      // GET ALL ESSENTIAL VALUES.
       const year = Number(dateSelects[2].value);
       const month = Number(dateSelects[1].value);
       const day = Number(dateSelects[0].value);
-      const yearIndex = Number(dateSelects[2].selectedIndex);
-      const monthIndex = Number(dateSelects[1].selectedIndex);
-      const dayIndex = Number(dateSelects[0].selectedIndex);
       const selectedDate = DateTime.local(year, month, day, 23, 59, 59);
 
+      // IF SELECTED DATE IS IN THE PAST RETURN ERROR.
       if (selectedDate < DateTime.now()) return console.error('You need to select today or a day in the future.');
 
-      date.textContent = selectedDate.toLocaleString(DateTime.DATE_HUGE);
-      date.dataset.date = selectedDate.toISO();
-
-      console.log(info);
-
+      // GO GET THE SELECTED DATE'S APPOINTMENTS
       try {
         const response = await axios({
           method: 'POST',
@@ -407,10 +428,22 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           },
         });
         console.log(response);
+
+        // GIVE ELEMENTS THE DATE DATA IN A SPECIFIC FORMAT
+        date.textContent = selectedDate.toLocaleString(DateTime.DATE_HUGE);
+        date.dataset.date = selectedDate.toISO();
+
+        // SELECT ALL OF THE APPOINTMENTS ON THE PAGE CURRENTLY
         const appointments = document.querySelectorAll('.schedule-it__display__schedule__planner__appointment');
-        appointments.forEach((child) => child.remove());
-        const currentAppointments = response.data.data.currentAppointments;
         const planner = document.querySelector('.schedule-it__display__schedule__planner');
+
+        // REMOVE ALL OF THE EXISTING APPOINTMENT INFO ON THE DOM
+        appointments.forEach((child) => child.remove());
+
+        // STORE ARRAY OF SELECTED DATE'S APPOINTMENTS.
+        const currentAppointments = response.data.data.currentAppointments;
+
+        // RENDER APPOINTMENTS TO THE SCHEDULE
         currentAppointments.forEach((app) => {
           appointment(theme, planner, details, schedule, info, app);
         });
@@ -418,6 +451,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         console.error(error);
       }
 
+      // CLOSE THE FORM WHEN DONE.
       closeForm(document.querySelector('.schedule-it__form__close'), 'select-date');
     });
   } else if (buttonType === 'Request Appointment') {
@@ -441,11 +475,16 @@ function button(buttonType, text, theme, container, details, schedule, info, use
 
     button.addEventListener('click', async (e) => {
       e.preventDefault();
+
+      // GET ESSENTIAL ELEMENTS
+      const appointments = document.querySelectorAll('.schedule-it__display__schedule__planner__appointment');
       const inputs = document.querySelectorAll('.schedule-it__form--request-appointment__input');
       const textareas = document.querySelectorAll('.schedule-it__form--request-appointment__textarea');
       const selects = document.querySelectorAll('.schedule-it__form--date-selection__select-container__select');
       const radios = document.querySelectorAll('.schedule-it__form--request-appointment__flex-section__radio');
       const requestRadios = [radios[0], radios[1]];
+
+      // GET VALUES FROM THOSE ELEMENTS
       const firstname = inputs[0].value;
       const lastname = inputs[1].value;
       const email = inputs[2].value;
@@ -458,45 +497,53 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       const endHour = Number(selects[5].value);
       const endMinute = Number(selects[6].value);
 
+      // GET USABLE MINIMUM AND MAXIMUM APPOINTMENT LENGTHS.
       const minTime = calculateTime(schedule.minimumAppointmentLength);
       const maxTime = calculateTime(schedule.maximumAppointmentLength);
 
+      // GET THE POTENTIAL CLIENT'S COMMUNICATION PREFERENCE.
       requestRadios.forEach((radio) => {
         if (radio.checked === true) {
           communicationPreference = radio.value;
         }
       });
 
+      // IF NO FIRST NAME RETURN ERROR
       if (!firstname || firstname === '') {
         const errorContainer = document.querySelectorAll('.error-container')[3];
         info.errors = addError(info, 'appointment', 'Please provide your first name.');
         return renderErrors(errorContainer, info.errors);
       }
 
+      // IF NO LAST NAME RETURN ERROR
       if (!lastname || lastname === '') {
         const errorContainer = document.querySelectorAll('.error-container')[3];
         info.errors = addError(info, 'appointment', 'Please provide last name.');
         return renderErrors(errorContainer, info.errors);
       }
 
+      // IF NO EMAIL RETURN ERROR
       if (!email || email === '') {
         const errorContainer = document.querySelectorAll('.error-container')[3];
         info.errors = addError(info, 'appointment', 'Please provide email address.');
         return renderErrors(errorContainer, info.errors);
       }
 
+      // IF NO PHONE NUMBER RETURN ERROR
       if (!phone || phone === '') {
         const errorContainer = document.querySelectorAll('.error-container')[3];
         info.errors = addError(info, 'appointment', 'Please provide your phone number.');
         return renderErrors(errorContainer, info.errors);
       }
 
+      // IF NO COMMUNICATION PREFERENCE RETURN ERROR
       if (!communicationPreference || communicationPreference === '') {
         const errorContainer = document.querySelectorAll('.error-container')[3];
         info.errors = addError(info, 'appointment', 'Please provide your preference for communications.');
         return renderErrors(errorContainer, info.errors);
       }
 
+      // IF NO MESSAGE RETURN ERROR
       if (!message || message === '') {
         const errorContainer = document.querySelectorAll('.error-container')[3];
         info.errors = addError(info, 'appointment', 'Please send a message or put N/A if nothing to say.');
@@ -505,16 +552,22 @@ function button(buttonType, text, theme, container, details, schedule, info, use
 
       console.log(DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, startHour, startMinute, 0));
 
+      // GET THE APPOINTMENT'S POTENTIAL START AND END TIMES.
       let appointmentStart = DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, startHour, startMinute, 0);
       let appointmentEnd = DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, endHour, endMinute, 0);
 
+      // GET THE REQUESTED APPOINTMENT'S LENGTH.
       const difference = appointmentEnd.diff(appointmentStart, ['days', 'hours', 'minutes']).toObject();
 
+      // IF THE SCHEDULE IS AN OVERNIGHT SCHEDULE -- CHECK IF REQUESTED APPOINTMENT IS ONE.
+      // IF APPOINTMENT IS OVERNIGHT, ADD ONE DAY TO THE END DATE.
       if (schedule.overnight === true && Number(appointmentEnd.hour) < Number(appointmentStart.hour)) {
         appointmentEnd = appointmentEnd.plus({ days: 1 });
       }
 
+      // IF DIFFERENCE MINUTES ARE LESS THAN THE MINIMUM APPOINTMENT LENGTH OF MINUTES DIG DEEPER
       if (difference.minutes < minTime.minutes) {
+        // IF DIFFERENCE HOURS ARE LESS THAN MINIMUM APPOINTMENT LENGTH OF HOURS AND THE DIFFERENCE OF DAYS IS ZERO RETURN ERROR.
         if (difference.hours < minTime.hours && difference.days === 0) {
           const errorContainer = document.querySelectorAll('.error-container')[3];
           info.errors = addError(
@@ -526,7 +579,9 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         }
       }
 
+      // IF DIFFERENCE HOURS ARE EQUAL TO THE MAXIMUM APPOINTMENT'S LENGTH OF HOURS DIG DEEPER
       if (difference.hours === maxTime.hours) {
+        // IF THE DIFFERENCE MINUTES ARE ALSO ABOVE THE MAXIMUM APPOINTMENT'S LENGTH OF MINUTES RETURN ERROR.
         if (difference.minutes > maxTime.minutes) {
           const errorContainer = document.querySelectorAll('.error-container')[3];
           info.errors = addError(
@@ -536,6 +591,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           );
           return renderErrors(errorContainer, info.errors);
         }
+        // IF DIFFERENCE HOURS ARE MORE THAN THE MAXIMUM APPOINTMENT'S LENGTH OF HOURS RETURN ERROR.
       } else if (difference.hours > maxTime.hours) {
         const errorContainer = document.querySelectorAll('.error-container')[3];
         info.errors = addError(
@@ -546,8 +602,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         return renderErrors(errorContainer, info.errors);
       }
 
-      const appointments = document.querySelectorAll('.schedule-it__display__schedule__planner__appointment');
-
+      // FILTER THE DAY'S APPOINTMENTS TO SEE IF THERE ARE ANY CONFLICTS.
       const conflictingAppointments = [...appointments].filter((appointment) => {
         if (
           (appointmentStart >= DateTime.fromISO(appointment.dataset.start) && appointmentStart < DateTime.fromISO(appointment.dataset.end)) ||
@@ -557,12 +612,14 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         }
       });
 
+      // IF THERE ARE CONFLICTING APPOINTMENTS RETURN ERROR
       if (conflictingAppointments.length > 0) {
         const errorContainer = document.querySelectorAll('.error-container')[3];
         info.errors = addError(info, 'appointment', 'There is a conflict with the time of an existing appointment.');
         return renderErrors(errorContainer, info.errors);
       }
 
+      // IF THERE ARE NO CONFLICTS FORMAT THE REQUEST.
       const request = {
         ownerEmail: details.email,
         firstname: firstname,
@@ -578,6 +635,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         message: message,
       };
 
+      // MAKE THE REQUEST
       try {
         const response = await axios({
           method: 'POST',
