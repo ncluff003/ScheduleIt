@@ -24,15 +24,8 @@ const controllers = require('../Controllers');
 //  Routing Middleware
 const appointmentRouter = require('./appointmentRoutes');
 
-router.route(`/:email`).post(controllers.owners.findOwner);
-router.route(`/:email/Appointments/Date`).post(controllers.appointments.getDateFilteredAppointments);
-router
-  .route(
-    `/:email/Appointments/Accept/:communicationPreference/:requestDate/:scheduledDate/:scheduledStart/:scheduledEnd/:clientFirstName/:clientLastName/:clientEmail/:clientPhone`,
-  )
-  .get(controllers.appointments.addAppointment);
-router.route(`/:email/Appointments`).delete(controllers.appointments.deletePastAppointments);
-// router.use(`/:email/Appointments`, appointmentRouter);
+router.route(routes.scheduleIt.owners.owner).post(controllers.owners.findOwner).delete(controllers.appointments.deletePastAppointments);
+router.use(`${routes.scheduleIt.owners.owner}${routes.scheduleIt.appointments.all}`, appointmentRouter);
 
 ////////////////////////////////////////////
 //  Exported Router

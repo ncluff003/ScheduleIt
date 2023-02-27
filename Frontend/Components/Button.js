@@ -56,7 +56,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         try {
           const response = await axios({
             method: 'DELETE',
-            url: `/ScheduleIt/${info.userType}/${details.email}/Appointments`,
+            url: `/ScheduleIt/${info.userType}/${details.email}`,
           });
           console.log(response);
           info.userType = response.data.data.userType;
@@ -941,7 +941,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         console.error(error);
       }
     });
-  } else if ((buttonType = 'Delete Appointment')) {
+  } else if (buttonType === 'Delete Appointment') {
     style.position = 'relative';
     style.height = '2.5em';
     style.width = 'max-content';
@@ -959,23 +959,25 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.margin = '0.6em 0.3em';
     button.textContent = text;
 
-    button.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const appointment = e.target.closest('.schedule-it__display__schedule__planner__appointment');
-      const appointmentId = appointment.dataset.appointment;
+    if (text === 'Delete') {
+      button.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const appointment = e.target.closest('.schedule-it__display__schedule__planner__appointment');
+        const appointmentId = appointment.dataset.appointment;
 
-      try {
-        const response = await axios({
-          method: 'DELETE',
-          url: `/ScheduleIt/${info.userType}/${details.email}/Appointments/${appointmentId}/${details.email}`,
-        });
-        console.log(response);
+        try {
+          const response = await axios({
+            method: 'DELETE',
+            url: `/ScheduleIt/${info.userType}/${details.email}/Appointments/${appointmentId}/${details.email}`,
+          });
+          console.log(response);
 
-        appointment.remove();
-      } catch (error) {
-        console.error(error);
-      }
-    });
+          appointment.remove();
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    }
   } else if (buttonType === 'potential-appointment') {
     style.position = 'relative';
     style.height = '2.5em';
@@ -993,6 +995,52 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
     style.margin = '0.6em 0.3em';
     button.textContent = text;
+
+    if (text === 'Accept') {
+      button.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const potentialApp = e.target.closest('.potential-appointment');
+        console.log(potentialApp);
+        console.log(buttonType);
+        console.log(potentialApp.dataset.appointment);
+        try {
+          const response = await axios({
+            method: 'PATCH',
+            url: `/ScheduleIt/${info.userType}/${details.info}/Appointments/${potentialApp.dataset.appointment}`,
+            data: {
+              email: details.email,
+              appointmentId: potentialApp.dataset.appointment,
+            },
+          });
+
+          const form = document.querySelector('.schedule-it__form--appointment-requests');
+
+          const potentialAppointments = [...document.querySelectorAll('.potential-appointment')];
+          potentialAppointments.forEach((child) => {
+            child.remove();
+          });
+
+          const updatedPotentialAppointments = response.data.potentialAppointments;
+          updatedPotentialAppointments.forEach((appointment) => {
+            potentialAppointment(theme, form, details, schedule, appointment, info, info.userType);
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    } else if (text === 'Decline') {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+      });
+    } else if (text === 'Accept Appointment') {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+      });
+    } else if (text === 'Decline Appointment') {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+      });
+    }
   }
 
   button.addEventListener('mouseover', (e) => {

@@ -65,8 +65,13 @@ function potentialAppointment(theme, container, details, schedule, appointment, 
   bottom.style.paddingTop = '.25em';
   insertElement('beforeend', potentialAppointment, bottom);
 
-  button('potential-appointment', 'Accept', theme, bottom, details, schedule, info, user);
-  button('potential-appointment', 'Decline', theme, bottom, details, schedule, info, user);
+  if (appointment.update === false) {
+    button('potential-appointment', 'Accept', theme, bottom, details, schedule, info, user);
+    button('potential-appointment', 'Decline', theme, bottom, details, schedule, info, user);
+  } else if (appointment.update === true) {
+    button('potential-appointment', 'Accept Update', theme, bottom, details, schedule, info, user);
+    button('potential-appointment', 'Decline Update', theme, bottom, details, schedule, info, user);
+  }
 }
 
 export { potentialAppointment };

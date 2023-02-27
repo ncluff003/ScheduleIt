@@ -33,39 +33,28 @@ module.exports = catchAsync(async (request, response) => {
 
   console.log(DateTime.fromISO(selectedDate));
   console.log('----------------------------------------------------------------------------------------------');
+  console.log(DateTime.fromJSDate(selectedDate));
   // console.log(DateTime.fromISO(owner.appointments[0].appointmentStart));
   console.log('----------------------------------------------------------------------------------------------');
   console.log(owner.appointments);
 
   // FILTER OWNER'S APPOINTMENTS FOR THE DATE SENT
   let dateFilteredAppointments;
-  if (!appointmentId) {
-    dateFilteredAppointments = owner.appointments.filter((appointment) => {
-      if (
-        (DateTime.fromISO(selectedDate).day === DateTime.fromISO(appointment.appointmentStart).day &&
-          DateTime.fromISO(selectedDate).month === DateTime.fromISO(appointment.appointmentStart).month &&
-          DateTime.fromISO(selectedDate).year === DateTime.fromISO(appointment.appointmentStart).year) ||
-        (DateTime.fromISO(selectedDate).day === DateTime.fromISO(appointment.appointmentEnd).day &&
-          DateTime.fromISO(selectedDate).month === DateTime.fromISO(appointment.appointmentEnd).month &&
-          DateTime.fromISO(selectedDate).year === DateTime.fromISO(appointment.appointmentEnd).year)
-      ) {
-        return appointment;
-      }
-    });
-  } else if (appointmentId) {
-    dateFilteredAppointments = owner.appointments.filter((appointment) => {
-      if (
-        (DateTime.fromISO(previousDate).day === DateTime.fromISO(appointment.appointmentStart).day &&
-          DateTime.fromISO(previousDate).month === DateTime.fromISO(appointment.appointmentStart).month &&
-          DateTime.fromISO(previousDate).year === DateTime.fromISO(appointment.appointmentStart).year) ||
-        (DateTime.fromISO(previousDate).day === DateTime.fromISO(appointment.appointmentEnd).day &&
-          DateTime.fromISO(previousDate).month === DateTime.fromISO(appointment.appointmentEnd).month &&
-          DateTime.fromISO(previousDate).year === DateTime.fromISO(appointment.appointmentEnd).year)
-      ) {
-        return appointment;
-      }
-    });
-  }
+
+  dateFilteredAppointments = owner.appointments.filter((appointment) => {
+    if (
+      (DateTime.fromISO(selectedDate).day === DateTime.fromJSDate(appointment.appointmentStart).day &&
+        DateTime.fromISO(selectedDate).month === DateTime.fromJSDate(appointment.appointmentStart).month &&
+        DateTime.fromISO(selectedDate).year === DateTime.fromJSDate(appointment.appointmentStart).year) ||
+      (DateTime.fromISO(selectedDate).day === DateTime.fromJSDate(appointment.appointmentEnd).day &&
+        DateTime.fromISO(selectedDate).month === DateTime.fromJSDate(appointment.appointmentEnd).month &&
+        DateTime.fromISO(selectedDate).year === DateTime.fromJSDate(appointment.appointmentEnd).year)
+    ) {
+      return appointment;
+    }
+  });
+
+  console.log(dateFilteredAppointments);
 
   // SET DATA TO RESPOND WITH
   let data = {

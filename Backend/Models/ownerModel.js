@@ -75,6 +75,10 @@ const ownerSchema = new mongoose.Schema({
   ],
   potentialAppointments: [
     {
+      update: {
+        type: Boolean,
+        default: false,
+      },
       appointmentType: {
         type: String,
         enum: ['Video Chat', 'Phone Call'],
