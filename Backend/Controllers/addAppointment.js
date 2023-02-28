@@ -43,39 +43,12 @@ module.exports = catchAsync(async (request, response, next) => {
   await owner.save();
 
   console.log(owner.appointments);
-  // const appointment = {
-  //   appointmentType: info.communicationPreference,
-  //   dateRequested: DateTime.fromISO(info.requestDate).toISO(),
-  //   appointmentDate: DateTime.fromISO(info.scheduledDate).toISO(),
-  //   appointmentStart: DateTime.fromISO(info.scheduledStart).toISO(),
-  //   appointmentEnd: DateTime.fromISO(info.scheduledEnd).toISO(),
-  //   attendees: [],
-  // };
-
-  // const host = {
-  //   attendeeFirstname: owner.firstname,
-  //   attendeeLastname: owner.lastname,
-  //   attendeeEmail: owner.email,
-  //   attendeePhone: owner.phone,
-  // };
-
-  // appointment.attendees.push(host);
-  // appointment.attendees.push({
-  //   attendeeFirstname: info.clientFirstName,
-  //   attendeeLastname: info.clientLastName,
-  //   attendeeEmail: info.clientEmail,
-  //   attendeePhone: info.clientPhone,
-  // });
-
-  // console.log(owner.appointments);
-  // owner.appointments.push(appointment);
-  // // owner.appointments = [...owner.appointments, appointment];
-  // console.log(owner.appointments);
 
   console.log(owner);
   response.status(200).json({
     status: 'Success',
     message: 'You have successfully added this appointment.',
     potentialAppointments: owner.potentialAppointments,
+    currentAppointments: owner.appointments,
   });
 });

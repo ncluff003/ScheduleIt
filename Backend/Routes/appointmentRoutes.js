@@ -30,7 +30,7 @@ router
   .get(controllers.appointments.getAppointment) // CLIENT WILL NEED THE SPECIFIC APPOINTMENT INFO WHEN REQUESTING AN UPDATE TO THEIR APPOINTMENT
   .post(controllers.appointments.requestAppointmentUpdate) // CLIENTS CAN REQUEST AN APPOINTMENT UPDATE
   .patch(controllers.appointments.addAppointment); // OWNERS WILL ACCEPT THE POTENTIAL APPOINTMENT
-router.route(`/:email`).delete(controllers.appointments.deleteAppointment); // OWNERS AND CLIENTS CAN DELETE THE APPOINTMENT
+router.route(`${routes.scheduleIt.appointments.appointment}${routes.scheduleIt.owners.owner}`).delete(controllers.appointments.deleteAppointment); // OWNERS AND CLIENTS CAN DELETE THE APPOINTMENT
 router
   .route(`${routes.scheduleIt.appointments.appointment}/Decline`)
   .post(controllers.appointments.denyAppointment)
