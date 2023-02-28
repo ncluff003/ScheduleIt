@@ -1,0 +1,14 @@
+extends baseEmail
+
+block content
+  table(style="position: relative; display: block; max-width: 100vw; width: 800px; margin: 0 auto; padding: 0; border: 3px groove #BBBBBB77; border-top: none; border-bottom: none; background-color: #CCCCCC33; color: #333333;") 
+    tbody
+      tr.table-row
+        td.table-data(style="position: relative; display: block; width: 89%; margin: 0 auto;")  
+          blockquote.salutations(style="position: relative; border: none; margin: 0 auto 30px; text-indent: 20px; font-size: 16px; color: #333333;")= `${calendar.getGreeting()} ${clientFirstName} ${clientLastName},`
+      tr.table-row 
+        td.table-data(style="position: relative; display: block; width: 87%; margin: 0 auto;") 
+          blockquote.salutations(style="position: relative; border: none; text-indent: 20px; font-size: 16px; color: #333333;") #{firstName} #{lastName} of #{company}, has accepted the appointment to chat via #{communicationPreference.toLowerCase()} on #{scheduledDate} between #{humanScheduledStart} to #{humanScheduledEnd}.
+
+      tr.disclaimer(style="position: relative; margin: 0 auto; padding: 20px 0 0; display: block; width: 87%; font-size: 16px;" colspan="2")
+        td.disclaimer-text(style="position: relative; text-align: center; padding: 0 20px;") If you are no longer able to make it for this appointment, please reschedule or cancel. 😄 👍

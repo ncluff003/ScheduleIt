@@ -22,9 +22,9 @@ export const resetForm = (theme, schedule, form) => {
       if (c.includes('hour')) {
         select.selectedIndex = schedule.start.hour;
       } else if (c.includes('day')) {
-        select.selectedIndex = schedule.start.day;
+        select.selectedIndex = schedule.start.day - 1;
       } else if (c.includes('month')) {
-        select.selectedIndex = schedule.start.month;
+        select.selectedIndex = schedule.start.month - 1;
       } else if (c.includes('year')) {
         select.selectedIndex = 0;
       } else {
