@@ -657,7 +657,8 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       } catch (error) {
         console.error(error);
       }
-      resetForm(theme, schedule, document.querySelector('.schedule-it__form--request-appointment'));
+      const errorContainer = document.querySelectorAll('.error-container')[3];
+      resetForm(theme, schedule, document.querySelector('.schedule-it__form--request-appointment'), info.errors, errorContainer);
     });
   } else if (buttonType === 'Request Appointment Update') {
     // Parent Font Size: 3rem
@@ -974,7 +975,8 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       } catch (error) {
         console.error(error);
       }
-      resetForm(theme, schedule, document.querySelector('.schedule-it__form--update-appointment'));
+      const errorContainer = document.querySelectorAll('.error-container')[4];
+      resetForm(theme, schedule, document.querySelector('.schedule-it__form--update-appointment'), info.errors, errorContainer);
     });
   } else if (buttonType === 'Delete Appointment') {
     style.position = 'relative';

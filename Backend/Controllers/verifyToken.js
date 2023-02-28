@@ -41,7 +41,10 @@ module.exports = catchAsync(async (request, response, next) => {
 
   // FILTER OWNER'S APPOINTMENTS TO TODAY
   const dateFilteredAppointments = owner.appointments.filter((appointment) => {
-    if (DateTime.now().day === DateTime.fromISO(appointment.appointmentStart).day || DateTime.now().day === DateTime.fromISO(appointment.appointmentEnd).day) {
+    if (
+      DateTime.now().day === DateTime.fromJSDate(appointment.appointmentStart).day ||
+      DateTime.now().day === DateTime.fromJSDate(appointment.appointmentEnd).day
+    ) {
       return appointment;
     }
   });

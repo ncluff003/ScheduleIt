@@ -1,6 +1,6 @@
 import { get, getAll, set, remove, useNamespace } from './Cache';
 
-export const resetForm = (theme, schedule, form) => {
+export const resetForm = (theme, schedule, form, errors, errorContainer) => {
   const inputs = form.querySelectorAll('input');
   const selects = form.querySelectorAll('select');
   const textareas = form.querySelectorAll('textarea');
@@ -36,6 +36,12 @@ export const resetForm = (theme, schedule, form) => {
     ta.value = '';
     ta.dispatchEvent(new KeyboardEvent('keyup'));
   });
+
+  for (let key in errors) {
+    delete errors[key];
+  }
+
+  renderErrors(errorContainer, errors);
 };
 
 export const renderErrors = (container, errors) => {
