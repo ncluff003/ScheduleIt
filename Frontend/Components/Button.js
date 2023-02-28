@@ -1047,8 +1047,8 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             child.remove();
           });
 
-          const updatedPotentialAppointments = response.data.potentialAppointments;
-          updatedPotentialAppointments.forEach((appointment) => {
+          schedule.potentialAppointments = response.data.potentialAppointments;
+          schedule.potentialAppointments.forEach((appointment) => {
             potentialAppointment(theme, form, details, schedule, appointment, info, info.userType);
           });
         } catch (error) {
@@ -1056,8 +1056,33 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         }
       });
     } else if (text === 'Decline') {
-      button.addEventListener('click', (e) => {
+      button.addEventListener('click', async (e) => {
         e.preventDefault();
+        const potentialApp = e.target.closest('.potential-appointment');
+        try {
+          const response = await axios({
+            method: 'POST',
+            url: `/ScheduleIt/${info.userType}/${details.info}/Appointments/${potentialApp.dataset.appointment}/Decline`,
+            data: {
+              email: details.email,
+              appointmentId: potentialApp.dataset.appointment,
+            },
+          });
+
+          const form = document.querySelector('.schedule-it__form--appointment-requests');
+
+          const potentialAppointments = [...document.querySelectorAll('.potential-appointment')];
+          potentialAppointments.forEach((child) => {
+            child.remove();
+          });
+
+          schedule.potentialAppointments = response.data.data.potentialAppointments;
+          schedule.potentialAppointments.forEach((appointment) => {
+            potentialAppointment(theme, form, details, schedule, appointment, info, info.userType);
+          });
+        } catch (error) {
+          console.error(error);
+        }
       });
     } else if (text === 'Accept Update') {
       button.addEventListener('click', async (e) => {
@@ -1084,8 +1109,8 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             child.remove();
           });
 
-          const updatedPotentialAppointments = response.data.data.potentialAppointments;
-          updatedPotentialAppointments.forEach((appointment) => {
+          schedule.potentialAppointments = response.data.data.potentialAppointments;
+          schedule.potentialAppointments.forEach((appointment) => {
             potentialAppointment(theme, form, details, schedule, appointment, info, info.userType);
           });
         } catch (error) {
@@ -1093,8 +1118,33 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         }
       });
     } else if (text === 'Decline Update') {
-      button.addEventListener('click', (e) => {
+      button.addEventListener('click', async (e) => {
         e.preventDefault();
+        const potentialApp = e.target.closest('.potential-appointment');
+        try {
+          const response = await axios({
+            method: 'PATCH',
+            url: `/ScheduleIt/${info.userType}/${details.info}/Appointments/${potentialApp.dataset.appointment}/Decline`,
+            data: {
+              email: details.email,
+              appointmentId: potentialApp.dataset.appointment,
+            },
+          });
+
+          const form = document.querySelector('.schedule-it__form--appointment-requests');
+
+          const potentialAppointments = [...document.querySelectorAll('.potential-appointment')];
+          potentialAppointments.forEach((child) => {
+            child.remove();
+          });
+
+          schedule.potentialAppointments = response.data.data.potentialAppointments;
+          schedule.potentialAppointments.forEach((appointment) => {
+            potentialAppointment(theme, form, details, schedule, appointment, info, info.userType);
+          });
+        } catch (error) {
+          console.error(error);
+        }
       });
     }
   }

@@ -26,7 +26,7 @@ module.exports = catchAsync(async (request, response, next) => {
     console.log(DateTime.fromJSDate(owner.appointments[0].appointmentDate));
 
     owner.appointments = owner.appointments.filter((appointment) => {
-      if (DateTime.fromJSDate(appointment.appointmentEnd).invalidReason === null && DateTime.fromJSDate(appointment.appointmentEnd).day > DateTime.now().day) {
+      if (DateTime.fromJSDate(appointment.appointmentEnd).invalidReason === null && DateTime.fromJSDate(appointment.appointmentEnd) > DateTime.now()) {
         return appointment;
       }
     });

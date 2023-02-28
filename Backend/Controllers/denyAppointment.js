@@ -9,21 +9,35 @@ const Email = require('../Utilities/email');
 const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response) => {
-  const info = request.params;
-  const email = info.ownerEmail;
-  const clientFirstName = info.clientFirstName;
-  const clientLastName = info.clientLastName;
-  const clientEmail = info.clientEmail;
+  const info = request.body;
+  const email = info.email;
+  const appointmentId = info.appointmentId;
 
   const owner = await Owner.findOne({ email });
+
+  const filteredAppointments = owner.potentialAppointments.filter((app) => {
+    return String(app._id) === appointmentId;
+  });
+
+  const potentialAppointment = filteredAppointments[0];
+  const clientFirstName = potentialAppointment.attendees[1].attendeeFirstname;
+  const clientLastName = potentialAppointment.attendees[1].attendeeLastname;
+  const clientEmail = potentialAppointment.attendees[1].attendeeEmail;
 
   await new Email('appointmentDeclined', owner, {
     client: { firstname: clientFirstName, lastname: clientLastName, clientEmail: clientEmail },
   }).declineAppointment();
 
-  if (process.env.NODE_ENV === 'development') {
-    response.redirect(301, process.env.DEV_URL);
-  } else if (process.env.NODE_ENV === 'production') {
-    response.redirect(301, process.env.PROD_URL);
-  }
+  owner.potentialAppointments = owner.potentialAppointments.filter((app) => {
+    return String(app._id) !== appointmentId;
+  });
+
+  await owner.save();
+
+  response.status(200).json({
+    status: 'Success',
+    data: {
+      potentialAppointments: owner.potentialAppointments,
+    },
+  });
 });
