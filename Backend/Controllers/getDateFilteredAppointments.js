@@ -14,19 +14,29 @@ const Owner = require('../Models/ownerModel');
 module.exports = catchAsync(async (request, response) => {
   console.log(request.body);
 
+  /*
+   * REQUEST APPOINTMENT UPDATE BODY
+   *  userType: info.userType,
+   *  ownerEmail: details.email,
+   *  clientEmail: info.clientEmail,
+   *  selectedDate: selectedDate.toISO(),
+   *  appointmentId: info.appointment,
+   *  previousAppointmentDate: date,
+   */
+
   // GET THE ESSENTIAL DATA FROM THE REQUEST
   const userType = request.body.userType;
   const email = request.body.ownerEmail;
   const selectedDate = request.body.selectedDate;
 
   // THESE ARE FOR LATER ON.
-  let appointmentId;
-  let previousDate;
+  // let appointmentId;
+  // let previousDate;
 
-  if (request.body.appointmentId) {
-    appointmentId = request.body.appointmentId;
-    previousDate = request.body.previousAppointmentDate;
-  }
+  // if (request.body.appointmentId) {
+  //   appointmentId = request.body.appointmentId;
+  //   previousDate = request.body.previousAppointmentDate;
+  // }
 
   // GET THE OWNER WITH THE EMAIL SENT
   const owner = await Owner.findOne({ email });
@@ -41,6 +51,7 @@ module.exports = catchAsync(async (request, response) => {
   // FILTER OWNER'S APPOINTMENTS FOR THE DATE SENT
   let dateFilteredAppointments;
 
+  // if (!appointmentId) {
   dateFilteredAppointments = owner.appointments.filter((appointment) => {
     if (
       (DateTime.fromISO(selectedDate).day === DateTime.fromJSDate(appointment.appointmentStart).day &&
@@ -53,6 +64,21 @@ module.exports = catchAsync(async (request, response) => {
       return appointment;
     }
   });
+  // }
+  // } else if (appointmentId) {
+  //   dateFilteredAppointments = owner.appointments.filter((appointment) => {
+  //     if (
+  //       (DateTime.fromISO(selectedDate).day === DateTime.fromJSDate(appointment.appointmentStart).day &&
+  //         DateTime.fromISO(selectedDate).month === DateTime.fromJSDate(appointment.appointmentStart).month &&
+  //         DateTime.fromISO(selectedDate).year === DateTime.fromJSDate(appointment.appointmentStart).year) ||
+  //       (DateTime.fromISO(selectedDate).day === DateTime.fromJSDate(appointment.appointmentEnd).day &&
+  //         DateTime.fromISO(selectedDate).month === DateTime.fromJSDate(appointment.appointmentEnd).month &&
+  //         DateTime.fromISO(selectedDate).year === DateTime.fromJSDate(appointment.appointmentEnd).year)
+  //     ) {
+  //       return appointment;
+  //     }
+  //   });
+  // }
 
   console.log(dateFilteredAppointments);
 

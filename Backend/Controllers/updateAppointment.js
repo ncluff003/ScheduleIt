@@ -12,65 +12,37 @@ const AppError = require(`../Utilities/appError`);
 const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
-  console.log(request.params);
-  const info = request.params;
-  const email = info.ownerEmail;
-  const id = request.params.appointmentId;
+  console.log(request.body);
+  const info = request.body;
+  const email = info.email;
+  const appointmentId = info.appointmentId;
 
   // Start by getting the owner's information.
   // OWNER
   const owner = await Owner.findOne({ email });
 
-  // UPDATE APPOINTMENT
-  owner.appointments.forEach((appointment) => {
-    if (String(appointment._id) === id) {
-      appointment.appointmentType = info.communicationPreference;
-      appointment.dateRequested = DateTime.fromISO(info.requestDate).toISO();
-      appointment.appointmentDate = DateTime.fromISO(info.scheduledDateISO).toISO();
-      appointment.appointmentStart = DateTime.fromISO(info.scheduledStart).toISO();
-      appointment.appointmentEnd = DateTime.fromISO(info.scheduledEnd).toISO();
+  console.log(owner.appointments);
 
-      const host = {
-        attendeeFirstname: owner.firstname,
-        attendeeLastname: owner.lastname,
-        attendeeEmail: owner.email,
-        attendeePhone: owner.phone,
-      };
-      appointment.attendees[0] = host;
-      appointment.attendees[1] = {
-        attendeeFirstname: info.clientFirstName,
-        attendeeLastname: info.clientLastName,
-        attendeeEmail: info.clientEmail,
-        attendeePhone: info.clientPhone,
-      };
-    }
+  let potentialAppointments = owner.potentialAppointments.filter((pot) => {
+    return String(pot._id) === appointmentId;
   });
+
+  owner.appointments.push(potentialAppointments[0]);
+
+  potentialAppointments = owner.potentialAppointments.filter((pot) => {
+    return String(pot._id) !== appointmentId;
+  });
+
+  owner.potentialAppointments = potentialAppointments;
   await owner.save();
 
-  const filteredAppointments = owner.appointments.filter((appointment) => {
-    return String(appointment._id === id);
-  });
-  const appointment = filteredAppointments[0];
-
-  // Gather the info given by the client.
-  // CLIENT
-  const client = {
-    firstname: info.firstname,
-    lastname: info.lastname,
-    clientEmail: info.clientEmail,
-    clientPhone: info.clientPhone,
-  };
-
-  // MESSAGE
-  const message = info.message;
+  console.log(owner.appointments);
 
   response.status(200).json({
     status: 'Success',
+    message: 'Appointment Successfully Updated.',
     data: {
-      owner: owner,
-      client: client,
-      appointment: appointment,
-      message: message,
+      potentialAppointments: owner.potentialAppointments,
     },
   });
 });

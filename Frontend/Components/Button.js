@@ -115,7 +115,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         try {
           const response = await axios({
             method: 'DELETE',
-            url: `/ScheduleIt/${info.userType}/${details.email}/Appointments`,
+            url: `/ScheduleIt/${info.userType}/${details.email}`,
           });
           console.log(response);
           info.userType = response.data.data.userType;
@@ -428,7 +428,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           data: {
             userType: info.userType,
             ownerEmail: details.email,
-            clientEmail: info.clientEmail,
+            // clientEmail: info.clientEmail,
             selectedDate: selectedDate.toISO(),
           },
         });
@@ -698,20 +698,20 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         'a',
       );
 
-      let results;
-      try {
-        const response = await axios({
-          method: 'GET',
-          url: `/ScheduleIt/Owners/${details.email}/Appointments/${appointment.dataset.appointment}/${details.email}`,
-          data: {
-            email: details.email,
-            appointmentId: appointment.dataset.appointmentId,
-          },
-        });
-        results = response.data.data.appointment;
-      } catch (error) {
-        console.error(error);
-      }
+      // let results;
+      // try {
+      //   const response = await axios({
+      //     method: 'GET',
+      //     url: `/ScheduleIt/Owners/${details.email}/Appointments/${appointment.dataset.appointment}$/${details.email}`,
+      //     data: {
+      //       email: details.email,
+      //       appointmentId: appointment.dataset.appointmentId,
+      //     },
+      //   });
+      //   results = response.data.data.appointment;
+      // } catch (error) {
+      //   console.error(error);
+      // }
 
       const formHeaders = document.querySelectorAll('.schedule-it__form--request-appointment__heading');
       const formHeader = formHeaders[1].firstChild;
@@ -743,27 +743,30 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       e.preventDefault();
 
       console.log(info);
+
+      // GET ESSENTIAL ELEMENTS
       const formHeading = document.querySelectorAll('.schedule-it__form--request-appointment__heading');
       const inputs = document.querySelectorAll('.schedule-it__form--request-appointment__input');
       const textareas = document.querySelectorAll('.schedule-it__form--request-appointment__textarea');
       const selects = document.querySelectorAll('.schedule-it__form--date-selection__select-container__select');
       const radios = document.querySelectorAll('.schedule-it__form--request-appointment__flex-section__radio');
       const updateRadios = [radios[2], radios[3]];
-      const firstname = inputs[4].value;
-      const lastname = inputs[5].value;
-      const email = inputs[6].value;
-      const phone = inputs[7].value;
-      let communicationPreference;
-      const message = textareas[1].value;
-      const date = document.querySelector('.schedule-it__display__schedule__header__date__text').dataset.date;
 
+      // GET THE VALUES FROM THOSE ELEMENTS
+      const date = document.querySelector('.schedule-it__display__schedule__header__date__text').dataset.date;
       const day = Number(selects[7].value);
       const month = Number(selects[8].value);
       const year = Number(selects[9].value);
+      const firstname = inputs[4].value;
+      const lastname = inputs[5].value;
       const startHour = Number(selects[10].value);
       const startMinute = Number(selects[11].value);
       const endHour = Number(selects[12].value);
       const endMinute = Number(selects[13].value);
+      const email = inputs[6].value;
+      const phone = inputs[7].value;
+      let communicationPreference;
+      const message = textareas[1].value;
 
       updateRadios.forEach((radio) => {
         if (radio.checked === true) {
@@ -771,17 +774,30 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         }
       });
 
+      // GET THE DATE THAT THE CLIENT SELECTED
       const selectedDate = DateTime.local(year, month, day);
       console.log(selectedDate);
+
+      // GET USABLE MINIMUM AND MAXIMUM APPOINTMENT LENGTHS.
       const minTime = calculateTime(schedule.minimumAppointmentLength);
       const maxTime = calculateTime(schedule.maximumAppointmentLength);
 
-      if (selectedDate.toISO() < DateTime.now().toISO()) {
-        const errorContainer = document.querySelectorAll('.error-container')[4];
-        info.errors = addError(info, 'appointment', 'Please do not select a date in the past.');
-        return renderErrors(errorContainer, info.errors);
+      // DOUBLE CHECK THE SELECTED DATE FOR THE UPDATE IS NOT IN THE PAST
+      if (DateTime.now().day === selectedDate.day) {
+        if (selectedDate.day < DateTime.now().day) {
+          const errorContainer = document.querySelectorAll('.error-container')[4];
+          info.errors = addError(info, 'appointment', 'Please do not select a date in the past.');
+          return renderErrors(errorContainer, info.errors);
+        }
+      } else if (DateTime.now().day === selectedDate.day) {
+        if (selectedDate < DateTime.now()) {
+          const errorContainer = document.querySelectorAll('.error-container')[4];
+          info.errors = addError(info, 'appointment', 'Please do not select a date in the past.');
+          return renderErrors(errorContainer, info.errors);
+        }
       }
 
+      // GETTING THE SELECTED DATE'S CURRENT APPOINTMENTS
       try {
         const response = await axios({
           method: 'POST',
@@ -789,62 +805,76 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           data: {
             userType: info.userType,
             ownerEmail: details.email,
-            clientEmail: info.clientEmail,
+            // clientEmail: info.clientEmail,
             selectedDate: selectedDate.toISO(),
-            appointmentId: info.appointment,
-            previousAppointmentDate: date,
+            // appointmentId: info.appointment,
+            // previousAppointmentDate: date,
           },
         });
 
-        console.log(startHour);
+        console.log(response);
 
+        // STORE THE CURRENT APPOINTMENTS IN A VARIABLE
         const currentAppointments = response.data.data.currentAppointments;
 
+        // IF NO FIRST NAME RETURN ERROR
         if (!firstname || firstname === '') {
           const errorContainer = document.querySelectorAll('.error-container')[4];
           info.errors = addError(info, 'appointment', 'Please provide your first name.');
           return renderErrors(errorContainer, info.errors);
         }
 
+        // IF NO LAST NAME RETURN ERROR
         if (!lastname || lastname === '') {
           const errorContainer = document.querySelectorAll('.error-container')[4];
           info.errors = addError(info, 'appointment', 'Please provide last name.');
           return renderErrors(errorContainer, info.errors);
         }
 
+        // IF NO EMAIL RETURN ERROR
         if (!email || email === '') {
           const errorContainer = document.querySelectorAll('.error-container')[4];
           info.errors = addError(info, 'appointment', 'Please provide email address.');
           return renderErrors(errorContainer, info.errors);
         }
 
+        // IF NO PHONE NUMBER RETURN ERROR
         if (!phone || phone === '') {
           const errorContainer = document.querySelectorAll('.error-container')[4];
           info.errors = addError(info, 'appointment', 'Please provide your phone number.');
           return renderErrors(errorContainer, info.errors);
         }
 
+        // IF NO COMMUNICATION PREFERENCE RETURN ERROR
         if (!communicationPreference || communicationPreference === '') {
           const errorContainer = document.querySelectorAll('.error-container')[4];
           info.errors = addError(info, 'appointment', 'Please provide your preference for communications.');
           return renderErrors(errorContainer, info.errors);
         }
 
+        // IF NO MESSAGE RETURN ERROR
         if (!message || message === '') {
           const errorContainer = document.querySelectorAll('.error-container')[4];
           info.errors = addError(info, 'appointment', 'Please send a message or put N/A if nothing to say.');
           return renderErrors(errorContainer, info.errors);
         }
 
+        // GET THE APPOINTMENT'S POTENTIAL START AND END TIMES.
         let appointmentStart = DateTime.local(year, month, day, startHour, startMinute, 0);
         let appointmentEnd = DateTime.local(year, month, day, endHour, endMinute, 0);
 
+        // GET THE REQUESTED APPOINTMENT'S LENGTH.
         const difference = appointmentEnd.diff(appointmentStart, ['days', 'hours', 'minutes']).toObject();
 
+        // IF THE SCHEDULE IS AN OVERNIGHT SCHEDULE -- CHECK IF REQUESTED APPOINTMENT IS ONE.
+        // IF APPOINTMENT IS OVERNIGHT, ADD ONE DAY TO THE END DATE.
         if (schedule.overnight === true && Number(appointmentEnd.hour) < Number(appointmentStart.hour)) {
           appointmentEnd = appointmentEnd.plus({ days: 1 });
         }
+
+        // IF DIFFERENCE MINUTES ARE LESS THAN THE MINIMUM APPOINTMENT LENGTH OF MINUTES DIG DEEPER
         if (difference.minutes < minTime.minutes) {
+          // IF DIFFERENCE HOURS ARE LESS THAN MINIMUM APPOINTMENT LENGTH OF HOURS AND THE DIFFERENCE OF DAYS IS ZERO RETURN ERROR.
           if (difference.hours < minTime.hours && difference.days === 0) {
             const errorContainer = document.querySelectorAll('.error-container')[3];
             info.errors = addError(
@@ -856,7 +886,9 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           }
         }
 
+        // IF DIFFERENCE HOURS ARE EQUAL TO THE MAXIMUM APPOINTMENT'S LENGTH OF HOURS DIG DEEPER
         if (difference.hours === maxTime.hours) {
+          // IF THE DIFFERENCE MINUTES ARE ALSO ABOVE THE MAXIMUM APPOINTMENT'S LENGTH OF MINUTES RETURN ERROR.
           if (difference.minutes > maxTime.minutes) {
             const errorContainer = document.querySelectorAll('.error-container')[3];
             info.errors = addError(
@@ -866,6 +898,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             );
             return renderErrors(errorContainer, info.errors);
           }
+          // IF DIFFERENCE HOURS ARE MORE THAN THE MAXIMUM APPOINTMENT'S LENGTH OF HOURS RETURN ERROR.
         } else if (difference.hours > maxTime.hours) {
           const errorContainer = document.querySelectorAll('.error-container')[3];
           info.errors = addError(
@@ -905,12 +938,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           info.errors = addError(info, 'appointment', 'There is a conflict with the time of an existing appointment.');
           return renderErrors(errorContainer, info.errors);
         } else if (conflictingAppointments.length === 0) {
-          const updatedAppointment = [...currentAppointments].filter((appointment) => {
-            if (String(appointment._id === appointmentId)) {
-              return appointment;
-            }
-          });
-
           const request = {
             ownerEmail: details.email,
             firstname: firstname,
@@ -929,7 +956,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           try {
             const response = await axios({
               method: 'POST',
-              url: `/ScheduleIt/Client/${details.email}/Appointments/${updatedAppointment[0]._id}`,
+              url: `/ScheduleIt/Client/${details.email}/Appointments/${appointmentId}`,
               data: request,
             });
             console.log(response);
@@ -1032,11 +1059,40 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       button.addEventListener('click', (e) => {
         e.preventDefault();
       });
-    } else if (text === 'Accept Appointment') {
-      button.addEventListener('click', (e) => {
+    } else if (text === 'Accept Update') {
+      button.addEventListener('click', async (e) => {
         e.preventDefault();
+        const potentialApp = e.target.closest('.potential-appointment');
+        console.log(potentialApp);
+        console.log(buttonType);
+        console.log(potentialApp.dataset.appointment);
+
+        try {
+          const response = await axios({
+            method: 'POST',
+            url: `/ScheduleIt/${info.userType}/${details.info}/Appointments/${potentialApp.dataset.appointment}/Update`,
+            data: {
+              email: details.email,
+              appointmentId: potentialApp.dataset.appointment,
+            },
+          });
+
+          const form = document.querySelector('.schedule-it__form--appointment-requests');
+
+          const potentialAppointments = [...document.querySelectorAll('.potential-appointment')];
+          potentialAppointments.forEach((child) => {
+            child.remove();
+          });
+
+          const updatedPotentialAppointments = response.data.data.potentialAppointments;
+          updatedPotentialAppointments.forEach((appointment) => {
+            potentialAppointment(theme, form, details, schedule, appointment, info, info.userType);
+          });
+        } catch (error) {
+          console.error(error);
+        }
       });
-    } else if (text === 'Decline Appointment') {
+    } else if (text === 'Decline Update') {
       button.addEventListener('click', (e) => {
         e.preventDefault();
       });
