@@ -14,7 +14,6 @@ const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response) => {
   // THIS MUST BE UPDATED TO REFLECT THE UPDATE REGARDING THE NEED FOR THE FREELANCER'S AND OWNER'S NEED TO PROVIDE THE ENVIRONMENT VARIABLES AND DATABASE CONNECTION STRING.
-  console.log(request.body);
   const details = request.body.details;
   const schedule = request.body.schedule;
   const email = details.email;
@@ -32,6 +31,7 @@ module.exports = catchAsync(async (request, response) => {
       scheduleStart: schedule.start,
       scheduleEnd: schedule.end,
       appointments: schedule.appointments,
+      potentialAppointments: [],
       token: token,
     });
     firstTime = true;

@@ -1,15 +1,4 @@
 ////////////////////////////////////////////
-//  Third Party Modules
-const dotenv = require('dotenv');
-const { DateTime } = require('luxon');
-
-////////////////////////////////////////////
-//  Third Party Config Files
-dotenv.config({
-  path: `./config.env`,
-});
-
-////////////////////////////////////////////
 //  My Middleware
 const catchAsync = require(`../Utilities/catchAsync`);
 const AppError = require(`../Utilities/appError`);
@@ -27,8 +16,6 @@ module.exports = catchAsync(async (request, response, next) => {
 
   const email = info.email;
   const owner = await Owner.findOne({ email });
-
-  console.log(owner.appointments);
 
   let potentialAppointments = owner.potentialAppointments.filter((pot) => {
     return String(pot._id) === appointmentId;
@@ -61,8 +48,6 @@ module.exports = catchAsync(async (request, response, next) => {
   owner.potentialAppointments = potentialAppointments;
   await owner.save();
 
-  console.log(owner.appointments);
-
   await new Email('appointmentAccepted', owner, {
     host: request.header('host'),
     protocol: request.protocol,
@@ -70,11 +55,12 @@ module.exports = catchAsync(async (request, response, next) => {
     appointment: appointment,
   }).acceptAppointment();
 
-  console.log(owner);
   response.status(200).json({
     status: 'Success',
     message: 'You have successfully added this appointment.',
-    potentialAppointments: owner.potentialAppointments,
-    currentAppointments: owner.appointments,
+    data: {
+      potentialAppointments: owner.potentialAppointments,
+      currentAppointments: owner.appointments,
+    },
   });
 });

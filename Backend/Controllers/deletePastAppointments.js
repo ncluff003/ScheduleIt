@@ -19,12 +19,8 @@ module.exports = catchAsync(async (request, response, next) => {
   // USE THE EMAIL TO GET THE OWNER
   const owner = await Owner.findOne({ email });
 
-  console.log(owner.appointments);
   // IF THERE ARE APPOINTMENTS -- FILTER OUT THE ONES THAT COME BEFORE THE CURRENT DAY.
   if (owner.appointments.length > 0) {
-    console.log(DateTime.fromISO(owner.appointments[0].appointmentDate));
-    console.log(DateTime.fromJSDate(owner.appointments[0].appointmentDate));
-
     owner.appointments = owner.appointments.filter((appointment) => {
       if (DateTime.fromJSDate(appointment.appointmentEnd).invalidReason === null && DateTime.fromJSDate(appointment.appointmentEnd) > DateTime.now()) {
         return appointment;
@@ -32,7 +28,6 @@ module.exports = catchAsync(async (request, response, next) => {
     });
   }
 
-  console.log(owner.appointments);
   // SAVE THE OWNER.
   await owner.save();
 

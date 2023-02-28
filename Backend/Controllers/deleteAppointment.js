@@ -9,7 +9,6 @@ const Email = require('../Utilities/email');
 const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
-  console.log(request.params);
   const email = request.params.email;
   const appointmentId = request.params.appointmentId;
 

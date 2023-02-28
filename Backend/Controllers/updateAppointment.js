@@ -1,8 +1,4 @@
 ////////////////////////////////////////////
-//  Third Party Modules
-const { DateTime } = require('luxon');
-
-////////////////////////////////////////////
 //  My Middleware
 const catchAsync = require(`../Utilities/catchAsync`);
 const AppError = require(`../Utilities/appError`);
@@ -13,7 +9,6 @@ const Email = require('../Utilities/email');
 const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
-  console.log(request.body);
   const info = request.body;
   const email = info.email;
   const appointmentId = info.appointmentId;
@@ -55,9 +50,6 @@ module.exports = catchAsync(async (request, response, next) => {
 
   owner.potentialAppointments = potentialAppointments;
   await owner.save();
-
-  console.log(owner.potentialAppointments);
-  console.log(owner.appointments);
 
   await new Email('appointmentUpdateAccepted', owner, {
     host: request.header('host'),

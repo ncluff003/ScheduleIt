@@ -13,7 +13,6 @@ const Email = require('../Utilities/email');
 const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
-  console.log(request.body);
   const userType = request.originalUrl.split('/')[2];
   if (userType === 'Owners') {
     return next(new AppError('Owners Cannot Update Appointments. Please Consider Emailing The Client About Re-Scheduling If Necessary.', 400));
@@ -24,8 +23,6 @@ module.exports = catchAsync(async (request, response, next) => {
 
   // OWNER
   const owner = await Owner.findOne({ email });
-
-  console.log(owner);
 
   // CLIENT
   const client = {
@@ -96,11 +93,6 @@ module.exports = catchAsync(async (request, response, next) => {
 
   response.status(200).json({
     status: 'Success',
-    data: {
-      owner: owner,
-      client: client,
-      appointment: appointment,
-      message: message,
-    },
+    message: 'Request Successfully Sent.',
   });
 });

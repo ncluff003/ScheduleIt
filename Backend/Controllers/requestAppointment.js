@@ -13,7 +13,6 @@ const Email = require('../Utilities/email');
 const Owner = require('../Models/ownerModel');
 
 module.exports = catchAsync(async (request, response, next) => {
-  console.log(request.body);
   // GET USER TYPE.
   const userType = request.originalUrl.split('/')[2];
 
@@ -89,12 +88,6 @@ module.exports = catchAsync(async (request, response, next) => {
 
   response.status(200).json({
     status: 'Success',
-    data: {
-      owner: owner,
-      client: client,
-      potentialAppointment: potentialAppointment,
-      appointment: appointment,
-      message: message,
-    },
+    message: 'Request Successfully Sent.',
   });
 });

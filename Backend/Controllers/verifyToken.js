@@ -37,8 +37,6 @@ module.exports = catchAsync(async (request, response, next) => {
     return next(new AppError('Token provided does not match the token given to the owner.', 400));
   }
 
-  console.log(DateTime.fromISO(owner.appointments[0]), DateTime.fromJSDate(owner.appointments[0]));
-
   // FILTER OWNER'S APPOINTMENTS TO TODAY
   const dateFilteredAppointments = owner.appointments.filter((appointment) => {
     if (
@@ -49,17 +47,11 @@ module.exports = catchAsync(async (request, response, next) => {
     }
   });
 
-  console.log(owner.potentialAppointments);
-
   owner.potentialAppointments = owner.potentialAppointments.filter((appointment) => {
     if (DateTime.now() <= DateTime.fromJSDate(appointment.appointmentStart)) {
       return appointment;
     }
   });
-
-  console.log(dateFilteredAppointments);
-  console.log('------------------------------------------');
-  console.log(owner.potentialAppointments);
 
   // IF USER GETS HERE, TOKEN IS VERIFIED
   tokenVerified = true;

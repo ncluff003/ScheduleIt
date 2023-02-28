@@ -706,21 +706,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         'a',
       );
 
-      // let results;
-      // try {
-      //   const response = await axios({
-      //     method: 'GET',
-      //     url: `/ScheduleIt/Owners/${details.email}/Appointments/${appointment.dataset.appointment}$/${details.email}`,
-      //     data: {
-      //       email: details.email,
-      //       appointmentId: appointment.dataset.appointmentId,
-      //     },
-      //   });
-      //   results = response.data.data.appointment;
-      // } catch (error) {
-      //   console.error(error);
-      // }
-
       const formHeaders = document.querySelectorAll('.schedule-it__form--request-appointment__heading');
       const formHeader = formHeaders[1].firstChild;
       formHeader.textContent = 'Request Appointment Update';
@@ -749,8 +734,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
 
     button.addEventListener('click', async (e) => {
       e.preventDefault();
-
-      console.log(info);
 
       // GET ESSENTIAL ELEMENTS
       const formHeading = document.querySelectorAll('.schedule-it__form--request-appointment__heading');
@@ -784,7 +767,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
 
       // GET THE DATE THAT THE CLIENT SELECTED
       const selectedDate = DateTime.local(year, month, day);
-      console.log(selectedDate);
 
       // GET USABLE MINIMUM AND MAXIMUM APPOINTMENT LENGTHS.
       const minTime = calculateTime(schedule.minimumAppointmentLength);
@@ -813,14 +795,9 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           data: {
             userType: info.userType,
             ownerEmail: details.email,
-            // clientEmail: info.clientEmail,
             selectedDate: selectedDate.toISO(),
-            // appointmentId: info.appointment,
-            // previousAppointmentDate: date,
           },
         });
-
-        console.log(response);
 
         // STORE THE CURRENT APPOINTMENTS IN A VARIABLE
         const currentAppointments = response.data.data.currentAppointments;
@@ -924,8 +901,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           const bufferAdjustedStart = DateTime.fromISO(appointment.appointmentStart).minus({ hours: buffer.hours, minutes: buffer.minutes }).toISO();
           const bufferAdjustedEnd = DateTime.fromISO(appointment.appointmentEnd).plus({ hours: buffer.hours, minutes: buffer.minutes }).toISO();
 
-          console.log(appointmentStart, appointmentEnd, DateTime.fromISO(bufferAdjustedStart), DateTime.fromISO(bufferAdjustedEnd));
-
           if (String(appointment._id) !== appointmentId) {
             if (
               (appointmentStart >= DateTime.fromISO(bufferAdjustedStart) && appointmentStart < DateTime.fromISO(bufferAdjustedEnd)) ||
@@ -938,8 +913,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             }
           }
         });
-
-        console.log(conflictingAppointments);
 
         if (conflictingAppointments.length > 0) {
           const errorContainer = document.querySelectorAll('.error-container')[4];
@@ -1060,14 +1033,14 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           const appointments = [...document.querySelectorAll('.schedule-it__display__schedule__planner__appointment')];
           appointments.forEach((child) => child.remove());
 
-          schedule.potentialAppointments = response.data.potentialAppointments;
+          schedule.potentialAppointments = response.data.data.potentialAppointments;
           schedule.potentialAppointments.forEach((appointment) => {
             potentialAppointment(theme, form, details, schedule, appointment, info, info.userType);
           });
 
           const planner = document.querySelector('.schedule-it__display__schedule__planner');
           console.log(response);
-          schedule.currentAppointments = response.data.currentAppointments;
+          schedule.currentAppointments = response.data.data.currentAppointments;
           schedule.currentAppointments.forEach((app) => {
             appointment(theme, planner, details, schedule, info, app);
           });
