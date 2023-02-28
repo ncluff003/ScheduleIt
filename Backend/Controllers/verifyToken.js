@@ -37,6 +37,8 @@ module.exports = catchAsync(async (request, response, next) => {
     return next(new AppError('Token provided does not match the token given to the owner.', 400));
   }
 
+  console.log(DateTime.fromISO(owner.appointments[0]), DateTime.fromJSDate(owner.appointments[0]));
+
   // FILTER OWNER'S APPOINTMENTS TO TODAY
   const dateFilteredAppointments = owner.appointments.filter((appointment) => {
     if (DateTime.now().day === DateTime.fromISO(appointment.appointmentStart).day || DateTime.now().day === DateTime.fromISO(appointment.appointmentEnd).day) {
