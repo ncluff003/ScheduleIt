@@ -145,7 +145,7 @@ function formSelect(type, theme, container, details, schedule, info, formType, e
   let colonNeeded = false;
 
   if (type === 'day') {
-    addClasses(select, ['schedule-it__form--date-selection__select-container__select']);
+    addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'day']);
     style.position = 'relative';
     style.height = 'max-content';
     style.width = 'max-content';
@@ -204,7 +204,7 @@ function formSelect(type, theme, container, details, schedule, info, formType, e
       }
     });
   } else if (type === 'month') {
-    addClasses(select, ['schedule-it__form--date-selection__select-container__select']);
+    addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'month']);
     style.position = 'relative';
     style.height = 'max-content';
     style.width = 'max-content';
@@ -289,7 +289,7 @@ function formSelect(type, theme, container, details, schedule, info, formType, e
       }
     });
   } else if (type === 'year') {
-    addClasses(select, ['schedule-it__form--date-selection__select-container__select']);
+    addClasses(select, ['schedule-it__form--date-selection__select-container__select', 'year']);
     style.position = 'relative';
     style.height = 'max-content';
     style.width = 'max-content';

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 import { DateTime } from 'luxon';
-import { addClasses, insertElement, addError, renderErrors, getDateAppointments, calculateBuffer, calculateTime } from '../Global/Utility';
+import { addClasses, insertElement, addError, renderErrors, getDateAppointments, calculateBuffer, calculateTime, resetForm } from '../Global/Utility';
 import { renderSchedule } from './Schedule';
 import { closeForm } from './FormCloser';
 import { getTodaysAppointments } from '../Global/Methods.js/getCurrentAppointments';
@@ -651,6 +651,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       } catch (error) {
         console.error(error);
       }
+      resetForm(theme, schedule, document.querySelector('.schedule-it__form--request-appointment'));
     });
   } else if (buttonType === 'Request Appointment Update') {
     // Parent Font Size: 3rem
@@ -967,6 +968,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       } catch (error) {
         console.error(error);
       }
+      resetForm(theme, schedule, document.querySelector('.schedule-it__form--update-appointment'));
     });
   } else if (buttonType === 'Delete Appointment') {
     style.position = 'relative';

@@ -1,5 +1,43 @@
 import { get, getAll, set, remove, useNamespace } from './Cache';
 
+export const resetForm = (theme, schedule, form) => {
+  const inputs = form.querySelectorAll('input');
+  const selects = form.querySelectorAll('select');
+  const textareas = form.querySelectorAll('textarea');
+
+  [...inputs].forEach((input) => {
+    if (input['type'] === 'radio') {
+      input.checked = false;
+      const checkLabel = input.nextSibling;
+      const style = checkLabel.style;
+      style.backgroundColor = 'transparent';
+      style.border = `.1em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
+      style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
+    } else {
+      input.value = '';
+    }
+  });
+  [...selects].forEach((select) => {
+    select.classList.forEach((c) => {
+      if (c.includes('hour')) {
+        select.selectedIndex = schedule.start.hour;
+      } else if (c.includes('day')) {
+        select.selectedIndex = schedule.start.day;
+      } else if (c.includes('month')) {
+        select.selectedIndex = schedule.start.month;
+      } else if (c.includes('year')) {
+        select.selectedIndex = 0;
+      } else {
+        select.selectedIndex = 0;
+      }
+    });
+  });
+  [...textareas].forEach((ta) => {
+    ta.value = '';
+    ta.dispatchEvent(new KeyboardEvent('keyup'));
+  });
+};
+
 export const renderErrors = (container, errors) => {
   [...container.childNodes].forEach((child) => child.remove());
 
