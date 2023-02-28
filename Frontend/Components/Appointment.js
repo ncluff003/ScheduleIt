@@ -52,7 +52,7 @@ function appointment(theme, container, details, schedule, info, appointment) {
   style.flexFlow = 'row wrap';
   style.justifyContent = 'flex-start';
   style.alignItems = 'flex-start';
-  style.padding = '.4em .25em .25em 3em';
+  style.padding = '1em .25em .25em 3em';
   style.borderBottom = `.075em groove ${
     theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`
   }`;

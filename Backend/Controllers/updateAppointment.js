@@ -45,6 +45,7 @@ module.exports = catchAsync(async (request, response, next) => {
     message: 'Appointment Successfully Updated.',
     data: {
       potentialAppointments: owner.potentialAppointments,
+      currentAppointments: owner.appointments,
     },
   });
 });

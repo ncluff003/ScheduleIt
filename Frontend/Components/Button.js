@@ -1061,7 +1061,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           console.log(response);
           schedule.currentAppointments = response.data.currentAppointments;
           schedule.currentAppointments.forEach((app) => {
-            appointment(theme, planner, details, schedule, app);
+            appointment(theme, planner, details, schedule, info, app);
           });
         } catch (error) {
           console.error(error);
@@ -1121,9 +1121,19 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             child.remove();
           });
 
+          const appointments = [...document.querySelectorAll('.schedule-it__display__schedule__planner__appointment')];
+          appointments.forEach((child) => child.remove());
+
           schedule.potentialAppointments = response.data.data.potentialAppointments;
           schedule.potentialAppointments.forEach((appointment) => {
             potentialAppointment(theme, form, details, schedule, appointment, info, info.userType);
+          });
+
+          const planner = document.querySelector('.schedule-it__display__schedule__planner');
+          console.log(response);
+          schedule.currentAppointments = response.data.data.currentAppointments;
+          schedule.currentAppointments.forEach((app) => {
+            appointment(theme, planner, details, schedule, info, app);
           });
         } catch (error) {
           console.error(error);
