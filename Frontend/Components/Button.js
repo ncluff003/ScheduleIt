@@ -1,10 +1,8 @@
 import axios from 'axios';
-import qs from 'qs';
 import { DateTime } from 'luxon';
-import { addClasses, insertElement, addError, renderErrors, getDateAppointments, calculateBuffer, calculateTime, resetForm } from '../Global/Utility';
+import { addClasses, insertElement, addError, renderErrors, calculateBuffer, calculateTime, resetForm } from '../Global/Utility';
 import { renderSchedule } from './Schedule';
 import { closeForm } from './FormCloser';
-import { getTodaysAppointments } from '../Global/Methods.js/getCurrentAppointments';
 import { appointment } from './Appointment';
 import { potentialAppointment } from './AppointmentRequest';
 
@@ -47,7 +45,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
               schedule: schedule,
             },
           });
-          console.log(response);
         } catch (error) {
           console.error(error);
         }
@@ -58,7 +55,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             method: 'DELETE',
             url: `/ScheduleIt/${info.userType}/${details.email}`,
           });
-          console.log(response);
           info.userType = response.data.data.userType;
         } catch (error) {
           console.error(error);
@@ -117,7 +113,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             method: 'DELETE',
             url: `/ScheduleIt/${info.userType}/${details.email}`,
           });
-          console.log(response);
           info.userType = response.data.data.userType;
         } catch (error) {
           console.error(error);
@@ -200,8 +195,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
               },
             });
 
-            console.log(response);
-
             // GET THE REQUIRED DATA FOR THE OWNER TO BE ABLE TO MOVE ON.
             const status = response.data.status;
             const verified = response.data.data.tokenVerified;
@@ -270,7 +263,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
                   userType: 'Client',
                 },
               });
-              console.log(response);
 
               // SET ESSENTIAL DATA IF RESPONSE IS SUCCESSFUL
               schedule.currentAppointments = response.data.data.currentAppointments;
@@ -295,8 +287,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
               schedule.currentAppointments.forEach((app) => {
                 appointment(theme, planner, details, schedule, info, app);
               });
-
-              console.log(document.querySelectorAll('.schedule-it__display__schedule__planner__appointment'));
             } catch (error) {
               console.error(error);
             }
@@ -369,8 +359,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         endMeridiemValue.textContent = DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, endHourValue, endMinuteValue, 0).toFormat(
           'a',
         );
-
-        console.log(schedule.appointments);
       });
     } else if (text === 'Appointment Requests') {
       button.addEventListener('click', (e) => {
@@ -438,7 +426,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             selectedDate: selectedDate.toISO(),
           },
         });
-        console.log(response);
 
         // GIVE ELEMENTS THE DATE DATA IN A SPECIFIC FORMAT
         date.textContent = selectedDate.toLocaleString(DateTime.DATE_HUGE);
@@ -561,8 +548,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
         return renderErrors(errorContainer, info.errors);
       }
 
-      console.log(DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, startHour, startMinute, 0));
-
       // GET THE APPOINTMENT'S POTENTIAL START AND END TIMES.
       let appointmentStart = DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, startHour, startMinute, 0);
       let appointmentEnd = DateTime.local(DateTime.fromISO(date).year, DateTime.fromISO(date).month, DateTime.fromISO(date).day, endHour, endMinute, 0);
@@ -653,7 +638,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           url: `/ScheduleIt/Client/${details.email}/Appointments`,
           data: request,
         });
-        console.log(response);
+        response;
       } catch (error) {
         console.error(error);
       }
@@ -940,7 +925,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
               url: `/ScheduleIt/Client/${details.email}/Appointments/${appointmentId}`,
               data: request,
             });
-            console.log(response);
           } catch (error) {
             console.error(error);
           }
@@ -980,7 +964,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
             method: 'DELETE',
             url: `/ScheduleIt/${info.userType}/${details.email}/Appointments/${appointmentId}/${details.email}`,
           });
-          console.log(response);
 
           appointment.remove();
         } catch (error) {
@@ -1010,9 +993,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       button.addEventListener('click', async (e) => {
         e.preventDefault();
         const potentialApp = e.target.closest('.potential-appointment');
-        console.log(potentialApp);
-        console.log(buttonType);
-        console.log(potentialApp.dataset.appointment);
         try {
           const response = await axios({
             method: 'PATCH',
@@ -1039,7 +1019,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           });
 
           const planner = document.querySelector('.schedule-it__display__schedule__planner');
-          console.log(response);
           schedule.currentAppointments = response.data.data.currentAppointments;
           schedule.currentAppointments.forEach((app) => {
             appointment(theme, planner, details, schedule, info, app);
@@ -1081,9 +1060,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
       button.addEventListener('click', async (e) => {
         e.preventDefault();
         const potentialApp = e.target.closest('.potential-appointment');
-        console.log(potentialApp);
-        console.log(buttonType);
-        console.log(potentialApp.dataset.appointment);
 
         try {
           const response = await axios({
@@ -1111,7 +1087,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
           });
 
           const planner = document.querySelector('.schedule-it__display__schedule__planner');
-          console.log(response);
           schedule.currentAppointments = response.data.data.currentAppointments;
           schedule.currentAppointments.forEach((app) => {
             appointment(theme, planner, details, schedule, info, app);

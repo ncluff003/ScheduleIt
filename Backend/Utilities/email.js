@@ -236,8 +236,6 @@ module.exports = class Email {
       emailInfo.clientEmail = this.client.clientEmail;
     }
 
-    console.log(process.env.NODE_ENV);
-    // I am considering putting an emailType to see if it takes care of the errors from before.
     const html = pug.renderFile(`${__dirname}/../Backend/Views/Emails/${template}.pug`, emailInfo);
 
     const mailOptions = {

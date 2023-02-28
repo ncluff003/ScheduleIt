@@ -9,7 +9,6 @@ const Email = require('../Utilities/email');
 const Owner = require('../Models/ownerModel');
 module.exports = catchAsync(async (request, response, next) => {
   const info = request.body;
-  console.log(info);
 
   // GET POTENTIAL APPOINTMENT'S ID
   const appointmentId = info.appointmentId;

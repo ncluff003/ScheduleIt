@@ -55,7 +55,6 @@ function communicationPreferenceLabel(value, theme, container, info) {
     const labels = document.querySelectorAll('.schedule-it__form--request-appointment__flex-section__radio__label');
     const radioFor = document.querySelector(`#${value.split(' ').join('').toLowerCase()}`);
     radioFor.checked = !radioFor.checked;
-    console.log(radioFor);
 
     labels.forEach((l) => {
       const style = l.style;

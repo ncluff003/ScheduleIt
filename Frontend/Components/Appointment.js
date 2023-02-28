@@ -1,10 +1,8 @@
-import axios from 'axios';
-import { DateTime, Duration } from 'luxon';
+import { DateTime } from 'luxon';
 import { addClasses, calculateBuffer, insertElement } from '../Global/Utility';
 import { appointmentButtons } from './Container';
 
 function appointment(theme, container, details, schedule, info, appointment) {
-  console.log(info.userType);
   const currentDateISO = document.querySelector('.schedule-it__display__schedule__header__date__text').dataset.date;
   const currentDate = DateTime.fromISO(currentDateISO);
   const dayStart = DateTime.local(currentDate.year, currentDate.month, currentDate.day, 0, 0, 0);
@@ -85,16 +83,8 @@ function appointment(theme, container, details, schedule, info, appointment) {
       }
     });
   }
-
   insertElement('beforeend', appointmentContainer, appointmentLabel);
-
   appointmentButtons(theme, appointmentContainer, details, schedule, info, appointment);
-
-  /*
-  If there are appointments on the screen will have a variability of showing text.  If it is an `Owner` viewing them, it will show the name of the person they are chatting with in the form of 'Video chat with [name] @ start time to end time'.  If it is an appointment the `Client` has nothing to do with, it will just say 'Video chat @ start time to end time.'  If they do have something to do with it, it will say 'Video Chat With `Owner` @ start time to end time.'
-  
-  */
-
   insertElement('beforeend', container, appointmentContainer);
 }
 

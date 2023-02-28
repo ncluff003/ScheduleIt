@@ -24,7 +24,6 @@ module.exports = {
       //   .replace(`<DATABASE>`, process.env.DBNAME)
       //   .replace(`<USERNAME>`, process.env.DBUSERNAME);
       const DB = connectionString;
-      console.log(process.env.DB);
       mongoose
         .connect(DB, {
           useNewUrlParser: true,

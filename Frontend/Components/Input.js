@@ -1,5 +1,4 @@
-import { DateTime, Info } from 'luxon';
-import chroma from 'chroma-js';
+import { DateTime } from 'luxon';
 import { addClasses, formatPhoneNumber, insertElement, addError, renderErrors } from '../Global/Utility';
 
 function clearSelect(select) {

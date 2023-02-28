@@ -1,4 +1,3 @@
-import chroma from 'chroma-js';
 import { addClasses, insertElement } from '../Global/Utility';
 
 function InvisibleRadio(value, theme, container, info) {
@@ -15,11 +14,3 @@ function InvisibleRadio(value, theme, container, info) {
 }
 
 export { InvisibleRadio };
-
-/*
-const InvisibleRadio = styled(Radio)`
-  appearance: none;
-  -webkit-appearance: none;
-  display: none;
-`;
-*/

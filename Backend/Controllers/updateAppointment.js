@@ -17,9 +17,6 @@ module.exports = catchAsync(async (request, response, next) => {
   // OWNER
   const owner = await Owner.findOne({ email });
 
-  console.log(owner.appointments);
-  console.log(owner.potentialAppointments);
-
   let potentialAppointments = owner.potentialAppointments.filter((pot) => {
     return String(pot._id) === appointmentId;
   });

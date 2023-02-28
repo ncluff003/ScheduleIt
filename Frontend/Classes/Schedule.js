@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { DateTime } from 'luxon';
 import { addClasses, insertElement } from '../Global/Utility';
-import Theme from '../Global/Theme';
 import { planningHeader } from '../Components/Header';
 import { scheduleDisplay } from '../Components/Display';
 
@@ -26,7 +25,6 @@ export default class Schedule {
         }
         if (settings.theme.timeOfDay.set === 'Auto') {
           settings.theme.timeOfDay.setting = DateTime.now().hour > 6 && DateTime.now().hour < 18 ? 'Day' : 'Night';
-          console.log(settings.theme.timeOfDay.setting);
         }
         if (settings.theme.timeOfDay.set && settings.theme.timeOfDay.set === 'Manual') {
           if (!settings.theme.timeOfDay.setting) {
@@ -153,36 +151,3 @@ export default class Schedule {
     }
   }
 }
-
-/*
-  * Brainstorming An Easier Setup
-
-  * theme: 
-  *  {
-  *    welcome: 'Welcome Message' -- This will be where the message is set by the developer. -- default is 'Open For Business'
-  *    timeOfDay: {
-  *       set: ['auto', 'manual'] | default = 'auto',
-  *       setting: ['day', 'night'] -- This will be over-ridden by the default setting of 'auto' if it is that way.
-  *    },
-  *    intervals: [15, 30, 60] -- default is 15,
-  *    font: (user defined font) default is 'sans-serif',
-  *    colors: {
-  *      primary: ,
-  *      secondary: ,
-  *      tertiary: ,
-  *    },
-  *  },
-     owner: {
-      firstname: '',
-      lastname: '',
-      company: '',
-      email: '',
-     },
-     schedule: {
-      overnight: [true, false] -- default is false.
-      start: 9, -- no default.  REQUIRED.
-      end: 17, -- no default.  REQUIRED.
-      minimumAppointmentLength: 1 -- default and absolute minimum is 1.  Measured in minutes.
-      maximumAppointmentLength: 3 -- no default, and is REQUIRED.  Measured in minutes.
-     }
-*/

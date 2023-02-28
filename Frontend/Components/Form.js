@@ -14,7 +14,7 @@ function form(formType, user, theme, container, details, schedule, info) {
     style.position = 'absolute';
     style.height = '100%';
     style.width = '100%';
-    style.display = 'none'; // This will be changed later on to aid the functionality of the scheduling application.  It will start as 'none'.
+    style.display = 'none';
     style.flexFlow = 'column nowrap';
     style.justifyContent = 'center';
     style.alignItems = 'center';
@@ -57,7 +57,7 @@ function form(formType, user, theme, container, details, schedule, info) {
     style.left = 0;
     style.height = '100%';
     style.width = '100%';
-    style.display = 'none'; // This will be changed later on to aid the functionality of the scheduling application.  It will start as 'none'.
+    style.display = 'none';
     style.flexFlow = 'column nowrap';
     style.justifyContent = 'flex-start';
     style.alignItems = 'center';
@@ -88,7 +88,7 @@ function form(formType, user, theme, container, details, schedule, info) {
     style.left = 0;
     style.height = '100%';
     style.width = '100%';
-    style.display = 'none'; // This will be changed later on to aid the functionality of the scheduling application.  It will start as 'none'.
+    style.display = 'none';
     style.flexFlow = 'column nowrap';
     style.justifyContent = 'flex-start';
     style.alignItems = 'center';
