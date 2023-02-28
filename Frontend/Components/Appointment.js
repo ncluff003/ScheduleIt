@@ -4,13 +4,13 @@ import { addClasses, calculateBuffer, insertElement } from '../Global/Utility';
 import { appointmentButtons } from './Container';
 
 function appointment(theme, container, details, schedule, info, appointment) {
+  console.log(info.userType);
   const currentDateISO = document.querySelector('.schedule-it__display__schedule__header__date__text').dataset.date;
   const currentDate = DateTime.fromISO(currentDateISO);
   const dayStart = DateTime.local(currentDate.year, currentDate.month, currentDate.day, 0, 0, 0);
   const dayEnd = DateTime.local(currentDate.year, currentDate.month, currentDate.day, 23, 59, 59);
 
   const buffer = calculateBuffer(schedule.appointmentBuffer);
-  console.log(buffer);
 
   const originalStart = DateTime.fromISO(appointment.appointmentStart);
   const originalEnd = DateTime.fromISO(appointment.appointmentEnd);

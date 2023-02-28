@@ -212,7 +212,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
               const form = document.querySelector('.schedule-it__form--login');
               const loginContainers = document.querySelectorAll('.schedule-it__form--login__user-login');
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
-              const planner = document.querySelector('.schedule-it__display__schedule__planner');
 
               // Give essential styling to each element.
               form.style.display = 'none';
@@ -226,6 +225,9 @@ function button(buttonType, text, theme, container, details, schedule, info, use
 
               // RENDER SCHEDULE
               renderSchedule(info.userType, theme, details, schedule, info);
+
+              // SELECT THE SCHEDULE NOW THAT IT IS RENDERED
+              const planner = document.querySelector('.schedule-it__display__schedule__planner');
 
               // ADD THE APPOINTMENTS TO THE SCHEDULE
               schedule.currentAppointments.forEach((app) => {
@@ -277,7 +279,6 @@ function button(buttonType, text, theme, container, details, schedule, info, use
               const form = document.querySelector('.schedule-it__form--login');
               const loginContainers = document.querySelectorAll('.schedule-it__form--login__user-login');
               const overlay = document.querySelector('.schedule-it__display__overlay--login');
-              const planner = document.querySelector('.schedule-it__display__schedule__planner');
 
               // GIVE EACH ELEMENT IT'S STYLING
               form.style.display = 'none';
@@ -287,10 +288,15 @@ function button(buttonType, text, theme, container, details, schedule, info, use
               // RENDER SCHEDULE
               renderSchedule(info.userType, theme, details, schedule, info);
 
+              // SELECT THE SCHEDULE NOW THAT IT IS RENDERED
+              const planner = document.querySelector('.schedule-it__display__schedule__planner');
+
               // ADD APPOINTMENTS TO THE SCHEDULE
               schedule.currentAppointments.forEach((app) => {
                 appointment(theme, planner, details, schedule, info, app);
               });
+
+              console.log(document.querySelectorAll('.schedule-it__display__schedule__planner__appointment'));
             } catch (error) {
               console.error(error);
             }
