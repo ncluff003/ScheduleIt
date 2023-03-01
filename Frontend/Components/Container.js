@@ -82,7 +82,7 @@ function dateContainer(theme, container, details, schedule, info) {
   style.justifyContent = 'center';
   style.alignItems = 'center';
   style.fontFamily = theme.font;
-  style.fontSize = '.9em'; // 2.7rem
+  style.fontSize = '.75em'; // 2.7rem
   style.color = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.offWhite;
   insertElement('beforeend', container, dateContainer);
 

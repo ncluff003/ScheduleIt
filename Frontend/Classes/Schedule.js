@@ -117,6 +117,10 @@ export default class Schedule {
       this.info = {
         errors: {},
       };
+      this.dimensions = {
+        height: document.querySelector('#schedule').getBoundingClientRect().height,
+        width: document.querySelector('#schedule').getBoundingClientRect().width,
+      };
       this.renderSchedule(this.theme, document.querySelector('#schedule'));
       this.ready(this.theme.message);
     }
@@ -143,11 +147,12 @@ export default class Schedule {
       style.width = '100%';
       style.borderRadius = '.5rem';
       style.backgroundColor = `${theme.colors.primary}cc`;
-      style.fontSize = '3rem';
+      // style.fontSize = '3rem';
+      style.fontSize = `${this.dimensions.width / 500 + this.dimensions.height / 400}rem`;
 
       insertElement('beforeend', container, scheduleItContainer);
-      planningHeader(this.theme, scheduleItContainer);
-      scheduleDisplay(this.theme, scheduleItContainer, this.details, this.schedule, this.info);
+      planningHeader(this.theme, scheduleItContainer, this.dimensions);
+      scheduleDisplay(this.theme, scheduleItContainer, this.details, this.schedule, this.info, this.dimensions);
     }
   }
 }

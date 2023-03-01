@@ -28,7 +28,7 @@ function formCloser(formType, theme, container) {
   close.innerHTML = formCloseIcon.html[0];
   const style = close.style;
   style.position = 'absolute';
-  style.fontSize = '1.5em'; // 4.5rem
+  style.fontSize = '1.25em'; // 4.5rem
   style.top = '0.5em';
   style.right = '0.6em';
   style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`;

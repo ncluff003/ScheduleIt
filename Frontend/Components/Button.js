@@ -14,8 +14,10 @@ function button(buttonType, text, theme, container, details, schedule, info, use
   if (buttonType === 'primary--overlay') {
     // Parent Font Size: 3rem
     style.position = 'relative';
-    style.height = '5rem';
-    style.width = '20rem';
+    // style.height = '5rem';
+    style.height = '3.5em';
+    // style.width = '20rem';
+    style.width = '13em';
     style.display = 'flex';
     style.flexFlow = 'row nowrap';
     style.justifyContent = 'center';
@@ -152,8 +154,10 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     }
   } else if (buttonType === 'login--overlay') {
     style.position = 'relative';
-    style.height = '4rem';
-    style.width = '10rem';
+    // style.height = '4rem';
+    style.height = '2.5em';
+    // style.width = '10rem';
+    style.width = '6em';
     style.display = 'flex';
     style.flexFlow = 'row nowrap';
     style.justifyContent = 'center';
@@ -309,7 +313,8 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     // Parent Font Size: 3rem
     addClasses(button, ['in-app']);
     style.position = 'relative';
-    style.height = '4rem';
+    // style.height = '4rem';
+    style.height = '2.5em';
     style.width = 'max-content';
     style.display = 'flex';
     style.flexFlow = 'row nowrap';
@@ -382,7 +387,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
   } else if (buttonType === 'Date Selection') {
     // Parent Font Size: 3rem
     style.position = 'relative';
-    style.height = '5rem';
+    style.height = '3em';
     style.width = 'max-content';
     style.display = 'flex';
     style.flexFlow = 'row nowrap';
@@ -455,7 +460,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
   } else if (buttonType === 'Request Appointment') {
     // Parent Font Size: 3rem
     style.position = 'relative';
-    style.height = '5rem';
+    style.height = '3em';
     style.width = 'max-content';
     style.display = 'flex';
     style.flexFlow = 'row nowrap';
@@ -463,7 +468,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
     style.borderRadius = '2rem';
     style.fontFamily = theme.font;
     style.fontSize = '.53em'; // 1.59rem
@@ -656,7 +661,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
     style.fontFamily = theme.font;
     style.fontSize = '.45em'; // 1.35rem
@@ -709,7 +714,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
     style.borderRadius = '1rem';
     style.fontFamily = theme.font;
     style.fontSize = '.45em'; // 1.35rem

@@ -8,8 +8,8 @@ function loginFormLabel(theme, container) {
   style.position = 'relative';
   style.height = 'max-content';
   style.width = '70%';
-  style.left = '1rem';
-  style.margin = '.25rem 0';
+  style.left = '1em';
+  style.margin = '.25em 0';
   style.fontFamily = theme.font;
   style.fontSize = '.6em'; // 1.8rem
   insertElement('beforeend', container, label);
@@ -23,7 +23,7 @@ function communicationPreferenceLabel(value, theme, container, info) {
   style.position = 'relative';
   style.height = '3em';
   style.width = '40%';
-  style.border = `.1em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
+  style.border = `.15em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
   style.display = 'flex';
   style.flexFlow = 'row nowrap';
   style.justifyContent = 'center';
@@ -59,7 +59,7 @@ function communicationPreferenceLabel(value, theme, container, info) {
     labels.forEach((l) => {
       const style = l.style;
       style.backgroundColor = 'transparent';
-      style.border = `.1em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
+      style.border = `.15em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
       style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
     });
 

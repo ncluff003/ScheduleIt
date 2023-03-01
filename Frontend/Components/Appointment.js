@@ -60,7 +60,7 @@ function appointment(theme, container, details, schedule, info, appointment) {
   addClasses(appointmentLabel, ['schedule-it__display__schedule__planner__appointment__label']);
   const labelStyle = appointmentLabel.style;
   labelStyle.fontFamily = theme.font;
-  labelStyle.fontSize = '.425em';
+  labelStyle.fontSize = '.475em';
   labelStyle.color = theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack;
 
   if (info.userType === 'Owners') {

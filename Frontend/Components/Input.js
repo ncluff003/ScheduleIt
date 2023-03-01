@@ -14,14 +14,14 @@ function loginFormInput(theme, container) {
   style.height = '20%';
   style.minHeight = '3em';
   style.width = '70%';
-  style.padding = '.5rem 1rem';
-  style.margin = '.25rem 0';
+  style.padding = '.5em 1em';
+  style.margin = '.25em 0';
   style.fontFamily = theme.font;
   style.fontSize = '.6em'; // 1.8rem
   style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
   style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
   style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
-  style.borderRadius = '.5rem';
+  style.borderRadius = '.5em';
   input.addEventListener('focus', (e) => {
     e.preventDefault();
     style.outline = 'none';
@@ -53,7 +53,7 @@ function appointmentRequestInput(type, placeholder, theme, container, info) {
   style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
   style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
   style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
-  style.borderRadius = '.5rem';
+  style.borderRadius = '.5em';
   input.placeholder = placeholder;
   input.required = true;
 
@@ -565,7 +565,7 @@ function textArea(theme, container, details, schedule, info, settings) {
   style.resize = 'none';
   style.backgroundColor = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
   style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.offWhite}cc` : `${theme.colors.grayScale.raisinBlack}cc`}`;
-  style.borderRadius = '.25em';
+  style.borderRadius = '.5em';
   style.padding = '1em';
   style.fontFamily = theme.font;
   style.fontSize = '.53em'; // 1.59rem

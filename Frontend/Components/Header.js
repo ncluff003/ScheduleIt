@@ -2,7 +2,7 @@ import chroma from 'chroma-js';
 import { addClasses, insertElement } from '../Global/Utility';
 import { dateContainer, scheduleButtonContainer } from './Container';
 
-function planningHeader(theme, container) {
+function planningHeader(theme, container, dimensions) {
   // Parent Font Size: 3rem
   const header = document.createElement('section');
   addClasses(header, ['schedule-it__header']);
@@ -10,12 +10,12 @@ function planningHeader(theme, container) {
   header.style.height = '10%';
   header.style.width = '100%';
   header.style.backgroundColor = theme.timeOfDay.setting === 'Day' ? chroma(theme.colors.primary).darken(0.4).hex() : theme.colors.primary;
-  header.style.padding = '1rem 2rem';
+  header.style.padding = '.5em';
   header.style.display = 'flex';
   header.style.flexFlow = 'row nowrap';
   header.style.justifyContent = 'flex-start';
   header.style.alignItems = 'center';
-  header.style.borderBottom = `.3rem groove ${chroma(theme.colors.primary).darken(0.4).hex()}`;
+  header.style.borderBottom = `.15em groove ${chroma(theme.colors.primary).darken(0.4).hex()}`;
   insertElement('beforeend', container, header);
 
   const title = document.createElement('h2');
@@ -54,7 +54,7 @@ function selectDateFormHeader(formType, theme, container) {
   const style = heading.style;
   if (formType === 'select-date') {
     addClasses(heading, ['schedule-it__form--date-selection__heading']);
-    style.fontSize = '1.75em'; // 5.25rem
+    style.fontSize = '1.5em'; // 5.25rem
   } else if (formType === 'request-appointment') {
     addClasses(heading, ['schedule-it__form--request-appointment__heading']);
     style.fontSize = '1.25em'; // 3.75rem

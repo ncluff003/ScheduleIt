@@ -1,7 +1,7 @@
 import { addClasses, insertElement } from '../Global/Utility';
 import { loginOverlay } from './Overlay';
 
-function scheduleDisplay(theme, container, details, schedule, info) {
+function scheduleDisplay(theme, container, details, schedule, info, dimensions) {
   // Parent Font Size: 3rem
   const calendarDisplay = document.createElement('section');
   const style = calendarDisplay.style;
