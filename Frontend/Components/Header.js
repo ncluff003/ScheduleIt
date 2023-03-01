@@ -40,7 +40,7 @@ function loginFormHeader(theme, container) {
   style.flexFlow = 'row nowrap';
   style.justifyContent = 'center';
   style.alignItems = 'center';
-  style.margin = '.25rem 0';
+  style.margin = '.25em 0';
   style.fontFamily = theme.font;
   style.fontSize = '1em'; // 3rem
   const headingText = document.createElement('h4');
@@ -60,7 +60,7 @@ function selectDateFormHeader(formType, theme, container) {
     style.fontSize = '1.25em'; // 3.75rem
   } else if (formType === 'update-appointment') {
     addClasses(heading, ['schedule-it__form--request-appointment__heading']);
-    style.fontSize = '1.25em'; // 3.75rem
+    style.fontSize = '1.5em'; // 3.75rem
   } else if (formType === 'appointment-requests') {
     addClasses(heading, ['schedule-it__form--appointment-requests__heading']);
     style.fontSize = '1.25em'; // 3.75rem
@@ -92,10 +92,10 @@ function scheduleHeader(user, theme, container, details, schedule, info) {
   style.flexFlow = 'column nowrap';
   style.justifyContent = 'space-evenly';
   style.alignItems = 'center';
-  style.borderBottom = `.3rem groove ${chroma(theme.colors.primary).darken(0.4).hex()}`;
+  style.borderBottom = `.15em groove ${chroma(theme.colors.primary).darken(0.4).hex()}`;
   insertElement('beforeend', container, header);
   scheduleButtonContainer(user, theme, header, details, schedule, info);
-  dateContainer(theme, header, info);
+  dateContainer(theme, header);
 }
 
 function communicationPreferenceHeader(theme, container) {

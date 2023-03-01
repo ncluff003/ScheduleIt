@@ -20,7 +20,7 @@ function hour(theme, container, details, schedule, info, index) {
   style.flexFlow = 'row wrap';
   style.justifyContent = 'flex-start';
   style.alignItems = 'flex-start';
-  style.border = `.2rem solid ${chroma(theme.colors.grayScale.raisinBlack).brighten(0.2)}80`;
+  style.border = `.05em solid ${chroma(theme.colors.grayScale.raisinBlack).brighten(0.2)}80`;
 
   insertElement('beforeend', container, hour);
 
@@ -29,8 +29,8 @@ function hour(theme, container, details, schedule, info, index) {
   label.style.position = 'absolute';
   label.style.height = 'max-content';
   label.style.width = 'max-content';
-  label.style.top = '1rem';
-  label.style.left = '1rem';
+  label.style.top = '.5em';
+  label.style.left = '.5em';
   label.style.fontFamily = theme.font;
   label.style.fontSize = '.53em'; // 1.59rem
   label.style.color = theme.colors.tertiary;
@@ -77,10 +77,10 @@ function interval(theme, container) {
     style.height = '50%';
   }
   style.width = '100%';
-  style.borderLeft = `.2rem solid ${chroma(theme.colors.grayScale.raisinBlack).brighten(0.2)}80`;
-  style.borderRight = `.2rem solid ${chroma(theme.colors.grayScale.raisinBlack).brighten(0.2)}80`;
-  style.borderTop = `.1rem solid ${chroma(theme.colors.grayScale.raisinBlack).brighten(0.2)}80`;
-  style.borderBottom = `.1rem solid ${chroma(theme.colors.grayScale.raisinBlack).brighten(0.2)}80`;
+  style.borderLeft = `.1em solid ${chroma(theme.colors.grayScale.raisinBlack).brighten(0.2)}80`;
+  style.borderRight = `.05em solid ${chroma(theme.colors.grayScale.raisinBlack).brighten(0.2)}80`;
+  style.borderTop = `.05em solid ${chroma(theme.colors.grayScale.raisinBlack).brighten(0.2)}80`;
+  style.borderBottom = `.1em solid ${chroma(theme.colors.grayScale.raisinBlack).brighten(0.2)}80`;
 
   if (theme.intervals === 15 || theme.intervals === 30) {
     insertElement('beforeend', container, interval);

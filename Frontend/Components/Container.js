@@ -37,7 +37,7 @@ function loginButtonContainer(user, theme, container, details, schedule, info) {
   style.position = 'relative';
   style.height = 'max-content';
   style.width = '70%';
-  style.margin = '.25rem 0';
+  style.margin = '.25em 0';
   style.display = 'flex';
   style.flexFlow = 'row nowrap';
   style.justifyContent = 'flex-end';
@@ -69,7 +69,7 @@ function scheduleButtonContainer(user, theme, container, details, schedule, info
   }
 }
 
-function dateContainer(theme, container, details, schedule, info) {
+function dateContainer(theme, container) {
   // Parent Font Size: 3rem
   const dateContainer = document.createElement('section');
   addClasses(dateContainer, ['schedule-it__display__schedule__header__date']);
@@ -177,11 +177,6 @@ function appointmentButtons(theme, container, details, schedule, info, appointme
 }
 
 function errorContainer(theme, container, formType) {
-  /*
-    * Login Container: // Parent Font Size: 3rem
-    * Select Date Form: // Parent Font Size: 3rem
-  
-  */
   const errorContainer = document.createElement('div');
   addClasses(errorContainer, ['error-container']);
   const style = errorContainer.style;

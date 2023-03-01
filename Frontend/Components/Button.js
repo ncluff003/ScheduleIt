@@ -23,12 +23,12 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.justifyContent = 'center';
     style.alignItems = 'center';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
-    style.borderRadius = '1rem';
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
+    style.borderRadius = '.5em';
     style.fontFamily = theme.font;
     style.fontSize = '.53em'; // 1.59rem
     theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
-    style.margin = '1rem 0';
+    style.margin = '.5em 0';
     button.textContent = text;
 
     if (text === 'Owner Login') {
@@ -163,8 +163,8 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.justifyContent = 'center';
     style.alignItems = 'center';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
-    style.borderRadius = '1rem';
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
+    style.borderRadius = '1em';
     style.fontFamily = theme.font;
     style.fontSize = '.53em'; // 1.59rem
     theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
@@ -322,8 +322,8 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.offWhite}`;
-    style.borderRadius = '2rem';
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.offWhite}`;
+    style.borderRadius = '2em';
     style.fontFamily = theme.font;
     style.fontSize = '.53em'; // 1.59rem
     theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.offWhite);
@@ -395,8 +395,8 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
-    style.borderRadius = '2rem';
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
+    style.borderRadius = '2em';
     style.fontFamily = theme.font;
     style.fontSize = '.53em'; // 1.59rem
     theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
@@ -469,7 +469,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
     style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
-    style.borderRadius = '2rem';
+    style.borderRadius = '2em';
     style.fontFamily = theme.font;
     style.fontSize = '.53em'; // 1.59rem
     theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
@@ -662,7 +662,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
     style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
-    style.borderRadius = '1rem';
+    style.borderRadius = '2em';
     style.fontFamily = theme.font;
     style.fontSize = '.45em'; // 1.35rem
     theme.timeOfDay === 'day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
@@ -715,7 +715,7 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
     style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
-    style.borderRadius = '1rem';
+    style.borderRadius = '1em';
     style.fontFamily = theme.font;
     style.fontSize = '.45em'; // 1.35rem
     theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
@@ -950,8 +950,8 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
-    style.borderRadius = '1rem';
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
+    style.borderRadius = '1em';
     style.fontFamily = theme.font;
     style.fontSize = '.45em';
     theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);
@@ -986,8 +986,8 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.alignItems = 'center';
     style.padding = '.5em 1em';
     style.backgroundColor = 'transparent';
-    style.border = `.2rem solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
-    style.borderRadius = '1rem';
+    style.border = `.2em solid ${theme.timeOfDay.setting === 'Day' ? theme.colors.grayScale.raisinBlack : theme.colors.grayScale.raisinBlack}`;
+    style.borderRadius = '1em';
     style.fontFamily = theme.font;
     style.fontSize = '.45em';
     theme.timeOfDay.setting === 'Day' ? (style.color = theme.colors.grayScale.raisinBlack) : (style.color = theme.colors.grayScale.raisinBlack);

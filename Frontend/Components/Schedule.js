@@ -12,8 +12,8 @@ function renderSchedule(user, theme, details, schedule, info) {
   style.position = 'relative';
   style.height = '100%';
   style.width = '100%';
-  style.borderRadius = '0 0 .5rem .5rem';
-  style.padding = '1rem';
+  style.borderRadius = '0 0 .5em .5em';
+  style.padding = '.5em';
   if (theme.timeOfDay.setting === 'Day') {
     style.backgroundColor = theme.colors.grayScale.offWhite;
   } else if (theme.timeOfDay.setting === 'Night') {
