@@ -330,6 +330,17 @@ function button(buttonType, text, theme, container, details, schedule, info, use
     style.margin = '0.3em';
     button.textContent = text;
 
+    if (
+      (document.querySelector('#schedule').getBoundingClientRect().width < 500 && window.innerWidth < 500) ||
+      (document.querySelector('#schedule').getBoundingClientRect().width < 500 && window.innerHeight < 450)
+    ) {
+      style.fontSize = `.3em`;
+    }
+
+    if (document.querySelector('#schedule').getBoundingClientRect().width < 500 && window.innerHeight < 400) {
+      style.fontSize = `.2em`;
+    }
+
     if (text === 'Select Date') {
       button.addEventListener('click', (e) => {
         e.preventDefault();

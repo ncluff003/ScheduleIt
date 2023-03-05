@@ -90,6 +90,16 @@ function dateContainer(theme, container) {
   addClasses(date, ['schedule-it__display__schedule__header__date__text']);
   date.textContent = DateTime.now().toLocaleString(DateTime.DATE_HUGE);
   date.dataset.date = DateTime.now().toISO();
+
+  if (
+    (document.querySelector('#schedule').getBoundingClientRect().width < 500 && window.innerWidth < 500) ||
+    (document.querySelector('#schedule').getBoundingClientRect().width < 500 && window.innerHeight < 450)
+  ) {
+    style.fontSize = `.4em`;
+  }
+  if (document.querySelector('#schedule').getBoundingClientRect().width < 500 && window.innerHeight < 400) {
+    style.fontSize = `.3em`;
+  }
   insertElement('beforeend', dateContainer, date);
 }
 

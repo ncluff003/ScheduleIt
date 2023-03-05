@@ -149,6 +149,7 @@ export default class Schedule {
       style.backgroundColor = `${theme.colors.primary}cc`;
       // style.fontSize = '3rem';
       style.fontSize = `${this.dimensions.width / 500 + this.dimensions.height / 400}rem`;
+      console.log(`${this.dimensions.width / 500 + this.dimensions.height / 400}rem`);
 
       insertElement('beforeend', container, scheduleItContainer);
       planningHeader(this.theme, scheduleItContainer, this.dimensions);

@@ -502,7 +502,7 @@ function formSelect(type, theme, container, details, schedule, info, formType, e
       addClasses(option, ['schedule-it__form--date-selection__select-container__select__option']);
       const style = option.style;
       style.fontFamily = theme.font;
-      style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.offWhite}cc`;
+      style.color = theme.timeOfDay.setting === 'Day' ? `${theme.colors.grayScale.raisinBlack}cc` : `${theme.colors.grayScale.raisinBlack}cc`;
       option.textContent =
         `${DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, start, 0).minute}`.length === 1
           ? `0${DateTime.local(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, start, 0).minute}`
