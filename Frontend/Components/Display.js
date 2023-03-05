@@ -14,7 +14,7 @@ function scheduleDisplay(theme, container, details, schedule, info, dimensions) 
   style.justifyContent = 'center';
   style.alignItems = 'center';
   theme.timeOfDay === 'day' ? (style.backgroundColor = theme.colors.grayScale.offWhite) : (style.backgroundColor = theme.colors.grayScale.raisinBlack);
-  style.borderRadius = '0 0 .5em .5em';
+  style.borderRadius = '0';
   style.overflowY = 'auto';
   insertElement('beforeend', container, calendarDisplay);
   loginOverlay(theme, calendarDisplay, details, schedule, info);

@@ -12,7 +12,7 @@ function loginOverlay(theme, container, details, schedule, info) {
   style.top = 0;
   style.height = '100%';
   style.width = '100%';
-  style.borderRadius = '0 0 .5em .5em';
+  style.borderRadius = '0';
   style.backgroundColor = `${theme.colors.primary}cc`;
   style.display = 'flex';
   style.flexFlow = 'column nowrap';

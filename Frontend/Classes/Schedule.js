@@ -145,7 +145,7 @@ export default class Schedule {
       addClasses(scheduleItContainer, ['schedule-it']);
       style.height = '100%';
       style.width = '100%';
-      style.borderRadius = '.5rem';
+      style.borderRadius = '.25rem';
       style.backgroundColor = `${theme.colors.primary}cc`;
       // style.fontSize = '3rem';
       style.fontSize = `${this.dimensions.width / 500 + this.dimensions.height / 400}rem`;
