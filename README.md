@@ -15,6 +15,27 @@
     <br>
     ---------------------------------------------------------------------------------------------------------------------------------------------------
     <br>
-    <h2 style='font-size: 20px; text-indent: 1rem;'>Getting Started</h2>
-
+    -- NOTE -- 
+    <h6>Just as a side-note, since I want to expand this application to more databases, features, and possibly more languages, I will try to get together a way that others could contribute.</h6>
+    <br>
+    <h2 style='font-size: 20px; text-indent: 1rem;'>Getting Started [Freelance Developers]</h2>
+    <h3>Installation</h3>
+    <!-- <p>Use 'npm i scheduleit'</p> -->
+            npm i scheduleit
+    <p> -- I do reccommend you installing a package called 'dotenv' as well with the command 'npm i dotenv'.</p>
+    <br>
+    <div style="height: max-content; width: 100%; display: flex; flex-flow: column nowrap; justify-content: flex-start; align-items: flex-start; font-size: 62.5%;" align="left">
+        <h3>Setup</h3>
+        <p>There are numerous ways the folder structure will be for EVERY developer.  So..., I will plan on just trying to give you an idea of how to set things up.</p>
+        <ul>
+            <li>
+                <h4>Backend</h4>
+                <p>To get the backend of the application into your application, particularly when using JavaScript and CommonJS modules, you use the folloing code:</p>
+                <p>const backend = require('scheduleit')</p>
+                <br>
+                <p></p>
+                <p></p>
+            </li>
+        </ul>
+    </div>
 </div>
