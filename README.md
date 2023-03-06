@@ -18,31 +18,5 @@
     <h3 style='font-size: 20px; text-indent: 1rem;'>Installation</h3>
     > npm i scheduleit
     
-    `npm i scheduleit`
-    
-    Still trying, but online this time.
-    Inline `code` has `back-ticks around` it.
-    
-    <!--  
-        - Getting Started
-            - Installation
-            - Other Packages To Install
-            - Setup
-                - Backend
-                    - First, require the 'backend' from 'scheduleit' 
-                        - const backend = require('scheduleit')
-                    - App / Routing File
-                        - This is primarily for those who know more about full-stack development.
-                        - Use the ScheduleIt route with the ScheduleIt router.  In Express it is the following:
-                            - App.use(backend.scheduleItRoute, backend.router);
-                    - Server File 
-                        - Use backend.server.connectToDB.mongo('Your Connection String Here') in order to connect to a MongoDB database.
-                        - This part of the server file is primarily for those who are newer to using the backend.
-                            - Use backend.server.startServer(Your PORT Number Here) ie 8080.
-                - Frontend
-                    - Use import { Schedule } from 'scheduleit' to get the Schedule.
-                    - Instantiate the Schedule Class as follows:
-                    - const yourVariableName = new Schedule()
-      -->
-    
+    `npm i scheduleit`    
 </div>
