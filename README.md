@@ -15,9 +15,7 @@
         <ul>
             <li>
                 <h3>Installation</h3>
-                <p>```
-                    npm i scheduleit
-                ```</p>
+                ```npm i scheduleit```
             </li>
         </ul>
 
