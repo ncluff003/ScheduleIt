@@ -1,6 +1,6 @@
 <div style="height: max-content; width: 100%; display: flex; flex-flow: column nowrap; justify-content: flex-start; align-items: center; font-size: 62.5%;" align="center">
     <h1 align='center' style="font-size: 4rem; font-weight: bold; color: rgb(110,198,255);">ScheduleIt</h1>
-    <h2>An open-source scheduling integration aimed at helping freelancers of nearly all levels be able to schedule appointments for video chats and phone calls with potential clients.</h2>
+    <h2 style='font-size: 3rem; font-weight: normal;'>An open-source scheduling integration aimed at helping freelancers of nearly all levels be able to schedule appointments for video chats and phone calls with potential clients.</h2>
 </div>
 
 <div style="height: max-content; width: 100%; display: flex; flex-flow: column nowrap; justify-content: flex-start; align-items: flex-start; font-size: 62.5%;" align="left">
@@ -20,8 +20,7 @@
     <br>
     <h2 style='font-size: 20px; text-indent: 1rem;'>Getting Started [Freelance Developers]</h2>
     <h3>Installation</h3>
-    <!-- <p>Use 'npm i scheduleit'</p> -->
-            npm i scheduleit
+    <p>Use 'npm i scheduleit'</p>
     <p> -- I do reccommend you installing a package called 'dotenv' as well with the command 'npm i dotenv'.</p>
     <br>
     <div style="height: max-content; width: 100%; display: flex; flex-flow: column nowrap; justify-content: flex-start; align-items: flex-start; font-size: 62.5%;" align="left">
