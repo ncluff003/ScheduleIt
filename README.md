@@ -17,6 +17,7 @@
     <br>
     <h3 style='font-size: 20px; text-indent: 1rem;'>Installation</h3>
     > npm i scheduleit
+    Inline `code` has `back-ticks around` it.
     <!--  
         - Getting Started
             - Installation
