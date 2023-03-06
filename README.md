@@ -4,37 +4,42 @@
 </div>
 
 <div style="height: max-content; width: 100%; display: flex; flex-flow: column nowrap; justify-content: flex-start; align-items: flex-start; font-size: 62.5%;" align="left">
-    <h2 style='font-size: 20px; text-indent: 1rem;'>What Is ScheduleIt And Why Use It?</h2>
-    <p style='font-size: 16px; text-indent: 1.5rem;'> As stated earlier, ScheduleIt is aimed to help freelancers schedule appointments with potential clients.  Also, the reason to use ScheduleIt is simple.  First, you can only get clients if they know you ARE available, and they know WHEN you are available.  From there, they will need a way to contact you about potential work.  Then, if they try to contact you, you need a way to know they are trying to do so.  Then, likely most important for freelancers, all of this functionality must come cheaper as freelancers usually do not start out with lots of money to use other software that require subscriptions.  That is where ScheduleIt comes into play.</p>
+    <h3 style='font-size: 20px; text-indent: 1rem;'>What Is ScheduleIt?</h3>
+    <p style='font-size: 16px; text-indent: 1.5rem;'> As briefly stated earlier, it is a scheduling integration aimed to help freelancers schedule appointments with potential clients.</p>
+    <h3 style='font-size: 20px; text-indent: 1rem;'>Why Use It?</h3>
+    <p style='font-size: 16px; text-indent: 1.5rem;'> Those who use any form of JavaScript backend, including myself, likely want an open source way to help themselves to make money.  Yes, there are platforms such as Fiverr, UpWork, etc..., but how to hopefully cut out the middle man?  And, to be able to do so for free?  That is where ScheduleIt comes into play.  Since it does not conform to any specific video chat platform, or any phone network, freelancers have the freedom to choose which works best for them.</p>
+    <h3 style='font-size: 20px; text-indent: 1rem;'>What Is In The Future For ScheduleIt?</h3>
     <p>
-        The ultimate goal in creating ScheduleIt was to help facilitate those initial meetings with potential clients for freelancers.  That way, successful freelancer to client relationships could begin and do so without much cost.  In this case... FREE!
+        Here it is, at least some of it.  I want this to be a platform that welcomes more than JavaScript, but that is where it will start.  I want it to work with more than MongoDB as a database, but that is where it starts.  I want to be able to more specifically set which video chat platform to use and it will provide the link for the freelancer.  Though, it starts without that.  Everything that has been great, starts small, but starts somewhere.  This is only the start.
     </p>
-    <br>
-    <h3 style='font-size: 20px; text-indent: 1rem;'>The Future Of ScheduleIt</h3>
-    <p style='font-size: 16px; text-indent: 1.5rem;'>The hope for ScheduleIt is simple.  I want it to evolve to not only become better and more intuitive for users, but also expand to be able to include far more databases and options for communication with potential clients.  It will take time, but it is the goal.</p>
     <br>
     ---------------------------------------------------------------------------------------------------------------------------------------------------
     <br>
-    -- NOTE -- 
-    <h6>Just as a side-note, since I want to expand this application to more databases, features, and possibly more languages, I will try to get together a way that others could contribute.</h6>
-    <br>
-    <h2 style='font-size: 20px; text-indent: 1rem;'>Getting Started [Freelance Developers]</h2>
-    <h3>Installation</h3>
-    <p>Use 'npm i scheduleit'</p>
-    <p> -- I do reccommend you installing a package called 'dotenv' as well with the command 'npm i dotenv'.</p>
-    <br>
-    <div style="height: max-content; width: 100%; display: flex; flex-flow: column nowrap; justify-content: flex-start; align-items: flex-start; font-size: 62.5%;" align="left">
-        <h3>Setup</h3>
-        <p>There are numerous ways the folder structure will be for EVERY developer.  So..., I will plan on just trying to give you an idea of how to set things up.</p>
-        <ul>
-            <li>
-                <h4>Backend</h4>
-                <p>To get the backend of the application into your application, particularly when using JavaScript and CommonJS modules, you use the folloing code:</p>
-                <p>const backend = require('scheduleit')</p>
-                <br>
-                <p></p>
-                <p></p>
-            </li>
-        </ul>
-    </div>
+    <h3 style='font-size: 20px; text-indent: 1rem;'>Installation</h3>
+     ```js
+    const x = "Block code snippet in JS";
+    console.log(x);
+    ```
+    <!--  
+        - Getting Started
+            - Installation
+            - Other Packages To Install
+            - Setup
+                - Backend
+                    - First, require the 'backend' from 'scheduleit' 
+                        - const backend = require('scheduleit')
+                    - App / Routing File
+                        - This is primarily for those who know more about full-stack development.
+                        - Use the ScheduleIt route with the ScheduleIt router.  In Express it is the following:
+                            - App.use(backend.scheduleItRoute, backend.router);
+                    - Server File 
+                        - Use backend.server.connectToDB.mongo('Your Connection String Here') in order to connect to a MongoDB database.
+                        - This part of the server file is primarily for those who are newer to using the backend.
+                            - Use backend.server.startServer(Your PORT Number Here) ie 8080.
+                - Frontend
+                    - Use import { Schedule } from 'scheduleit' to get the Schedule.
+                    - Instantiate the Schedule Class as follows:
+                    - const yourVariableName = new Schedule()
+      -->
+    
 </div>
