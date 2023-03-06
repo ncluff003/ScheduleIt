@@ -17,12 +17,12 @@
     <br>
     <h3 style='font-size: 20px; text-indent: 1rem;'>Installation</h3>
     > npm i scheduleit
-    ```
-    npm i scheduleit
-    ```
+    
+    `npm i scheduleit`
     
     Still trying, but online this time.
     Inline `code` has `back-ticks around` it.
+    
     <!--  
         - Getting Started
             - Installation
