@@ -16,10 +16,7 @@
     ---------------------------------------------------------------------------------------------------------------------------------------------------
     <br>
     <h3 style='font-size: 20px; text-indent: 1rem;'>Installation</h3>
-     ```js
-    const x = "Block code snippet in JS";
-    console.log(x);
-    ```
+    > npm i scheduleit
     <!--  
         - Getting Started
             - Installation
