@@ -15,7 +15,8 @@
         <ul>
             <li>
                 <h3>Installation</h3>
-                ``` npm i scheduleit ```
+                <p>npm i scheduleit</p>
+                <p style='font-size: 1.2rem'> -- I do reccommend installing a package called 'dotenv' using npm i dotenv as well.  I will explain why further down in this file.</p>
             </li>
         </ul>
 
