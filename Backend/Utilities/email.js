@@ -19,6 +19,7 @@ const { DateTime } = require('luxon');
 
 ////////////////////////////////////////////
 //  My Middleware
+const { Utility } = require('./Utility');
 
 ////////////////////////////////////////////
 //  Routing Middleware
@@ -34,7 +35,7 @@ module.exports = class Email {
   constructor(emailType, ownerOptions, clientOptions) {
     if (emailType === 'ownerLogin') {
       this.to = ownerOptions.email;
-      this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
+      this.from = `Support | <${process.env.SUPPORT_EMAIL}>`;
       this.owner = ownerOptions;
     } else if (emailType === 'appointmentRequest' || emailType === 'appointmentUpdateRequest') {
       this.to = ownerOptions.email;
@@ -52,13 +53,13 @@ module.exports = class Email {
       }
     } else if (emailType === 'appointmentAccepted' || emailType === 'appointmentUpdateAccepted') {
       this.to = clientOptions.client.clientEmail;
-      this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
+      this.from = `Support | <${process.env.SUPPORT_EMAIL}>`;
       this.owner = ownerOptions;
       this.client = clientOptions.client;
       this.appointment = clientOptions.appointment;
     } else if (emailType === 'appointmentDeclined' || emailType === 'appointmentUpdateDeclined') {
       this.to = clientOptions.client.clientEmail;
-      this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
+      this.from = `Support | <${process.env.SUPPORT_EMAIL}>`;
       this.owner = ownerOptions;
       this.client = clientOptions.client;
       if (emailType === 'appointmentUpdateDeclined') {
@@ -66,7 +67,7 @@ module.exports = class Email {
       }
     } else if (emailType === 'appointmentDeleted') {
       this.to = [ownerOptions.email, clientOptions.client.clientEmail];
-      this.from = `Support | <${process.env.SCHEDULE_IT_EMAIL}>`;
+      this.from = `Support | <${process.env.SUPPORT_EMAIL}>`;
       this.owner = ownerOptions;
       this.client = clientOptions.client;
       this.appointment = clientOptions.client.appointment;
@@ -76,16 +77,11 @@ module.exports = class Email {
   // Create Transport
   makeTransport() {
     if (process.env.NODE_ENV === `production`) {
-      return nodemailer.createTransport({
-        host: 'mail.privateemail.com',
-        port: process.env.SECURE_PORT,
-        secure: true,
-        auth: {
-          user: process.env.SCHEDULE_IT_EMAIL,
-          pass: process.env.NAMECHEAP_PASSWORD,
-        },
-        logger: true,
-      });
+      let transport = {};
+      for (let key in Utility.transport) {
+        transport[key] = Utility.transport[key];
+      }
+      return nodemailer.createTransport(transport);
     }
     return nodemailer.createTransport({
       host: process.env.MAILTRAP_HOST,

@@ -1,0 +1,3 @@
+const Utility = {};
+
+export { Utility };
