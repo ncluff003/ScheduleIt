@@ -107,6 +107,12 @@ export default class Schedule {
         if (!settings.schedule.maximumAppointmentLength) {
           return console.error(`You must set a maximum appointment length, even if you plan on working 24 hours a day.`);
         }
+        if (settings.schedule.maximumAppointmentLength > 1440) {
+          return console.error(`While hard work is commendable, you must set the maximum appointment length to less than 1440, or less than the whole day.`);
+        }
+        if (settings.schedule.maximumAppointmentLength < settings.schedule.minimumAppointmentLength) {
+          return console.error(`Your max appointment length must not be less than the minimum appointment length.`);
+        }
       }
       this.theme = settings.theme;
       this.details = settings.details;
