@@ -17,12 +17,8 @@ dotenv.config({
 const App = require('./App');
 
 module.exports = {
-  // EVENTUALLY, THIS WILL NEED TO BE REPLACED WITH MORE FLEXIBILITY FOR CONNECTING TO MORE THAN A MONGODB DATABASE.
   connectToDB: {
     mongo: (connectionString) => {
-      // const DB = process.env.DB.replace(`<PASSWORD>`, process.env.DBPASSWORD)
-      //   .replace(`<DATABASE>`, process.env.DBNAME)
-      //   .replace(`<USERNAME>`, process.env.DBUSERNAME);
       const DB = connectionString;
       mongoose
         .connect(DB, {
@@ -33,7 +29,6 @@ module.exports = {
     },
   },
   startServer: (PORT) => {
-    // THIS GIVES THE USERS MORE FLEXBILITY OVER THE PORT THEY USE.
     App.listen(PORT, () => {
       console.log(`App listening at port ${PORT}`);
     });
